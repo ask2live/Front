@@ -62,7 +62,7 @@ const App = () => {
             <Route exact path="/createSession" component={Auth(SessionCreateContainer, true)}/>
             <Route exact path="/mypage/:username" component={Auth(ProfileDetail, true)}/>
             <Route exact path="/mypage/:username/edit" component={Auth(MypageEdit, true)}/>
-            <Route path="/" component={NavContainer}/>
+            {/* <Route path="/" component={NavContainer}/> */}
         </Switch>
         <Route exact path="/preQuestions/:pk" component={Auth(PreQuestions, true)}/>    
         <Route exact path="/mypage" component={Auth(MypageContainer, true)}/>

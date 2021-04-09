@@ -135,8 +135,8 @@ const MypageEdit = (props) => {
   const [workField, setWorkField] = useState(user.work_field);
   const [workCompany, setWorkCompany] = useState(user.work_company);
   const [bio, setBio] = useState(user.bio);
-  const [usernameValid, setUsernameValid] = useState(false);
-  const [uniqueUserValid, setUniqueUserValid] = useState(false);
+  // const [usernameValid, setUsernameValid] = useState(false);
+  // const [uniqueUserValid, setUniqueUserValid] = useState(false);
 
   // useEffect(() => {
   //   setUsername(user.username);
@@ -202,28 +202,31 @@ const MypageEdit = (props) => {
     }
 
     console.log("====DATA====", formData);
-    const resPatch = await axios.patch(
-      "https://www.ask2live.me/api/user/update",
-      formData,
-      config
-    ).then(() => {
-      console.log("업데이트 성공~", resPatch.data);
-      dispatch(getUserInfo(localStorage.token));
-      const resGet = axios.get(
-        "https://www.ask2live.me/api/user/read",
+
+    try {
+      const resPatch = await axios.patch(
+        "https://www.ask2live.me/api/user/update",
+        formData,
         config
-      );
-      console.log("업데이트 유저 불러오기", resGet);
-      console.log("====DATA====", formData);
-      
-      history.replace({
-        pathname: "/mypage/" + username,
-        state: resGet.data.detail,
-      });
-    }).catch((err) => {
-      alert("중복되지 않은 닉네임으로 변경이 가능합니다");
+      )
+        console.log("업데이트 성공~", resPatch.data);
+        dispatch(getUserInfo(localStorage.token));
+        const resGet = await axios.get(
+          "https://www.ask2live.me/api/user/read",
+          config
+        );
+        console.log("업데이트 유저 불러오기", resGet);
+        console.log("====DATA====", formData);
+        
+        history.replace({
+          pathname: "/mypage/" + username,
+          state: resGet.data.detail,
+        });
     }
-    );
+    catch(err) {
+      console.log(err)
+      alert("이미 존재하는 닉네임입니다");
+    }
   };
 
   return (
@@ -245,7 +248,7 @@ const MypageEdit = (props) => {
                 }}
                 required
                 autoComplete="off"
-                oninvalid={usernameValid}
+                // oninvalid={usernameValid ? "이름은 6글자 이내로 입력이 가능합니다" : ""}
                 defaultValue={username}
                 value={username}
                 placeholder="이름을 입력하세요"
@@ -265,7 +268,7 @@ const MypageEdit = (props) => {
 
                   console.log(usernameValue)
                   setUsername(usernameValue);
-                  setUsernameValid(false)
+                  // setUsernameValid(false)
                 }}
                 />
                 <br/>
