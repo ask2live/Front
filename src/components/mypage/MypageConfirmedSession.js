@@ -11,11 +11,11 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 import Moment from "react-moment";
-
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 
 import "../../styles/style.css";
@@ -94,37 +94,56 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const style = {
+  alert : {
+    color: "black",
+    backgroundColor:"white",
+    border:"2px solid #4CC0D0",
+    boxShadow:"2px 2px 15px 10px rgba(0, 0, 0, 0.6)"
+  }
+}
+
 const MypageConfirmedSession = ({ session }) => {
   const user = useSelector((state) => state.user.data.detail);
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const [listup, setListUp] = useState({ transform: "translate(0, 100%)" });
-  const [dark, setDark] = useState({
-    transform: "translate(0, 100%)",
-    display: "none",
-  });
+  const [open2, setOpen2] = useState(false)
 
-  const onChangeDoing = async(session, user) => {
-    console.log("ChangeDoing")
-    console.log(session.id)
-    console.log(user)
-    const config = {
-      headers: { Authorization: "Token " + localStorage.token },
-    };
-    const data = {
-      
-      channel_num : String(session.id) + '123',
-      host_uid : user.id,
-      
-    }
-    const res = await axios.post(
-      "https://www.ask2live.me/api/hole/" + session.id + "/live/create",
-      data,
-      config,
-    );
-
+  const handleDelete = () => {
+    setOpen2(true)
   }
+
+  const handleDeleteClose = (event, reason) => {
+    onDelete()
+    setTimeout(
+      () => dispatch(getUserSessionInfo(localStorage.token)),
+      200
+    )
+    if (reason === 'clickaway'){
+      return;
+    }
+    setOpen2(false);
+  }
+
+  // const onChangeDoing = async(session, user) => {
+
+  //   const config = {
+  //     headers: { Authorization: "Token " + localStorage.token },
+  //   };
+  //   const data = {
+      
+  //     channel_num : String(session.id) + '123',
+  //     host_uid : user.id,
+      
+  //   }
+  //   const res = await axios.post(
+  //     "https://www.ask2live.me/api/hole/" + session.id + "/live/create",
+  //     data,
+  //     config,
+  //   );
+
+  // }
 
   const onDelete = async () => {
     console.log("DELETE SESSION!");
@@ -133,11 +152,11 @@ const MypageConfirmedSession = ({ session }) => {
       headers: { Authorization: "Token " + localStorage.token },
     };
 
-    const res = await axios.delete(
+    await axios.delete(
       "https://www.ask2live.me/api/hole/delete/" + session.id,
       config
     );
-    console.log("hole deleted: ", res);
+
     history.push("/mypage");
   };
 
@@ -230,15 +249,7 @@ const MypageConfirmedSession = ({ session }) => {
                  style={{borderColor: "#3f51b5", marginLeft: "1.5em",}}
                   size="normal"
                   color="primary"
-                  onClick={() => {
-                    <>
-                      {onDelete()}
-                      {setTimeout(
-                        () => dispatch(getUserSessionInfo(localStorage.token)),
-                        200
-                      )}
-                    </>;
-                  }}
+                  onClick={handleDelete}
                 >
                   <span className="BMJUA" color="#3f51b5">
                     삭제하기
@@ -250,6 +261,11 @@ const MypageConfirmedSession = ({ session }) => {
           </CardContent>
         </Card>
       </Grid>
+      <Snackbar style={{position:"fixed", top: "0%"}} open={open2} autoHideDuration={1500} onClose={handleDeleteClose}>
+      <Alert style={style.alert} onClose={handleDeleteClose} severity="success">
+        <span className="BMJUA">삭제 완료</span>
+      </Alert>
+    </Snackbar>
     </>
   );
 };
