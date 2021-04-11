@@ -103,7 +103,7 @@ const ProfileDetail = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  console.log("PROPS", props);
+  // console.log("PROPS", props);
   const user = props.routerInfo.location.state;
 
   let profile = {};
@@ -113,7 +113,7 @@ const ProfileDetail = (props) => {
 
   if (props.routerInfo.location.state.host) {
     const host = props.routerInfo.location.state.host;
-    console.log("host : ", host);
+    // console.log("host : ", host);
     if (!host.host_work_company.length)
       host.host_work_company = "";
     if (!host.host_work_field.length) host.host_work_field = "";
@@ -129,6 +129,7 @@ const ProfileDetail = (props) => {
     if (!user.work_company.length)
       user.work_company = "";
     if (!user.work_field.length) user.work_field = "";
+    
     profile = {
       username: user.username,
       profile_image: user.profile_image,
@@ -142,7 +143,6 @@ const ProfileDetail = (props) => {
   if(user.username === profile.username) editFlag = true
 
   const goToEdit = () => {
-    console.log("click");
     history.replace({
       pathname: `${profile.username}/edit`,
       state: user});

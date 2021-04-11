@@ -96,9 +96,10 @@ const useStyles = makeStyles((theme) => ({
 
 const style = {
   alert : {
-      boxShadow: "2px 2px 2px 2px #D95032",    // 섀도우 색
-      border: "solid 1px white",    // 테두리 색
-      backgroundColor:"black"      // 배경색
+    color: "white",
+    backgroundColor:"black",
+    border:"2px solid #4CC0D0",
+    boxShadow:"2px 2px 15px 10px rgba(0, 0, 0, 0.6)"
   }
 }
 
@@ -130,6 +131,7 @@ const MypageLiveSession = (props) => {
   });
   const [open, setOpen] = useState(false);
   const [demand, setDemand] = useState(false);
+  const [open2, setOpen2] = useState(false);
 
   // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
   const handleClick = () => {       
@@ -162,20 +164,36 @@ const MypageLiveSession = (props) => {
     setDemand(false);
   }
 
+  const handleDelete = () => {
+    setOpen2(true)
+  }
+
+  const handleDeleteClose = (event, reason) => {
+    onDelete()
+    setTimeout(
+      () => dispatch(getUserSessionInfo(localStorage.token)),
+      200
+    )
+    if (reason === 'clickaway'){
+      return;
+    }
+    setOpen2(false);
+  }
+
   const onDelete = async () => {
     console.log("DELETE SESSION!");
     const config = {
       headers: { Authorization: "Token " + localStorage.token },
     };
 
-    const res = await axios.delete(
+    await axios.delete(
       "https://www.ask2live.me/api/hole/delete/" + session.id,
       config
     );
-    console.log("hole deleted: ", res);
+
     history.push("/mypage");
   };
-  console.log('session!',session)
+
   if (!session) return null;
   return (
     <>
@@ -261,7 +279,7 @@ const MypageLiveSession = (props) => {
                   size="normal"
                   color="primary"
                   onClick={() => {
-                    console.log(session)
+                    // console.log(session)
                     if(session.current_demand === session.target_demand){
                       setListUp({ transform: "translate(0, 50%)" });
                       setDark({ animation: "godark 0.7s" });
@@ -283,15 +301,7 @@ const MypageLiveSession = (props) => {
                   style={{borderColor: "#3f51b5", marginLeft: "1.5em",}}
                   size="normal"
                   color="primary"
-                  onClick={() => {
-                    <>
-                      {onDelete()}
-                      {setTimeout(
-                        () => dispatch(getUserSessionInfo(localStorage.token)),
-                        200
-                      )}
-                    </>;
-                  }}
+                  onClick={handleDelete}
                 >
                   {/* <Typography variant="body2" style={{ fontWeight: 600 }}> */}
                   <span className="BMJUA" color="#3f51b5">
@@ -317,13 +327,13 @@ const MypageLiveSession = (props) => {
       </div>
       <div style={dark} className="mypagelayerfordark"></div>
       <Snackbar
-        style={{ position: "fixed", bottom: "50%" }}
+        style={{ position: "fixed", top: "0%" }}
         open={open}
         autoHideDuration={2000}
         onClose={handleClose}
       >
         <Alert onClose={handleClose} style={style.alert} severity="success">
-          <span style={{ color: "white" }}>Live Q&A 생성 완료!</span>
+          <span className="BMJUA">Live Q&A 확정 완료</span>
         </Alert>
       </Snackbar>
 
@@ -333,6 +343,11 @@ const MypageLiveSession = (props) => {
         도달하지 않았습니다.<br/><br/>
         다른 유저가 찜하는 것을<br/>
         기다려 주세요!
+      </Alert>
+    </Snackbar>
+    <Snackbar style={{position:"fixed", top: "0%"}} open={open2} autoHideDuration={1500} onClose={handleDeleteClose}>
+      <Alert style={style.alert} onClose={handleDeleteClose} severity="success">
+        <span className="BMJUA">삭제 완료</span>
       </Alert>
     </Snackbar>
     </>

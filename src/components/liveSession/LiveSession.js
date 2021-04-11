@@ -164,8 +164,8 @@ const style = {
 
     alert : {
         boxShadow: "2px 2px 2px 2px #D95032",    // 섀도우 색
-        border: "solid 1px white",    // 테두리 색
-        backgroundColor:"black"      // 배경색
+        border:"2px solid #4CC0D0",    // 테두리 색
+        backgroundColor:"white"      // 배경색
     },
 
     closeBtn : {
@@ -335,7 +335,6 @@ const LiveSession = (props) => {
     
     //^ =============================================================
     let rtmChannel;
-    const [channel, setChannel] = useState();
 
     const {
         localAudioTrack,
@@ -365,6 +364,7 @@ const LiveSession = (props) => {
             leave();
             leavePatchApi();
             clearInterval(liveInter);
+            window.location.replace('/main')
             // clearInterval(volumeInter);
         };
         window.addEventListener("beforeunload", refreshOut);
@@ -393,8 +393,8 @@ const LiveSession = (props) => {
         else
             setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
              
-        if (props.isHost)
-        {
+        // if (props.isHost)
+        // {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
                 // dispatch({type: QUESTIONLIST_DELETE})
@@ -402,14 +402,16 @@ const LiveSession = (props) => {
 
                 console.log("호스트!!!: ", props.isHost)
                 window.removeEventListener("beforeunload", refreshOut);
+                if(props.isHost){
 
-                rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
-                    // Your code for handling the event when the channel message is successfully sent.
-                        console.log('host is leaving')
-                    }).catch(error => {
-                    // Your code for handling the event when the channel message fails to be sent.
-                        console.log('host leaving error')
-                    });
+                    rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
+                        // Your code for handling the event when the channel message is successfully sent.
+                            console.log('host is leaving')
+                        }).catch(error => {
+                        // Your code for handling the event when the channel message fails to be sent.
+                            console.log('host leaving error')
+                        });
+                }
 
                 rtmClient.logout();
                 leave();
@@ -423,29 +425,29 @@ const LiveSession = (props) => {
                 
             }
 
-        }
+        // }
         
-        else {
-            const unblock = history.block('정말 떠나시겠습니까?');
-            return () => {
-                // dispatch({type: QUESTIONLIST_DELETE})
-                // dispatch({type: ENTEREDSESSION_DELETE})
+        // else {
+        //     const unblock = history.block('정말 떠나시겠습니까?');
+        //     return () => {
+        //         // dispatch({type: QUESTIONLIST_DELETE})
+        //         // dispatch({type: ENTEREDSESSION_DELETE})
 
-                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
-                window.removeEventListener("beforeunload", refreshOut);
+        //         console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
+        //         window.removeEventListener("beforeunload", refreshOut);
 
-                // rtmChannel.leave();
-                rtmClient.logout();
-                leave();
-                leavePatchApi();
-                clearInterval(liveInter)
-                // clearInterval(volumeInter);
-                unblock();
+        //         // rtmChannel.leave();
+        //         rtmClient.logout();
+        //         leave();
+        //         leavePatchApi();
+        //         clearInterval(liveInter)
+        //         // clearInterval(volumeInter);
+        //         unblock();
                 
-                // history.replace('/main');
-                setTimeout(window.location.replace('/main'), 300);
-            }
-        }
+        //         // history.replace('/main');
+        //         setTimeout(window.location.replace('/main'), 300);
+        //     }
+        // }
     }, [history])
 
     // ^ =============================================================
@@ -569,7 +571,7 @@ const LiveSession = (props) => {
         </div>
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} style={style.alert} severity="success">
-            <span style={{color:"white"}}>호스트 {props.hostName}가<br/>세션을 종료하였습니다</span>
+            <span className="BMJUA">호스트 [{props.hostName}]가<br/>세션을 종료하였습니다</span>
         </Alert>
         </Snackbar>
 
@@ -584,14 +586,14 @@ const LiveSession = (props) => {
             />
         </div>
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={1500} onClose={closeQuestionAlert}>
-            <Alert onClose={closeQuestionAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
-                <span style={{ color:"white"}}>질문 등록 성공!</span>
+            <Alert onClose={closeQuestionAlert} style={{ backgroundColor:"white", boxShadow: "2px 2px 2px 2px #D95032", border:"2px solid #4CC0D0"}} severity="success">
+                <span className="BMJUA">질문 등록 성공!</span>
             </Alert>
         </Snackbar>
 
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={copiedAlert} autoHideDuration={1500} onClose={closeCopiedAlert}>
-            <Alert onClose={closeCopiedAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
-                <span style={{ color:"white"}}>링크 복사 완료</span>
+            <Alert onClose={closeCopiedAlert} style={{ backgroundColor:"white", boxShadow: "2px 2px 2px 2px #D95032", border:"2px solid #4CC0D0"}} severity="success">
+                <span className="BMJUA">링크 복사 완료</span>
             </Alert>
         </Snackbar>
         </>

@@ -17,37 +17,49 @@ import SessionMatchContainer from './containers/SessionMatchContainer';
 import {LoginPage} from './components/onBoard'
 
 import { connect, useSelector, useDispatch} from 'react-redux';
-import Chat from "./components/liveSession/chatting/Chat"
+// import Chat from "./components/liveSession/chatting/Chat"
 
-import { getAllUsersInfo } from './actions/AllUsersActions'
+// import { getAllUsersInfo } from './actions/AllUsersActions'
 import { getSessionInfo, getUserSessionInfo } from './actions/SessionActions'
 import { getUserInfo } from './actions/UserActions'
 import { bindActionCreators } from 'redux';
 import Auth from "./hoc/auth";
 
 const App = () => {
+    
+    useEffect(() => {
+        if(document.body.getAttribute('__donot_urlopenlink') || !/mobile/i.test(navigator.userAgent) || !/inapp|KAKAOTALK|Line\/|FB_IAB\/FB4A|FBAN\/FBIOS|Instagram|DaumDevice\/mobile|SamsungBrowser\/[^1]/i.test(navigator.userAgent)) return;
+        else {
+            const script = document.createElement("script");
 
+            if(/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {                
+                // script.text = "location.href='ftp://13.125.22.142/pub/bridge.html'"
+                script.src = "https://urlopen.link/direct.js";
+                script.async = true;
+                document.body.appendChild(script);
+                
+            } else {
+                script.text = "location.href='intent://www.ask2live.me#Intent;scheme=https;package=com.android.chrome;end'";
+                document.body.appendChild(script);
+            }
+    
+            return () => {
+                document.body.removeChild(script);
+            }
+        }
+    })
     const dispatch = useDispatch();
     const token = localStorage.getItem('token')
     if(token){
         dispatch(getUserInfo(token));
         // dispatch(getUserSessionInfo(token));
     }
-
+    
     dispatch(getSessionInfo());
-
+    
     // dispatch(getAllUsersInfo());
 
-    useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "https://urlopen.link/direct.js";
-        script.async = true;
-        document.body.appendChild(script);
 
-        return () => {
-            document.body.removeChild(script);
-        }
-    })
 
     return (
         <>
@@ -62,7 +74,7 @@ const App = () => {
             <Route exact path="/createSession" component={Auth(SessionCreateContainer, true)}/>
             <Route exact path="/mypage/:username" component={Auth(ProfileDetail, true)}/>
             <Route exact path="/mypage/:username/edit" component={Auth(MypageEdit, true)}/>
-            <Route path="/" component={NavContainer}/>
+            {/* <Route path="/" component={NavContainer}/> */}
         </Switch>
         <Route exact path="/preQuestions/:pk" component={Auth(PreQuestions, true)}/>    
         <Route exact path="/mypage" component={Auth(MypageContainer, true)}/>
