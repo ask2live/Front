@@ -1,44 +1,23 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import { useSelector, useDispatch } from "react-redux";
-import { combineReducers } from "redux";
-import { useHistory } from "react-router";
 import Mypage from "../components/mypage/Mypage";
-// import Profile from '../components/mypage/Profile';
-import SessionCardContainer from "./SessionCardContainer";
 import MypageLiveSession from "../components/mypage/MypageLiveSession";
 import MypageConfirmedSession from "../components/mypage/MypageConfirmedSession";
 import { getUserSessionInfo } from "../actions/SessionActions";
-import { getUserInfo } from "../actions/UserActions";
+// import { getUserInfo } from "../actions/UserActions";
 import { Emoji } from "../components/Emoji";
-import { SessioinCreateButton } from "../components/SessionCreateButton";
-
-import { makeStyles } from "@material-ui/core/styles";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Collapse from "@material-ui/core/Collapse";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import StarBorder from "@material-ui/icons/StarBorder";
-import Alert from "@material-ui/lab/Alert";
-import Button from "@material-ui/core/Button";
 
 // material-ui
+import { makeStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Collapse from "@material-ui/core/Collapse";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
 import Grid from "@material-ui/core/Grid";
-import { SpeakerNotesOffOutlined } from "@material-ui/icons";
+
 const useStyles = makeStyles((theme) => ({
-  // root: {
-  //   width: "100%",
-  //   maxWidth: "70em",
-  //   backgroundColor: theme.palette.background.paper,
-  // },
   nested: {
     width: "100%",
     maxWidth: "70em",
@@ -71,10 +50,9 @@ const style = {
 
 
 const MyPageContainer = (props) => {
-  console.log("컴포넌트 실행!");
+  console.log("MyPageContainer");
 
-  const [flag, setFlag] = useState({ display: "none" });
-  const [render, setRender] = useState(false);
+  // const [render, setRender] = useState(false);
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -82,20 +60,20 @@ const MyPageContainer = (props) => {
   const sessions = useSelector((state) => state.mySession.data);
   const wishSessions = useSelector((state) => state.mySession.data);
 
-  console.log("세션 :", sessions);
+  // console.log("세션 :", sessions);
 
   useEffect(() => {
     const token = localStorage.token
-    console.log("useEffect");
-    dispatch(getUserInfo(token));
+    // dispatch(getUserInfo(token));
     dispatch(getUserSessionInfo(token));
-    setRender(true);
-  }, [render]);
+    // setRender(true);
+  }, []);
 
   let myLiveSessions = [];
   let myDoneSessions = [];
   let myWishSessions = [];
   let myConfirmSessions = [];
+
   if (Object.keys(sessions).length != 0) {
     sessions.detail.my_hole.map((session) => {
       if (
