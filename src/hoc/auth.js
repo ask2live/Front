@@ -13,12 +13,8 @@ export default (SpecialComponent, option, adminRoute=null) => {
         ���� ���� �������� �������ҵ�??
   */
   const AuthenticateCheck = (props) => {
-    // useDispatch(getUserInfo())
-    // const user = useSelector(state => state.user)
-    const isLoggedIn = localStorage.getItem("token");
-    // const arrived = user.arrived
-    // console.log(isLoggedIn, arrived, option)
 
+    const isLoggedIn = localStorage.getItem("token");
 
     useEffect(() => {
       if (!isLoggedIn && option) {

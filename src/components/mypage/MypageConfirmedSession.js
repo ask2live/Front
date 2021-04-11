@@ -202,7 +202,7 @@ const MypageConfirmedSession = ({ session }) => {
             subheader={
                 <>
                 <Typography variant="body2">
-                <Moment format="MM.DD hh시 mm분">
+                <Moment format="MM월 DD일 A h:mm">
                 {session.reserve_date}
                 </Moment>
                 </Typography>

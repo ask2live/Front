@@ -226,7 +226,7 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                         className="fontGradi NanumGothic3"
                         style={{fontSize: "0.7em", color: "#D95032"}}>
                         <Moment format=" · mm분 전 시작">
-                            {toDate(session.reserve_date) - now}
+                            {now - toDate(session.reserve_date)}
                         </Moment>
                         </span>
                     </div>

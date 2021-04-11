@@ -8,15 +8,7 @@ const Message = memo(props => {
 
 
   return (
-    // <Comment
-    //   style={{ paddingBottom: 0 }}
-    //   content={<>
-    //   <span 
-    //   style={{display:"inline-block", width: "6em"}}>{sender}
-    //   </span>
-    //   <span style={{wordBreak: "break-all" , textAlign: 'left' }}>{text}</span>
-    //   </>}
-    // />
+
     <div style={{display:"flex", width: "100%"}}>
         <div style={{color: "rgba(255,255,255,0.5)", display:"flex", width: "9em", margin: "0 1em 15px 0"}}>
             {sender}

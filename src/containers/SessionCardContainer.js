@@ -115,9 +115,7 @@ const SessionCardContainer = (props) => {
     const user = useSelector(state => state.user);
     const sessions = useSelector(state => state.session.data);
     const history = useHistory();
-    const allUsersData = useSelector(state => state.allUsers);
     const mySession = useSelector(state => state.mySession.data);
-    // console.log('allUsers.data.data.detail', allUsersData.data.data.detail);
 
     const wrapperCnt = (cnt) => {
         let defaultSize = 270;
@@ -163,14 +161,6 @@ const SessionCardContainer = (props) => {
         })
     }
 
-    if(Object.keys(allUsersData.data).length != 0){
-        const allUsers = allUsersData.data.data.detail;
-        allUsers.map((candidate) => {
-            if(candidate.hole_open_auth === true){
-                hosts = [...hosts, candidate]
-            }
-        })
-    }
 
     const [swiperCnt, setSwiperCnt] = useState(1);
 

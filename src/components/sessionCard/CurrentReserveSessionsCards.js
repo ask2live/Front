@@ -137,6 +137,13 @@ const useStyles = makeStyles((theme) => ({
       opacity: "0",
       cursor:"pointer",
     },
+    frame : {
+      position:"absolute",
+      width : "10px",
+      height : "10px",
+      backgroundColor:"skyblue",
+      transform : "translate(-2em,-0.5em)",
+    }
 
   }));
 
@@ -204,7 +211,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
     let i = 0;
     return (
         <>
-        {console.log("렌더링 시작")}
+        
         <div className={classes.root}>
             {currentReserveSessions.map((session) => (
                 <>
@@ -219,6 +226,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                     strokeWidth="5"
                     type="dashboard"
                     strokeColor="#F24822"
+                    trailColor="#dddddd"
                     gapDegree = "85"
                     width={140}
                     format={percent => {
@@ -286,7 +294,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                           <Typography variant='caption' component="p" >
                             <span className="fontGradi NanumGothic3" style={{fontSize: "1.2em", color: "#D95032"}}>
                               <span >{`예정일자 `}</span>
-                            <Moment format="MM.DD hh:mm">
+                            <Moment format="MM월 DD일 A h:mm">
                               {session.reserve_date}
                             </Moment></span>
                           </Typography>
