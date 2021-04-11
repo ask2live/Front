@@ -51,7 +51,7 @@ const Logout = async() => {
     'Authorization': 'Token ' + localStorage.token
   }
   const data = {}
-  const res = await axios.post('https://www.ask2live.me/api/user/logout', data, {headers:headers})
+  await axios.post('https://www.ask2live.me/api/user/logout', data, {headers:headers})
   // window.location.replace('/')
 }
 

@@ -121,36 +121,20 @@ const style = {
 
 const MypageEdit = (props) => {
   console.log("MypageEdit");
+  console.log(props)
 
   const classes = useStyles();
   const history = useHistory();
   const user = props.routerInfo.location.state;
-
-  console.log(user);
   
   let usernameValue;
   const [username, setUsername] = useState(user.username);
-  console.log(username);
   const [profileImage, setProfileImage] = useState("https://www.ask2live.me" + user.profile_image)
   const [workField, setWorkField] = useState(user.work_field);
   const [workCompany, setWorkCompany] = useState(user.work_company);
   const [bio, setBio] = useState(user.bio);
-  // const [usernameValid, setUsernameValid] = useState(false);
-  // const [uniqueUserValid, setUniqueUserValid] = useState(false);
 
-  // useEffect(() => {
-  //   setUsername(user.username);
-  // }, [])
   const [image, setImage] = useState({});
-  // const [inputs, setInputs] = useState({
-    // username: user.username,
-  //   profile_image: "https://www.ask2live.me" + user.profile_image,
-  //   work_field: user.work_field,
-  //   work_company: user.work_company,
-  //   bio: user.bio,
-  // });
-
-  // const {  profile_image, work_field, work_company, bio } = inputs;
 
   const dispatch = useDispatch();
   const onChange = useCallback((e) => {
@@ -162,16 +146,12 @@ const MypageEdit = (props) => {
         setImage({
           profile_image: e.target.files,
         });
-        console.log("e.target.files",e.target.files);
+
+        const preview = e.target.files[0];
+        const imageUrl = URL.createObjectURL(preview);
+        setProfileImage(imageUrl)
       }  
     }
-    // else{
-    //   const { name, value } = e.target;
-    //   setInputs({
-    //     ...inputs,
-    //     [name]: value,
-    //   });
-    // }
   });
 
   const onClick = async (e) => {
@@ -189,7 +169,7 @@ const MypageEdit = (props) => {
       work_company: workCompany,
       bio: bio.replace("\r\n", "<br/>"),
     };
-    console.log("data", data);
+
     const formData = new FormData();
     formData.append("work_field", data.work_field);
     formData.append("username", data.username);
@@ -201,22 +181,18 @@ const MypageEdit = (props) => {
       formData.append("profile_image", image.profile_image[0]);
     }
 
-    console.log("====DATA====", formData);
-
     try {
-      const resPatch = await axios.patch(
+      await axios.patch(
         "https://www.ask2live.me/api/user/update",
         formData,
         config
       )
-        console.log("업데이트 성공~", resPatch.data);
+
         dispatch(getUserInfo(localStorage.token));
         const resGet = await axios.get(
           "https://www.ask2live.me/api/user/read",
           config
         );
-        console.log("업데이트 유저 불러오기", resGet);
-        console.log("====DATA====", formData);
         
         history.replace({
           pathname: "/mypage/" + username,
@@ -266,7 +242,6 @@ const MypageEdit = (props) => {
                     usernameValue = ReplaceSpaceNSpecial(usernameValue)
                   }
 
-                  console.log(usernameValue)
                   setUsername(usernameValue);
                   // setUsernameValid(false)
                 }}

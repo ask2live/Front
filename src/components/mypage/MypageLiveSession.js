@@ -168,14 +168,14 @@ const MypageLiveSession = (props) => {
       headers: { Authorization: "Token " + localStorage.token },
     };
 
-    const res = await axios.delete(
+    await axios.delete(
       "https://www.ask2live.me/api/hole/delete/" + session.id,
       config
     );
-    console.log("hole deleted: ", res);
+
     history.push("/mypage");
   };
-  console.log('session!',session)
+
   if (!session) return null;
   return (
     <>
@@ -261,7 +261,7 @@ const MypageLiveSession = (props) => {
                   size="normal"
                   color="primary"
                   onClick={() => {
-                    console.log(session)
+                    // console.log(session)
                     if(session.current_demand === session.target_demand){
                       setListUp({ transform: "translate(0, 50%)" });
                       setDark({ animation: "godark 0.7s" });
