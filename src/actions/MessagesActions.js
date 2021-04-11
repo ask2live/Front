@@ -17,7 +17,8 @@ export const onRoomMessagesRead = holeId => dispatch => {
   socket.onopen = event => console.log('WebSocket Connected');
   socket.onerror = event => console.log('error event : ', event);
   socket.onmessage = event => dispatch({ type: ON_MESSAGES_READ, payload: { messages: JSON.parse(event.data) } });
-
+  //
+  //
   socket.onclose = event => console.log('WebSocket Disconnected');
 
   return socket;
