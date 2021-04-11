@@ -19,7 +19,7 @@ import {LoginPage} from './components/onBoard'
 import { connect, useSelector, useDispatch} from 'react-redux';
 import Chat from "./components/liveSession/chatting/Chat"
 
-import { getAllUsersInfo } from './actions/AllUsersActions'
+
 import { getSessionInfo, getUserSessionInfo } from './actions/SessionActions'
 import { getUserInfo } from './actions/UserActions'
 import { bindActionCreators } from 'redux';
@@ -35,8 +35,6 @@ const App = () => {
     }
 
     dispatch(getSessionInfo());
-
-    // dispatch(getAllUsersInfo());
 
     useEffect(() => {
         const script = document.createElement("script");

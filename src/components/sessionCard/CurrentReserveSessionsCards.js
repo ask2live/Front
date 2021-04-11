@@ -219,6 +219,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                     strokeWidth="5"
                     type="dashboard"
                     strokeColor="#F24822"
+                    trailColor="#dddddd"
                     gapDegree = "85"
                     width={140}
                     format={percent => {
@@ -286,7 +287,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                           <Typography variant='caption' component="p" >
                             <span className="fontGradi NanumGothic3" style={{fontSize: "1.2em", color: "#D95032"}}>
                               <span >{`예정일자 `}</span>
-                            <Moment format="MM.DD hh:mm">
+                            <Moment format="MM월 DD일 A h:mm">
                               {session.reserve_date}
                             </Moment></span>
                           </Typography>

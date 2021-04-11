@@ -95,7 +95,7 @@ const Chat = props => {
 
   // const roomId = "c9c9dd9bb";
 
-  // const { room, messages: { messages, loading: loadingChat }, username, windowHeight, onBack, onRoomMessagesRead } = props;
+  
   const { messages: { messages, loading: loadingChat }, username,  onRoomMessagesRead } = props;
   const { room, windowHeight, onBack} = props;
   
@@ -104,7 +104,7 @@ const Chat = props => {
 
   useEffect(() => {
       roomSocket && roomSocket.close();
-      setRoomSocket(onRoomMessagesRead(roomId)); //세션에 관한 정보 중에서 session.id를 여기 바로 넣으면 채팅방이 구분됨
+      setRoomSocket(onRoomMessagesRead(roomId)); //세션에 관한 정보 중에서 session.id를 넣으면 채팅방이 구분됨
       // 채팅 올라오는 속도 조절은 타임아웃으로.. 
       setTimeout(scrollToBottom,500);  
     }, [room]);

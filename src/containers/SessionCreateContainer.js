@@ -24,6 +24,7 @@ import axios from "axios";
 import { getSessionInfo, getUserSessionInfo } from "../actions/SessionActions";
 import MypageNav from "../components/mypage/MypageNav";
 
+
 import MuiAlert from '@material-ui/lab/Alert';
 function NumAlert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -76,7 +77,10 @@ const SessionCreateContainer = (props) => {
     props.routerInfo.location.search.slice(1)
   );
 
-  let defaultDate = new Date().toISOString()
+  let nowDate = new Date()
+  let afterOneMinutes = new Date(nowDate.setDate(nowDate.getMinutes() + 1))
+
+  let defaultDate = afterOneMinutes.toISOString()
   console.log("defaultDate", defaultDate)
 
   const holeId = urlSearchParams.get("holeId");
@@ -196,15 +200,23 @@ const SessionCreateContainer = (props) => {
         .then((res) => {
           console.log("hole created: ", res);
           session = res.data.detail
+          // sessionToReserve
+          postSessionToReserve(session);
+          console.log("postSessionToReserve success")
+          // 라이브 하기
+          history.push({
+            pathname: "/session/reserve",
+            search: "?holeId=" + session.id,
+          })
         })
-      // sessionToReserve
-      postSessionToReserve(session);
-      console.log("postSessionToReserve success")
-      // 라이브 하기
-      history.push({
-        pathname: "/session/reserve",
-        search: "?holeId=" + session.id,
-    })
+        .catch((err) => {
+          if (title.length === 0) setTitleValid(true);
+          if (description.length === 0) setDescriptionValid(true);
+          setDisable(false)
+        })
+      
+      
+      
       
     }else {
       await axios
@@ -281,10 +293,9 @@ const SessionCreateContainer = (props) => {
               console.log("e.target.checked", e.target.checked)
               if(e.target.checked){
                 setSkipValid(true)
-                console.log("skipValid-true", skipValid)
+                setCount(0)
               }else{
                 setSkipValid(false)
-                console.log("skipValid-false", skipValid)
               }
             }}><span style={{fontSize:"small"}} className="BMDOHYEON">지금 당장 라이브 세션 열기</span></Checkbox>
             
@@ -437,7 +448,6 @@ const SessionCreateContainer = (props) => {
                 </IconButton>
 
                 <TextField
-                  // margin="normal"
                   style={{ width: "4em" }}
                   id="target_demand"
                   name="target_demand"
@@ -455,8 +465,6 @@ const SessionCreateContainer = (props) => {
             }
             
             
-            
-
             <TextField
               variant="outlined"
               margin="normal"

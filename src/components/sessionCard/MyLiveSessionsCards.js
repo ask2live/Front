@@ -183,7 +183,7 @@ const MyLiveSessionsCard = ({session}) => {
                     </span>
                     <span className="fontGradi BMJUA" style={{fontSize:"0.9em"}}>
                         <Moment format="mm분 전 시작">
-                             {toDate(session.reserve_date) - now}
+                             {now - toDate(session.reserve_date)}
                         </Moment>
                     </span>
                     </Grid>

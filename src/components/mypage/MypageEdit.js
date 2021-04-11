@@ -202,28 +202,31 @@ const MypageEdit = (props) => {
     }
 
     console.log("====DATA====", formData);
+    // async await으로 바꾸기
     const resPatch = await axios.patch(
       "https://www.ask2live.me/api/user/update",
       formData,
       config
-    ).then(() => {
+    );
+    console.log("리스폰스", resPatch.response)
+    
+    if(resPatch.response === "FAIL")
+      alert("중복되지 않은 닉네임으로 변경이 가능합니다");
+    else{
       console.log("업데이트 성공~", resPatch.data);
       dispatch(getUserInfo(localStorage.token));
-      const resGet = axios.get(
+      const resGet = await axios.get(
         "https://www.ask2live.me/api/user/read",
         config
       );
-      console.log("업데이트 유저 불러오기", resGet);
-      console.log("====DATA====", formData);
+        console.log("업데이트 유저 불러오기", resGet);
+        console.log("====DATA====", formData);
       
-      history.replace({
+        history.replace({
         pathname: "/mypage/" + username,
         state: resGet.data.detail,
       });
-    }).catch((err) => {
-      alert("중복되지 않은 닉네임으로 변경이 가능합니다");
     }
-    );
   };
 
   return (
