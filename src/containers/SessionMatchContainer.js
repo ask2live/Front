@@ -104,12 +104,14 @@ const SessionMatchContainer = (props) => {
                 const isHost = (currUser === match.host_username);
                 return <LiveSessionContainer holeTitle={match.title} hostName={match.host_username} hostImage={match.host_profile_image} holeId={holeId} channelNum={channelNum} joinPass={props.routerInfo.location.state?.joinPass} isHost={isHost}/>
             }
-            else return <p>SessionMatchContainer LOADING</p> 
+            else return <p>""</p>
+            // else return <p>SessionMatchContainer LOADING</p> 
 
         case RESERVE:
             if (match)
                 return <ReserveToLive holeTitle={match.title} hostName={match.host_username} hostImage={match.host_profile_image} holeId={holeId}/>
-            else return <p>SessionMatchContainer LOADING</p> 
+            else return <p>""</p>
+            // else return <p>SessionMatchContainer LOADING</p> 
             
         default:
             return (

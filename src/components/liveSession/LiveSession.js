@@ -360,7 +360,7 @@ const LiveSession = (props) => {
         
         // 소켓 관련 -------
     
-        // roomSocket && roomSocket.close();
+        roomSocket && roomSocket.close();
         setRoomSocket(dispatch(onRoomMessagesRead(props.holeId, props.channelNum)));
     
         // 소켓 관련 끝 ------
@@ -580,8 +580,8 @@ const LiveSession = (props) => {
 
         </div>
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} style={style.alert} severity="success">
-            <span className="BMJUA">호스트 [{props.hostName}]가<br/>세션을 종료하였습니다</span>
+        <Alert onClose={handleClose} style={{ color: "#252525", backgroundColor:"white", boxShadow: "2px 2px 4px 2px #ac391f", border:"2px solid #252525"}} severity="success">
+            <span className="BMJUA">호스트 [{props.hostName}]님께서<br/>세션을 종료하였습니다</span>
         </Alert>
         </Snackbar>
 
@@ -596,13 +596,13 @@ const LiveSession = (props) => {
             />
         </div>
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={1500} onClose={closeQuestionAlert}>
-            <Alert onClose={closeQuestionAlert} style={{ backgroundColor:"white", boxShadow: "2px 2px 2px 2px #D95032", border:"2px solid #4CC0D0"}} severity="success">
-                <span className="BMJUA">질문 등록 성공!</span>
+            <Alert onClose={closeQuestionAlert} style={{ color: "#252525", backgroundColor:"white", boxShadow: "2px 2px 4px 2px #ac391f", border:"2px solid #252525"}} severity="success">
+                <span style={{fontSize: "1.2em"}} className="BMJUA">질문 등록 성공!</span>
             </Alert>
         </Snackbar>
 
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={copiedAlert} autoHideDuration={1500} onClose={closeCopiedAlert}>
-            <Alert onClose={closeCopiedAlert} style={{ backgroundColor:"white", boxShadow: "2px 2px 2px 2px #D95032", border:"2px solid #4CC0D0"}} severity="success">
+            <Alert onClose={closeCopiedAlert} style={{  color: "#252525", backgroundColor:"white", boxShadow: "2px 2px 4px 2px #ac391f", border:"2px solid #252525"}} severity="success">
                 <span className="BMJUA">링크 복사 완료</span>
             </Alert>
         </Snackbar>

@@ -88,7 +88,8 @@ const VoiceQuestion = (props) => {
                 marginTop:"13px",
                 width:"6em"}}>
                 <div style={{zIndex: "1",width:"5.6em"}}>
-                    <Avatar 
+                    <Avatar
+                    localAudioTrack={props.localAudioTrack}
                     userUid={props.userUid}
                     isHostAvatar={false}
                     style={{zIndex: "1"}} 
