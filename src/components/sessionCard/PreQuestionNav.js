@@ -96,8 +96,8 @@ const MyQuestionCards = () => {
 
   const user = useSelector(state => state.user)
   const questions = useSelector(state => state.questionlist)
-  console.log('user', user.data.detail)
-  console.log('questionsList', questions.data.detail)
+  // console.log('user', user.data.detail)
+  // console.log('questionsList', questions.data.detail)
   
   const userId = user.data.detail.id
   const questionsList = questions.data.detail
@@ -108,13 +108,13 @@ const MyQuestionCards = () => {
   if(Object.keys(questionsList).length != 0){
     questionsList.map((question) => {
       const questionAuthor = parseInt(question.user)
-      console.log(questionAuthor)
+      // console.log(questionAuthor)
         if(userId === questionAuthor){
           myQuestions = [...myQuestions, question]
         }
     })
   }
-  console.log(myQuestions)
+  // console.log(myQuestions)
 
   return (
     <>
@@ -144,7 +144,7 @@ const MyQuestionSend = ({session}) => {
           is_voice: isVoice,
           question: askValue,
       };
-      console.log(data);
+      // console.log(data);
       const res = await axios.post(
         "https://www.ask2live.me/api/hole/"+session.id + "/question/create",
         data,
@@ -182,7 +182,7 @@ const MyQuestionSend = ({session}) => {
 
 const QuestionCard = ({question}) => {
     const classes = useStyles();
-    console.log(question)
+    // console.log(question)
     return(
         <>
         <Card key={question.id} className={classes.card}>

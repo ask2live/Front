@@ -10,12 +10,12 @@ export default function MediaPlayer(props) {
   useEffect(() => {
 
     if (audioTrack && client.remoteUsers.length === 0) {
-      console.log("여기는 호스트");
+      // console.log("여기는 호스트");
 
       audioTrack.setEnabled(true);
       const volumeInter = setInterval(()=>{
-        console.log("나의 오디오", client.uid);
-        console.log("나의 오디오", audioTrack.getVolumeLevel());
+        // console.log("나의 오디오", client.uid);
+        // console.log("나의 오디오", audioTrack.getVolumeLevel());
       }, 500)
 
       return () => {
@@ -26,12 +26,12 @@ export default function MediaPlayer(props) {
     }
 
     else if(audioTrack && client.remoteUsers.length != 0) {
-      console.log("여기는 게스트");
+      // console.log("여기는 게스트");
 
       audioTrack.play();
       const volumeInter = setInterval(()=>{
-            console.log("상대방오디오", user.uid);
-            console.log("상대방오디오", audioTrack.getVolumeLevel());
+            // console.log("상대방오디오", user.uid);
+            // console.log("상대방오디오", audioTrack.getVolumeLevel());
       }, 500)
 
       return () => {

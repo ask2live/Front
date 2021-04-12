@@ -120,8 +120,8 @@ const style = {
 };
 
 const MypageEdit = (props) => {
-  console.log("MypageEdit");
-  console.log(props)
+  // console.log("MypageEdit");
+  // console.log(props)
 
   const classes = useStyles();
   const history = useHistory();
@@ -138,7 +138,7 @@ const MypageEdit = (props) => {
 
   const dispatch = useDispatch();
   const onChange = useCallback((e) => {
-    console.log("e.target.name",e.target.name)
+    // console.log("e.target.name",e.target.name)
     if(e.target.name === "image"){
       if(e.target.files[0].size > 6000000){
         alert("6MB 이상의 파일은 업로드되지 않습니다.")
@@ -225,7 +225,7 @@ const MypageEdit = (props) => {
                 required
                 autoComplete="off"
                 // oninvalid={usernameValid ? "이름은 6글자 이내로 입력이 가능합니다" : ""}
-                defaultValue={username}
+                // defaultValue={username}
                 value={username}
                 placeholder="이름을 입력하세요"
                 name="username"
@@ -276,7 +276,7 @@ const MypageEdit = (props) => {
                 backgroundColor: "rgba(0, 0, 0, 0.05)",
                 borderRadius: "5px",
               }}
-              defaultValue={workCompany}
+              // defaultValue={workCompany}
               value={workCompany}
               placeholder="회사 이름을 입력해주세요"
               name="work_company"
@@ -295,7 +295,7 @@ const MypageEdit = (props) => {
                 backgroundColor: "rgba(0, 0, 0, 0.05)",
                 borderRadius: "5px",
               }}
-              defaultValue={workField}
+              // defaultValue={workField}
               value={workField}
               placeholder="일하는 분야를 입력해주세요"
               name="work_field"
@@ -329,7 +329,7 @@ const MypageEdit = (props) => {
                   // backgroundColor: "rgba(0, 0, 0, 0.05)",
                   borderRadius: "5px",
                 }}
-                defaultValue={bio}
+                // defaultValue={bio}
                 value={bio}
                 placeholder="소개를 입력해주세요"
                 name="bio"

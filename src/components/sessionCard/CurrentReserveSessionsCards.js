@@ -159,9 +159,9 @@ const onClickWish = (sessionId) => {
     data,
     config,
   ).then((response) => {
-    console.log("onClickWish 응답 받음", response)
+    // console.log("onClickWish 응답 받음", response)
   }).catch((e) => {
-    console.log('error',e.response)
+    // console.log('error',e.response)
     alert(e.response.data.detail)
   })
 }
@@ -179,15 +179,15 @@ const onClickWishCancel = (sessionId) => {
     data,
     config,
   ).then((response) => {
-    console.log('onClickWishCacel 응답 받음', response)
+    // console.log('onClickWishCacel 응답 받음', response)
   }).catch((e) => {
-    console.log('error',e.response)
+    // console.log('error',e.response)
     alert(e.response.data.detail)
   });;
 }
 
 const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
-  console.log("컴포넌트 시작 Enter : CurrentReserveSessionsCards")
+  // console.log("컴포넌트 시작 Enter : CurrentReserveSessionsCards")
 
 
     const [open, setOpen] = useState(false);
@@ -215,7 +215,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
         <div className={classes.root}>
             {currentReserveSessions.map((session) => (
                 <>
-                {console.log(session)}
+                {/* {console.log(session)} */}
                 <Paper elevation={3} className={classes.paper} onClick={() => {
                   history.push('/preQuestions/'+session.id)
                   dispatch(getQuestionlist(session.id))

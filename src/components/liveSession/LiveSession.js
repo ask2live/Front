@@ -215,7 +215,7 @@ const rtmClient = AgoraRTM.createInstance(appid);
 
 const LiveSession = (props) => {
     const history = useHistory();
-    console.log("!!!!!!!!!!!!!!!!!", props);
+    // console.log("!!!!!!!!!!!!!!!!!", props);
     // console.log("history state: ", history.state)
     // history.pushState(null, null, '');
     // console.log("history state: ", history.state)
@@ -236,7 +236,7 @@ const LiveSession = (props) => {
             data,
             {headers:headers}
           );
-          console.log(res.data);
+        //   console.log(res.data);
     }
     
     const audiencePutApi = async(audienceUid) =>  {
@@ -252,7 +252,7 @@ const LiveSession = (props) => {
             data,
             {headers:headers}
           );
-          console.log(res.data);
+        //   console.log(res.data);
     }
 
     const leavePatchApi = async() =>  {
@@ -265,7 +265,7 @@ const LiveSession = (props) => {
             data,
             {headers:headers}
           );
-          console.log(res.data);
+        //   console.log(res.data);
     }
 
 
@@ -279,7 +279,7 @@ const LiveSession = (props) => {
 
     const [questionAlert, setOuestionAlert] = useState(false);
     const [copiedAlert, setCopiedAlert] = useState(false);
-    const [refreshAlert, setRefreshAlert] = useState(false)
+    // const [refreshAlert, setRefreshAlert] = useState(false)
 
     const [hostExit, setHostExit] = useState(false);
 
@@ -317,7 +317,7 @@ const LiveSession = (props) => {
 
     // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
     const handleClick = () => {
-        console.log("호스트 나감2", hostExit)
+        // console.log("호스트 나감2", hostExit)
         setOpen(true);
     };
     
@@ -348,6 +348,27 @@ const LiveSession = (props) => {
     
     
     useEffect(() => {
+        // const unblock = history.block('정말 떠나시겠습니까?');
+        history.listen((location, action) => {
+            if(window.confirm('정말 떠나시겠습니까?')){
+                if(action === "POP") return false;
+            }
+        })
+        // const unblock = history.block((location, action) => {
+        //     console.log("location: ", location)
+        //     console.log("action: ", action)
+        //     if (action === "POP") return false;
+        // })
+        
+        const refreshOut = () => {
+            // unblock();
+            rtmClient.logout();
+            leave();
+            leavePatchApi();
+            // clearInterval(liveInter);
+            // setTimeout(()=>window.location.replace('/main'), 300)
+            // history.push('/main')
+        };
 
         dispatch({type: QUESTIONLIST_DELETE})
         dispatch({type: ENTEREDSESSION_DELETE})
@@ -356,22 +377,12 @@ const LiveSession = (props) => {
             dispatch(getEnteredSession(props.channelNum))
             dispatch(getQuestionList(props.holeId))
         }, 5000);
+        
+        // window.addEventListener("beforeunload", refreshOut);
 
-        
-        
-        const refreshOut = () => {
-            rtmClient.logout();
-            leave();
-            leavePatchApi();
-            clearInterval(liveInter);
-            window.location.replace('/main')
-            // clearInterval(volumeInter);
-        };
-        window.addEventListener("beforeunload", refreshOut);
         window.onpageshow =  function(event) { // BFCahe
             if (event.persisted) {
                 refreshOut();
-                window.location.replace('/main')
             }
         }
 
@@ -384,70 +395,44 @@ const LiveSession = (props) => {
             leave();
             leavePatchApi();
             clearInterval(liveInter);
-            // clearInterval(volumeInter);
             handleClick();
         });
 
-        if (props.isHost)
+        if (props.isHost){
             setTimeout(()=>{hostPostApi(client.uid)}, 4000);
-        else
+        }
+        else{
             setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
+        }
              
-        // if (props.isHost)
-        // {
-            const unblock = history.block('정말 떠나시겠습니까?');
-            return () => {
-                // dispatch({type: QUESTIONLIST_DELETE})
-                // dispatch({type: ENTEREDSESSION_DELETE})
 
-                console.log("호스트!!!: ", props.isHost)
-                window.removeEventListener("beforeunload", refreshOut);
-                if(props.isHost){
+        return () => {
 
-                    rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
-                        // Your code for handling the event when the channel message is successfully sent.
-                            console.log('host is leaving')
-                        }).catch(error => {
-                        // Your code for handling the event when the channel message fails to be sent.
-                            console.log('host leaving error')
-                        });
-                }
+            // unblock();
 
-                rtmClient.logout();
-                leave();
-                leavePatchApi();
-                clearInterval(liveInter)
-                // clearInterval(volumeInter);
-                unblock();
-                
-                // history.replace('/main');
-                setTimeout(window.location.replace('/main'), 300);
+            console.log("호스트!!!: ", props.isHost)
+            // window.removeEventListener("beforeunload", refreshOut);
+            if(props.isHost){
+
+                rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
+                    // Your code for handling the event when the channel message is successfully sent.
+                        console.log('host is leaving')
+                    }).catch(error => {
+                    // Your code for handling the event when the channel message fails to be sent.
+                        console.log('host leaving error')
+                    });
+            }
+
+            rtmClient.logout();
+            leave();
+            leavePatchApi();
+            clearInterval(liveInter)
+            
+            // history.replace('/main');
+            setTimeout(window.location.replace('/main'), 300);
                 
             }
 
-        // }
-        
-        // else {
-        //     const unblock = history.block('정말 떠나시겠습니까?');
-        //     return () => {
-        //         // dispatch({type: QUESTIONLIST_DELETE})
-        //         // dispatch({type: ENTEREDSESSION_DELETE})
-
-        //         console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
-        //         window.removeEventListener("beforeunload", refreshOut);
-
-        //         // rtmChannel.leave();
-        //         rtmClient.logout();
-        //         leave();
-        //         leavePatchApi();
-        //         clearInterval(liveInter)
-        //         // clearInterval(volumeInter);
-        //         unblock();
-                
-        //         // history.replace('/main');
-        //         setTimeout(window.location.replace('/main'), 300);
-        //     }
-        // }
     }, [history])
 
     // ^ =============================================================

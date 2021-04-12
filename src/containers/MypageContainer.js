@@ -50,7 +50,7 @@ const style = {
 
 
 const MyPageContainer = (props) => {
-  console.log("MyPageContainer");
+  // console.log("MyPageContainer");
 
   // const [render, setRender] = useState(false);
   const dispatch = useDispatch();

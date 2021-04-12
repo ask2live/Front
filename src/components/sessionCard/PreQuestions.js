@@ -148,7 +148,7 @@ const SessionDetail = ({session}) => {
 }
 
 const ListPreQuestions = ({questions, session}) => {
-    console.log('qestions', questions)
+    // console.log('qestions', questions)
     return(
         <>
         <PreQuestionNav session={session}/>
@@ -168,7 +168,7 @@ const PreQuestions = () => {
 
     if(Object.keys(sessions).length != 0){
         sessions.map((session) => {
-          console.log('DEBUG22',session)
+          // console.log('DEBUG22',session)
             if(sessionId === session.id){
                 targetSession = {...targetSession, session}
             }

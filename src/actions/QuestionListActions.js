@@ -17,7 +17,7 @@ const getQuestionlist = holeId => dispatch => {
     // ��û ����
     return getApi(holeId).then(
         (response) => {
-            console.log(response);
+            // console.log(response);
             dispatch({ type: QUESTIONLIST_GET_SUCCESS, payload: response });
         }
     ).catch(error => {

@@ -12,11 +12,11 @@ const SessionMatchContainer = (props) => {
     const history = useHistory()
     const [match, setMatch] = useState()
 
-    console.log(props);
+    // console.log(props);
     const sessionKind = props.routerInfo.match.params.state;
     let urlSearchParams = new URLSearchParams(props.routerInfo.location.search.slice(1));
-    console.log(props);
-    console.log(sessionKind);
+    // console.log(props);
+    // console.log(sessionKind);
 
     const holeId = urlSearchParams.get("holeId");
 
@@ -35,7 +35,7 @@ const SessionMatchContainer = (props) => {
     switch (sessionKind) {
         case LIVE:
             const channelNum = urlSearchParams.get("channelNum");
-            console.log("----Match----", match)
+            // console.log("----Match----", match)
             if (match) 
             {
                 if (match.status === "DONE")
