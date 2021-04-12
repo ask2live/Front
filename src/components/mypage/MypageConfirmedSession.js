@@ -19,9 +19,7 @@ import Alert from '@material-ui/lab/Alert';
 
 
 import "../../styles/style.css";
-import { SessionConfirm } from "./SessionConfirm";
 import {
-  getSessionInfo,
   getUserSessionInfo,
 } from "../../actions/SessionActions";
 
@@ -138,7 +136,7 @@ const MypageConfirmedSession = ({ session }) => {
       
   //   }
   //   const res = await axios.post(
-  //     "https://143.248.226.7:8000/api/hole/" + session.id + "/live/create",
+  //     "https://www.ask2live.me/api/hole/" + session.id + "/live/create",
   //     data,
   //     config,
   //   );
@@ -146,14 +144,14 @@ const MypageConfirmedSession = ({ session }) => {
   // }
 
   const onDelete = async () => {
-    console.log("DELETE SESSION!");
+    // console.log("DELETE SESSION!");
     // await postSessionDelete(session);
     const config = {
       headers: { Authorization: "Token " + localStorage.token },
     };
 
     await axios.delete(
-      "https://143.248.226.7:8000/api/hole/delete/" + session.id,
+      "https://www.ask2live.me/api/hole/delete/" + session.id,
       config
     );
 

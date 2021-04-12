@@ -155,13 +155,13 @@ const onClickWish = (sessionId) => {
     data: {}
   }
   axios.patch(
-    "https://143.248.226.7:8000/api/reservation/hole/" + sessionId + "/wish",
+    "https://www.ask2live.me/api/reservation/hole/" + sessionId + "/wish",
     data,
     config,
   ).then((response) => {
-    console.log("onClickWish 응답 받음", response)
+    // console.log("onClickWish 응답 받음", response)
   }).catch((e) => {
-    console.log('error',e.response)
+    // console.log('error',e.response)
     alert(e.response.data.detail)
   })
 }
@@ -175,13 +175,13 @@ const onClickWishCancel = (sessionId) => {
   }
 
   axios.patch(
-    "https://143.248.226.7:8000/api/reservation/hole/" + sessionId + "/wishcancel",
+    "https://www.ask2live.me/api/reservation/hole/" + sessionId + "/wishcancel",
     data,
     config,
   ).then((response) => {
-    console.log('onClickWishCacel 응답 받음', response)
+    // console.log('onClickWishCacel 응답 받음', response)
   }).catch((e) => {
-    console.log('error',e.response)
+    // console.log('error',e.response)
     alert(e.response.data.detail)
   });;
 }
@@ -215,7 +215,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
         <div className={classes.root}>
             {currentReserveSessions.map((session) => (
                 <>
-                {console.log(session)}
+                {/* {console.log(session)} */}
                 <Paper elevation={3} className={classes.paper} onClick={() => {
                   history.push('/preQuestions/'+session.id)
                   dispatch(getQuestionlist(session.id))
@@ -235,7 +235,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                           <>
                           <div className={classes.avatarWrapper}>
                             <Avatar className={classes.avatar} src={session.host_profile_image?
-                            `https://143.248.226.7:8000${session.host_profile_image}`
+                            `https://www.ask2live.me${session.host_profile_image}`
                             : "/static/reigns/1.jpg"} />
                             
                             {/* <CheckIcon size="large" style={{fontSize: "55", opacity: 0.6, position:"absolute", top:"25", left:"30"}} color='error'/> */}
@@ -248,7 +248,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                           {/* {percent} Days */}
                           <div className={classes.avatarWrapper}>
                           <Avatar className={classes.avatar} src={session.host_profile_image?
-                            `https://143.248.226.7:8000${session.host_profile_image}`
+                            `https://www.ask2live.me${session.host_profile_image}`
                             : "/static/reigns/1.jpg"} />
                           </div>
                           {/* <div className="NotoSans3" style={{fontSize:"large", position:"absolute", transform:"translate(1em, -3em)"}}>안녕안녕</div> */}

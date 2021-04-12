@@ -58,7 +58,7 @@ const UserAvatar = memo((props) => {
 
     if (liveInfo.arrived)
     {
-        console.log("liveInfo ----------",liveInfo);
+        // console.log("liveInfo ----------",liveInfo);
         if (props.isHostAvatar)
         {
             const hostUid = liveInfo.data.detail.livehole.host_uid;
@@ -69,7 +69,7 @@ const UserAvatar = memo((props) => {
                         <div style={style.circleWrap}>
     
                             <div style={volume[hostUid] > 0.2 ? style.circleWhite : style.circle1}>
-                                    <Avatar alt={props.hostName} src={props.imageLink ? "https://143.248.226.7:8000"+props.imageLink : "/static/reigns/1.jpg"} className={classes.large}/>
+                                    <Avatar alt={props.hostName} src={props.imageLink ? "https://www.ask2live.me"+props.imageLink : "/static/reigns/1.jpg"} className={classes.large}/>
                             </div>
                         </div>
                         
@@ -87,7 +87,7 @@ const UserAvatar = memo((props) => {
                         <div style={style.circleWrap}>
     
                             <div style={volume[props.userUid] > 0.2 ? style.circleWhite : style.circle1}>
-                                    <Avatar alt={props.hostName} src={props.imageLink ? "https://143.248.226.7:8000"+props.imageLink : "/static/reigns/1.jpg"} className={classes.large}/>
+                                    <Avatar alt={props.hostName} src={props.imageLink ? "https://www.ask2live.me"+props.imageLink : "/static/reigns/1.jpg"} className={classes.large}/>
                             </div>
                         </div>
                         
@@ -102,7 +102,7 @@ const UserAvatar = memo((props) => {
         return (
             <div className={classes.root}>
                 <div style={style.circle1}>
-                        <Avatar alt={props.hostName} src={props.imageLink ? "https://143.248.226.7:8000"+props.imageLink : "/static/reigns/1.jpg"} className={classes.large}/>
+                        <Avatar alt={props.hostName} src={props.imageLink ? "https://www.ask2live.me"+props.imageLink : "/static/reigns/1.jpg"} className={classes.large}/>
                 </div>
             </div>
         )

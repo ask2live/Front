@@ -108,7 +108,7 @@ const SessionDetail = ({session}) => {
               return(
                 <>
                 {session.host_profile_image?
-                <Avatar className={classes.avatar} src={`https://143.248.226.7:8000${session.host_profile_image}`} />
+                <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
               :
                 <Avatar className={classes.avatar} src="/static/reigns/1.jpg" />
               }
@@ -119,7 +119,7 @@ const SessionDetail = ({session}) => {
               return(
                 <>
                   {session.host_profile_image?
-                <Avatar className={classes.avatar} src={`https://143.248.226.7:8000${session.host_profile_image}`} />
+                <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
               :
                 <Avatar className={classes.avatar} src="static/reigns/1.jpg" />
               }
@@ -148,7 +148,7 @@ const SessionDetail = ({session}) => {
 }
 
 const ListPreQuestions = ({questions, session}) => {
-    console.log('qestions', questions)
+    // console.log('qestions', questions)
     return(
         <>
         <PreQuestionNav session={session}/>
@@ -168,7 +168,7 @@ const PreQuestions = () => {
 
     if(Object.keys(sessions).length != 0){
         sessions.map((session) => {
-          console.log('DEBUG22',session)
+          // console.log('DEBUG22',session)
             if(sessionId === session.id){
                 targetSession = {...targetSession, session}
             }

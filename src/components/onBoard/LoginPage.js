@@ -145,13 +145,13 @@ const LoginPage = (props) => {
         username : loginId,
         password : loginPassword
       }
-      axios.post('https://143.248.226.7:8000/api/user/login', 
+      axios.post('https://www.ask2live.me/api/user/login', 
       dataToSubmit,
       ).then((res) => {
-        console.log("res", res)
+        // console.log("res", res)
         window.localStorage.setItem('token', res.data.detail.token)
         dispatch(getUserInfo(res.data.detail.token));
-        console.log(res);
+        // console.log(res);
         if (props.location.before)
             history.push(props.location.before)
         else
@@ -196,7 +196,7 @@ const LoginPage = (props) => {
                                 style= {{marginBottom : "1em"}}
                                 id="outlined-search" type="search" variant="outlined"
                                 onChange={(event) => {
-                                    console.log("TARGET ::", event.target.value)
+                                    // console.log("TARGET ::", event.target.value)
                                     if (event.target.value.length > 6)
                                         setLengthError(true)
                                     else if (CheckSpaceNSpecial(event.target.value)){
@@ -204,12 +204,12 @@ const LoginPage = (props) => {
                                         ReplaceSpaceNSpecial(event.target.value)
                                     }
                                     else {
-                                        console.log("TARGET IN ::", event.target.value)
+                                        // console.log("TARGET IN ::", event.target.value)
                                         setValueError(false)
                                         setLengthError(false)
                                         setLoginId(event.target.value.substring(0, 6))
                                     }
-                                    console.log("LOGIN ID :: ", loginId)
+                                    // console.log("LOGIN ID :: ", loginId)
                                 }
                                 }
                                 />

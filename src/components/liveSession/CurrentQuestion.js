@@ -25,11 +25,11 @@ const CurrentQuestion = memo((props) => {
               is_answered: true,
           };
           const res = await axios.patch(
-            "https://143.248.226.7:8000/api/hole/"+props.holeId+"/question/update/"+questionId,
+            "https://www.ask2live.me/api/hole/"+props.holeId+"/question/update/"+questionId,
             data,
             {headers:headers}
           );
-          console.log(res.data);
+        //   console.log(res.data);
           if (res.data.response === "SUCCESS")
           {
             props.roomSocket.send(
@@ -72,7 +72,7 @@ const CurrentQuestion = memo((props) => {
         else 
         {
             const onAnswered = (questionId) => {
-                console.log("RoomSocket::", props.roomSocket)
+                // console.log("RoomSocket::", props.roomSocket)
                 questionPatchApi(questionId);
             } 
 

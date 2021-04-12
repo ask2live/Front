@@ -72,7 +72,7 @@ const Chat = props => {
     const classes = useStyles();
 
     let currentUrl = window.location.href;
-    console.log("Chat Url : ", currentUrl);
+    // console.log("Chat Url : ", currentUrl);
     const params1 = currentUrl.split('?')
     const params2 = params1[1].split('&')
     const params3 = params2[1].split('=')
@@ -85,7 +85,7 @@ const Chat = props => {
 
           element.scrollTop = element.scrollHeight ? element.scrollHeight : 0;
         }
-        console.log("Here");
+        // console.log("Here");
     }
 
   const [loading, setLoading] = useState(false);
@@ -139,7 +139,7 @@ const Chat = props => {
     return (
         <>
       <div className="chatting">
-        {console.log("----------message-----------",message)}
+        {/* {console.log("----------message-----------",message)} */}
         <List
           className="comment-list NanumGothic3"
           itemLayout="horizontal"

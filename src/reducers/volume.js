@@ -12,7 +12,7 @@ import {
             const userVolume = action.userVolume;
             let tmpState = {...state};
             tmpState[userUid] = userVolume;
-            console.log("volume Redux ::", tmpState);
+            // console.log("volume Redux ::", tmpState);
             return tmpState;
 
         case CLEAR_VOLUME:

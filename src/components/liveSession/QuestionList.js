@@ -23,7 +23,7 @@ const QuestionList = (props) => {
 
     const questionAry = useSelector(state => state.questionlist)
     const myName = useSelector(state => state.user.data.detail.username)
-    console.log(myName);
+    // console.log(myName);
 
     return (
         <>

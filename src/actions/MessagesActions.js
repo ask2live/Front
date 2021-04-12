@@ -12,13 +12,13 @@ export const onRoomMessagesRead = (realHoleId, holeId) => dispatch => {
   const socket = new ReconnectingWebSocket(`${WS_ENDPOINT()}/hole/${holeId}/`);
   socket.debug = true;
 
-  console.log("-----------socket--------------",socket);
+  // console.log("-----------socket--------------",socket);
 
   socket.onopen = event => console.log('WebSocket Connected'); 
   socket.onerror = event => console.log('error event : ', event);
   socket.onmessage = event => 
   { 
-      console.log("EVENT :: ",event);
+      // console.log("EVENT :: ",event);
       JSON.parse(event.data).type === "QUESTION" ?
       dispatch(getQuestionlist(realHoleId))
       : dispatch({ type: JSON.parse(event.data).type, payload: { messages: JSON.parse(event.data).data}})}

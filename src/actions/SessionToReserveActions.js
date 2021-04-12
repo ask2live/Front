@@ -11,7 +11,7 @@ export const postSessionToReserve = async(session) => {
   }
 
   const res = await axios.patch(
-    "https://143.248.226.7:8000/api/reservation/hole/" + session.id + "/hostconfirm",
+    "https://www.ask2live.me/api/reservation/hole/" + session.id + "/hostconfirm",
     data,
     config,
   );

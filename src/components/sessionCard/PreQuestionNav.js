@@ -96,11 +96,11 @@ const MyQuestionCards = () => {
 
   const user = useSelector(state => state.user)
   const questions = useSelector(state => state.questionlist)
-  console.log('user', user.data.detail)
-  console.log('questionsList', questions.data.detail)
+  // console.log('user', user.data.detail)
+  // console.log('questionsList', questions.data.detail)
   
   const userId = user.data.detail.id
-  const questionsList = questions.data.detail
+  const questionsList = questions.data
 
   const dispatch = useDispatch()
 
@@ -108,13 +108,13 @@ const MyQuestionCards = () => {
   if(Object.keys(questionsList).length != 0){
     questionsList.map((question) => {
       const questionAuthor = parseInt(question.user)
-      console.log(questionAuthor)
+      // console.log(questionAuthor)
         if(userId === questionAuthor){
           myQuestions = [...myQuestions, question]
         }
     })
   }
-  console.log(myQuestions)
+  // console.log(myQuestions)
 
   return (
     <>
@@ -144,9 +144,9 @@ const MyQuestionSend = ({session}) => {
           is_voice: isVoice,
           question: askValue,
       };
-      console.log(data);
+      // console.log(data);
       const res = await axios.post(
-        "https://143.248.226.7:8000/api/hole/"+session.id + "/question/create",
+        "https://www.ask2live.me/api/hole/"+session.id + "/question/create",
         data,
         {headers:headers}
       );
@@ -182,7 +182,7 @@ const MyQuestionSend = ({session}) => {
 
 const QuestionCard = ({question}) => {
     const classes = useStyles();
-    console.log(question)
+    // console.log(question)
     return(
         <>
         <Card key={question.id} className={classes.card}>
@@ -190,7 +190,7 @@ const QuestionCard = ({question}) => {
           <Grid container>
         <div className="NanumGothic3">
           {question.user_profile_image_url?
-                <Avatar className={classes.avatar} src={`https://143.248.226.7:8000${question.user_profile_image_url}`} />
+                <Avatar className={classes.avatar} src={`https://www.ask2live.me${question.user_profile_image_url}`} />
               :
                 <Avatar className={classes.avatar} src="static/reigns/1.jpg" />
           }
@@ -255,6 +255,7 @@ const LinkTab = (props) => {
 const PreQuestionNav = ({session}) => {
   const classes = useStyles();
   const questions = useSelector(state => state.questionlist)
+  // console.log(questions)
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -284,10 +285,10 @@ const PreQuestionNav = ({session}) => {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-      {questions.data.detail.length === 0 ? 
+      {questions.data.length === 0 ? 
         <div className="NanumGothic3">질문을 등록해주세요</div> :
         
-        questions.data.detail.map((question) => 
+        questions.data.map((question) => 
         <>
             <QuestionCard question={question}/>
             <Divider light />
