@@ -88,7 +88,13 @@ const VoiceQuestion = (props) => {
                 marginTop:"13px",
                 width:"6em"}}>
                 <div style={{zIndex: "1",width:"5.6em"}}>
-                <Avatar style={{zIndex: "1"}} alt={props.userNickName} imageLink={props.imageLink} className={classes.large}/>
+                    <Avatar 
+                    userUid={props.userUid}
+                    isHostAvatar={false}
+                    style={{zIndex: "1"}} 
+                    alt={props.userNickName} 
+                    imageLink={props.imageLink} 
+                    className={classes.large}/>
                 </div>
                 <div style={{display:"flex", justifyContent:"center"}}>
                     <p className="BMDOHYEON" style={{marginTop:"5px", marginLeft:"-8px", color:"rgba(255,255,255,0.8)"}}>{props.userNickName}</p>

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
       width: "5em",
       height: "5em",
       backgroundPosition: "center center",
-      backgroundSize: "100%",
+      backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       overflow: "hidden",
     },
@@ -66,7 +66,7 @@ const Participant = (props) => {
             <Grid container justify="center">
                 <Card style={style.participant} className={classes.root}>
                     <div
-                        style={{backgroundImage: props.profileImage ? "url('https://www.ask2live.me" + props.profileImage +"')" : "url('/static/reigns/1.jpg')" }}
+                        style={{backgroundImage: props.profileImage ? "url('https://143.248.226.7:8000" + props.profileImage +"')" : "url('/static/reigns/1.jpg')" }}
                         className={classes.cookieWrapper}
                     >
                         <div className={classes.useCookie}></div>

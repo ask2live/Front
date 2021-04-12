@@ -13,14 +13,14 @@ import axios from 'axios'
 export const setLive = (given_holeId, given_livestate) => ({ type : SETLIVE, holeId: given_holeId,  livestate: given_livestate});  //
 
 function sessionGetApi(){
-    return axios.get('https://www.ask2live.me/api/hole')
+    return axios.get('https://143.248.226.7:8000/api/hole')
 }
 
 function userSessionGetApi(token){
     const config = {
         headers: {Authorization: 'Token ' + token}
     }
-    return axios.get('https://www.ask2live.me/api/user/read/hole',
+    return axios.get('https://143.248.226.7:8000/api/user/read/hole',
         config
     )
 }

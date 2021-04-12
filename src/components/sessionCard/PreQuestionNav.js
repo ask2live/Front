@@ -146,7 +146,7 @@ const MyQuestionSend = ({session}) => {
       };
       console.log(data);
       const res = await axios.post(
-        "https://www.ask2live.me/api/hole/"+session.id + "/question/create",
+        "https://143.248.226.7:8000/api/hole/"+session.id + "/question/create",
         data,
         {headers:headers}
       );

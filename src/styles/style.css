@@ -126,7 +126,7 @@
   height: 16em;
   background-color: black;
   transition: transform 0.5s ease;
-  z-index: 2;
+  z-index: 3;
 }
 /* 
 .questionList {
@@ -220,7 +220,7 @@
   background-color: #252525;
   width: 100%;
   bottom: 4.5em;
-  height: 34%;
+  height: 32%;
   max-width: 45em;
   overflow: auto;
   z-index: 1;

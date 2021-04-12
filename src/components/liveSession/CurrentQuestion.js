@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react"
+import React, {useState, useCallback, memo} from "react"
 import { useSelector } from "react-redux"
 import axios from "axios"
 import StringQuestion from "./StringQuestion";
@@ -15,7 +15,7 @@ const style = {
     }
 }
 
-const CurrentQuestion = (props) => {
+const CurrentQuestion = memo((props) => {
     
     const questionPatchApi = async(questionId) =>  {
         const headers = {
@@ -25,11 +25,16 @@ const CurrentQuestion = (props) => {
               is_answered: true,
           };
           const res = await axios.patch(
-            "https://www.ask2live.me/api/hole/"+props.holeId+"/question/update/"+questionId,
+            "https://143.248.226.7:8000/api/hole/"+props.holeId+"/question/update/"+questionId,
             data,
             {headers:headers}
           );
           console.log(res.data);
+          if (res.data.response === "SUCCESS")
+          {
+            props.roomSocket.send(
+                JSON.stringify({ command: "fetch_questions", data: { pk: props.holeId }}));
+          }
     }
 
     const forQuestionidx = useCallback((questionList) => {
@@ -41,7 +46,7 @@ const CurrentQuestion = (props) => {
 
     if (questionResponse.arrived)
     {
-        let questionList = questionResponse.data.detail
+        let questionList = questionResponse.data;
         if (questionList.length == 0) 
             return (
                 <>
@@ -67,6 +72,7 @@ const CurrentQuestion = (props) => {
         else 
         {
             const onAnswered = (questionId) => {
+                console.log("RoomSocket::", props.roomSocket)
                 questionPatchApi(questionId);
             } 
 
@@ -129,7 +135,7 @@ const CurrentQuestion = (props) => {
 
     // if (questionResponse.arrived)
     // {
-    //     let questionList = questionResponse.data.detail
+    //     let questionList = questionResponse.data
     //     if (questionList.length == questionNum) 
     //         return <p>질문이 없습니다.</p>
     //     else if (questionList.length != questionNum)
@@ -160,7 +166,7 @@ const CurrentQuestion = (props) => {
     //     }
     // }
    
-}
+})
 
 
 export default CurrentQuestion

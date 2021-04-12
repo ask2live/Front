@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import React, {useState, memo} from 'react';
 import axios from "axios";
+import { CheckSpaceNSpecial, ReplaceSpaceNSpecial } from "../CheckString";
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -108,6 +109,8 @@ const LoginPage = (props) => {
     const [loginPassword, setLoginPassword] = useState("");
     const [open, setOpen] = useState(false);
     const [openTwo, setOpenTwo] = useState(false);
+    const [lengthError, setLengthError] = useState(false);
+    const [valueError, setValueError] = useState(false);
   
     const handleClick = () => {       
         setOpen(true);
@@ -142,7 +145,7 @@ const LoginPage = (props) => {
         username : loginId,
         password : loginPassword
       }
-      axios.post('https://www.ask2live.me/api/user/login', 
+      axios.post('https://143.248.226.7:8000/api/user/login', 
       dataToSubmit,
       ).then((res) => {
         console.log("res", res)
@@ -156,6 +159,8 @@ const LoginPage = (props) => {
       }).catch(
         (err) => handleClick())
     }
+
+
 
     return (
         <>
@@ -181,15 +186,31 @@ const LoginPage = (props) => {
                         <div style={style.login}>
                             <Grid style={{height: "5em"}} container justify="center">
                                 <TextField 
-                                errer={loginId.length > 5}
-                                helperText={loginId.length > 5 ? "닉네임은 6자까지만 가능합니다" : ""}
+                                error={valueError || lengthError}
+                                helperText={valueError ? "특수문자와 공백은 불가합니다"
+                                                    : lengthError ? "닉네임은 6자까지만 가능합니다."
+                                                        : "" }
                                 value={loginId}
                                 placeholder="닉네임"
                                 size="1em"
                                 style= {{marginBottom : "1em"}}
                                 id="outlined-search" type="search" variant="outlined"
-                                onChange={(event) => 
-                                    setLoginId(event.target.value.substring(0, 6))
+                                onChange={(event) => {
+                                    console.log("TARGET ::", event.target.value)
+                                    if (event.target.value.length > 6)
+                                        setLengthError(true)
+                                    else if (CheckSpaceNSpecial(event.target.value)){
+                                        setValueError(true)
+                                        ReplaceSpaceNSpecial(event.target.value)
+                                    }
+                                    else {
+                                        console.log("TARGET IN ::", event.target.value)
+                                        setValueError(false)
+                                        setLengthError(false)
+                                        setLoginId(event.target.value.substring(0, 6))
+                                    }
+                                    console.log("LOGIN ID :: ", loginId)
+                                }
                                 }
                                 />
                             </Grid>

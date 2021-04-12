@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, memo} from 'react';
 import { useDispatch } from "react-redux";
 import QuestionList from "./QuestionList";
 import getQuestionList from "../../actions/QuestionListActions";
@@ -78,7 +78,7 @@ const style = {
     },
 }
 
-export default function CustomizedInputBase(props) {
+const CustomizedInputBase = memo((props) => {
 
     const dispatch = useDispatch();
    const classes = useStyles();
@@ -137,4 +137,6 @@ export default function CustomizedInputBase(props) {
     </Paper>
     </>
   );
-}
+})
+
+export default CustomizedInputBase;
