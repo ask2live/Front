@@ -315,7 +315,7 @@ const LiveSession = (props) => {
     
     // 닫는 함수. 이미 아래에 자동적으로 사용되고 있음.
     const handleClose = (event, reason) => { 
-        // console.log("host out")
+        console.log("host out")
         // history.replace('/main')
         if (reason === 'clickaway') {
             return;
@@ -337,7 +337,6 @@ const LiveSession = (props) => {
     } = useAgora(client);
     
     
-    
     useEffect(() => {
         
         const unblock = history.block('정말 떠나시겠습니까?');
@@ -352,13 +351,19 @@ const LiveSession = (props) => {
             // roomSocket && roomSocket.close();
             setTimeout(()=>window.location.replace('/main'), 300)
         };
-        window.addEventListener("beforeunload", refreshOut);
-        window.onpageshow =  function(event) { // BFCahe
-            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-                // console.log("onpageshow out ")
-                refreshOut();
-            }
-        }
+        
+        const beforeUnloadListener = (event) => {
+            event.preventDefault();
+            event.returnValue = '';
+        };
+        window.addEventListener("beforeunload", beforeUnloadListener);
+        window.addEventListener("pagehide", refreshOut);
+        // window.onpagehide =  function(event) { // BFCahe
+        //     if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+        //         // console.log("onpageshow out ")
+        //         refreshOut();
+        //     }
+        // }
         
         roomSocket && roomSocket.close();
         setRoomSocket(dispatch(onRoomMessagesRead(props.holeId, props.channelNum)));
@@ -374,7 +379,6 @@ const LiveSession = (props) => {
         setTimeout(()=>dispatch(getEnteredSession(props.channelNum)),4500);
         
         //! 소켓으로 바꾸는중
-        
         
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
@@ -399,8 +403,9 @@ const LiveSession = (props) => {
         return () => {
             // console.log("normal out")
             unblock();
+            window.removeEventListener("beforeunload", beforeUnloadListener);
+            window.removeEventListener("pagehide", refreshOut);
 
-            window.removeEventListener("beforeunload", refreshOut);
             if (props.isHost)
             {
                 rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
@@ -410,7 +415,6 @@ const LiveSession = (props) => {
                     // Your code for handling the event when the channel message fails to be sent.
                     // console.log('host leaving error')
                 });
-
             }
             
             rtmClient.logout();
@@ -419,7 +423,7 @@ const LiveSession = (props) => {
             // roomSocket && roomSocket.close();
             
             // history.replace('/main');
-            setTimeout(()=>window.location.replace('/main'), 300);
+            setTimeout(()=>window.location.replace('/main'), 500);
             
         }
         

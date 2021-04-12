@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(7),
+    // marginTop: theme.spacing(7),
+    // backgroundColor: "skyblue",
     // fontFamily: "BMJUA"
     display: "flex",
     flexDirection: "column",
@@ -245,7 +246,8 @@ const SessionCreateContainer = (props) => {
       ) : (
         <MypageNav text={"Live Q&A 만들기"} />
       )}
-      <Container component="main" maxWidth="xs">
+      <div style={{position: "relative", height: "7vh", width:"100%", backgroundColor: "#EF5941",}}/>
+      <Container component="main" style={{maxWidth: "40em"}}>
         {/* <CssBaseline /> */}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
