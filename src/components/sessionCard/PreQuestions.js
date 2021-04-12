@@ -160,6 +160,7 @@ const ListPreQuestions = ({questions, session}) => {
 const PreQuestions = () => {
     const dispatch = useDispatch()
     const questions = useSelector(state => state.questionlist)
+    // console.log(questions)
     const sessions = useSelector(state => state.session.data)
     let targetSession = {};
 
@@ -174,11 +175,13 @@ const PreQuestions = () => {
             }
         })
       }
-    useEffect(() => {
-      if(Object.keys(questions.data).length === 0){
-        dispatch(getQuestionlist(sessionId))
-      }
-    })
+    // useEffect(() => {
+    //   console.log(questions.data)
+    //   if(questions.data.length === 0){
+    //     console.log("dispatch!!!")
+        // dispatch(getQuestionlist(sessionId))
+      // }
+    // })
     
     return (
             <>
@@ -187,7 +190,7 @@ const PreQuestions = () => {
         <div style={{display:"flex", justifyContent:"center", position:"absolute", top:"9%" , width:"100%"}}>
           <div style={{width:"100%", maxWidth:"50em"}}>
           <SessionDetail session={targetSession.session}/>
-          {Object.keys(questions.data).length > 0 ? <ListPreQuestions questions={questions} session={targetSession.session}/> : null}
+          <ListPreQuestions questions={questions} session={targetSession.session}/>
           </div>
         </div>
         </>

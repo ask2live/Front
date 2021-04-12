@@ -27,26 +27,27 @@ import Auth from "./hoc/auth";
 const App = () => {
     
     useEffect(() => {
-        if(document.body.getAttribute('__donot_urlopenlink') || !/mobile/i.test(navigator.userAgent) || !/inapp|KAKAOTALK|Line\/|FB_IAB\/FB4A|FBAN\/FBIOS|Instagram|DaumDevice\/mobile|SamsungBrowser\/[^1]/i.test(navigator.userAgent)) return;
-        else {
-            const script = document.createElement("script");
+        // if(document.body.getAttribute('__donot_urlopenlink') || !/mobile/i.test(navigator.userAgent) || !/inapp|KAKAOTALK|Line\/|FB_IAB\/FB4A|FBAN\/FBIOS|Instagram|DaumDevice\/mobile|SamsungBrowser\/[^1]/i.test(navigator.userAgent)) return;
+        // else {
+            // const script = document.createElement("script");
 
-            if(/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {                
+            // if(/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {                
                 // script.text = "location.href='ftp://13.125.22.142/pub/bridge.html'"
-                script.src = "https://urlopen.link/direct.js";
-                script.async = true;
-                document.body.appendChild(script);
+            const script = document.createElement("script");
+            script.src = "https://urlopen.link/direct.js";
+            script.async = true;
+            document.body.appendChild(script);
                 
-            } else {
-                script.text = "location.href='intent://www.ask2live.me#Intent;scheme=https;package=com.android.chrome;end'";
-                document.body.appendChild(script);
-            }
+            // } else {
+                // script.text = "location.href='intent://www.ask2live.me#Intent;scheme=https;package=com.android.chrome;end'";
+                // document.body.appendChild(script);
+            // }
     
             return () => {
                 document.body.removeChild(script);
             }
         }
-    })
+    )
     const dispatch = useDispatch();
     const token = localStorage.getItem('token')
     if(token){
