@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
 import { connect } from 'react-redux';
@@ -10,7 +10,7 @@ import { onMessagesValueChange } from '../actions';
 
 import {useHistory} from "react-router-dom"
 
-const MainScreen = props => { //props 삭제
+const MainScreen = memo(props => { //props 삭제
 
   const history = useHistory();
 
@@ -42,7 +42,7 @@ const MainScreen = props => { //props 삭제
       </Row>
     </React.Fragment>
   )
-}
+})
 
 MainScreen.propTypes = {
   windowHeight: PropTypes.number,

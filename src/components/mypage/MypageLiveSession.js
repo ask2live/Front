@@ -181,7 +181,7 @@ const MypageLiveSession = (props) => {
   }
 
   const onDelete = async () => {
-    console.log("DELETE SESSION!");
+    // console.log("DELETE SESSION!");
     const config = {
       headers: { Authorization: "Token " + localStorage.token },
     };

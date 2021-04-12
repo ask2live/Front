@@ -50,7 +50,7 @@ const style = {
 
 
 const MyPageContainer = (props) => {
-  // console.log("MyPageContainer");
+  // console.log("컴포넌트 실행!");
 
   // const [render, setRender] = useState(false);
   const dispatch = useDispatch();

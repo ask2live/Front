@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const postSessionToReserve = async(session) => {
-  console.log("-----postSessionToReserve start-----");
+  // console.log("-----postSessionToReserve start-----");
 
   const config = {
     headers: {'Authorization': 'Token ' + localStorage.token}
@@ -15,5 +15,5 @@ export const postSessionToReserve = async(session) => {
     data,
     config,
   );
-  console.log("hole reserved: ", res);
+  // console.log("hole reserved: ", res);
 };

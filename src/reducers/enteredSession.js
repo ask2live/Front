@@ -12,18 +12,18 @@ const initialState = {
     data: {}
 };
 
-//¢¬¢ç??¨ù¡©
+//ï¿½ï¿½ï¿½ï¿½??ï¿½ï¿½ï¿½ï¿½
 const enteredSession = (state = initialState, action) => {
     switch (action.type) {
         case ENTEREDSESSION_GET_PENDING:
-            console.log("EnteredSession PENDING");
+            // console.log("EnteredSession PENDING");
             return {
                 ...state,
                 pending: true,
                 error: false
             };
         case ENTEREDSESSION_GET_SUCCESS:
-            console.log("EnteredSession SUCCESS :", action.payload.data);
+            // console.log("EnteredSession SUCCESS :", action.payload.data);
             return {
                 ...state,
                 arrived: true,

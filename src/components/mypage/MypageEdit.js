@@ -176,7 +176,7 @@ const MypageEdit = (props) => {
     formData.append("work_company", data.work_company);
     formData.append("bio", data.bio);
 
-    console.log(image);
+    // console.log(image);
     if (Object.keys(image).length != 0) {
       formData.append("profile_image", image.profile_image[0]);
     }
@@ -200,7 +200,7 @@ const MypageEdit = (props) => {
         });
     }
     catch(err) {
-      console.log(err)
+      // console.log(err)
       alert("이미 존재하는 닉네임입니다");
     }
   };

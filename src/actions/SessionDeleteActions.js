@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const postSessionDelete = async(session) => {
-  console.log("-----postSessionDelete start-----");
+  // console.log("-----postSessionDelete start-----");
   
   const config = {
       headers: {Authorization: "Token " + localStorage.token}
@@ -11,5 +11,5 @@ export const postSessionDelete = async(session) => {
     "https://www.ask2live.me/api/hole/delete/" + session.id,
     config,
   );
-  console.log("hole deleted: ", res);
+  // console.log("hole deleted: ", res);
 };

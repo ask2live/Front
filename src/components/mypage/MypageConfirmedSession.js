@@ -19,9 +19,7 @@ import Alert from '@material-ui/lab/Alert';
 
 
 import "../../styles/style.css";
-import { SessionConfirm } from "./SessionConfirm";
 import {
-  getSessionInfo,
   getUserSessionInfo,
 } from "../../actions/SessionActions";
 
@@ -146,7 +144,7 @@ const MypageConfirmedSession = ({ session }) => {
   // }
 
   const onDelete = async () => {
-    console.log("DELETE SESSION!");
+    // console.log("DELETE SESSION!");
     // await postSessionDelete(session);
     const config = {
       headers: { Authorization: "Token " + localStorage.token },

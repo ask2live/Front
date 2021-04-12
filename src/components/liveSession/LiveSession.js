@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react'
+import React, {useState, useEffect, useRef, useCallback, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory} from "react-router-dom"
 import axios from "axios"
@@ -7,7 +7,8 @@ import getEnteredSession from "../../actions/EnteredSessionActions"
 import getQuestionList from "../../actions/QuestionListActions";
 import {
     QUESTIONLIST_DELETE,
-    ENTEREDSESSION_DELETE
+    ENTEREDSESSION_DELETE,
+    CLEAR_VOLUME,
 } from "../../actions/types.js";
 
 
@@ -15,39 +16,24 @@ import {
 import ParticipantList from "./ParticipantList";
 import CurrentQuestion from "./CurrentQuestion";
 
-
-import QuestionSwiper from "./QuestionSwiper";
 import QuestionList from "./QuestionList";
 import Questioning from "./Questioning";
-import InsertField from "./InsertField";
 import Chat from "./chatting/Chat";
-import Question from "./Question";
 import Avatar from "../Avatar";
 import "../../index.css"
 import PlayerWrapper from "./agora/PlayerWrapper";
+import { onRoomMessagesRead } from '../../actions/MessagesActions';
 
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import { makeStyles } from '@material-ui/core/styles';
-import Favorite from '@material-ui/icons/Favorite';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import CloseListButton from '@material-ui/icons/ExpandMore';
-import CloseIcon from '@material-ui/icons/Close';
-import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import MicIcon from '@material-ui/icons/Mic';
-import LaunchIcon from '@material-ui/icons/Launch';
 
 import "../../styles/style.css"
 
-
-import { Autocomplete } from '@material-ui/lab';
-import { CenterFocusStrong, FilterNone, NoEncryption } from '@material-ui/icons';
 
 //^ =============================================================
 import AgoraRTC from "agora-rtc-sdk-ng";
@@ -230,7 +216,7 @@ const LiveSession = (props) => {
               channel_num : props.channelNum,
               host_uid : hostUid,
           };
-          console.log("LiveSession Host Post :", data);
+        //   console.log("LiveSession Host Post :", data);
           const res = await axios.post(
             "https://www.ask2live.me/api/hole/"+props.holeId+"/live/create",
             data,
@@ -246,7 +232,7 @@ const LiveSession = (props) => {
           const data = {
               uid : audienceUid,
           };
-          console.log("LiveSession Audience Post :", data);
+        //   console.log("LiveSession Audience Post :", data);
           const res = await axios.put(
             "https://www.ask2live.me/api/hole/"+props.holeId+"/live/join/"+props.channelNum,
             data,
@@ -265,7 +251,9 @@ const LiveSession = (props) => {
             data,
             {headers:headers}
           );
-        //   console.log(res.data);
+        //   console.log("--------leavePatch-----",res.data);
+        //   if (res.data.response === "SUCCESS"){
+        //   }
     }
 
 
@@ -281,7 +269,11 @@ const LiveSession = (props) => {
     const [copiedAlert, setCopiedAlert] = useState(false);
     // const [refreshAlert, setRefreshAlert] = useState(false)
 
-    const [hostExit, setHostExit] = useState(false);
+    const [liveVoice,setLiveVoice] = useState(false);
+
+    const [roomSocket, setRoomSocket] = useState(null);
+
+
 
     const openQuestionAlert = () => {
         setOuestionAlert(true);
@@ -306,14 +298,14 @@ const LiveSession = (props) => {
     };
     // const history = useHistory()
     
-    let partiNum = "로딩중";
-    const holeInfo = useSelector(state => state.enteredSession, [partiNum])
+    const holeInfo = useSelector(state => state.enteredSession)
     const hostImage = holeInfo.arrived ? 
             holeInfo.data.detail.livehole.host_profile_image_url
             : "/static/live_png";
-    partiNum = holeInfo.arrived ? 
-         holeInfo.data.detail.participant.length + "명"
-        : "로딩중"
+
+    // partiNum = holeInfo.arrived ? 
+    //      holeInfo.data.detail.participant.length + "명"
+    //     : "로딩중"
 
     // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
     const handleClick = () => {
@@ -323,14 +315,13 @@ const LiveSession = (props) => {
     
     // 닫는 함수. 이미 아래에 자동적으로 사용되고 있음.
     const handleClose = (event, reason) => { 
-        setHostExit(true);
-
+        // console.log("host out")
         // history.replace('/main')
         if (reason === 'clickaway') {
             return;
         }
         setOpen(false);
-        setTimeout(window.location.replace('/main'), 300);
+        setTimeout(()=>window.location.replace('/main'), 300);
     };
     
     //^ =============================================================
@@ -344,57 +335,57 @@ const LiveSession = (props) => {
         remoteUsers,
         authority,
     } = useAgora(client);
-
+    
     
     
     useEffect(() => {
-        // const unblock = history.block('정말 떠나시겠습니까?');
-        history.listen((location, action) => {
-            if(window.confirm('정말 떠나시겠습니까?')){
-                if(action === "POP") return false;
-            }
-        })
-        // const unblock = history.block((location, action) => {
-        //     console.log("location: ", location)
-        //     console.log("action: ", action)
-        //     if (action === "POP") return false;
-        // })
+        
+        const unblock = history.block('정말 떠나시겠습니까?');
+        // 소켓 관련 -------
         
         const refreshOut = () => {
-            // unblock();
+            // console.log("refresh out")
+            // history.replace('/main')
             rtmClient.logout();
             leave();
             leavePatchApi();
-            // clearInterval(liveInter);
-            // setTimeout(()=>window.location.replace('/main'), 300)
-            // history.push('/main')
+            // roomSocket && roomSocket.close();
+            setTimeout(()=>window.location.replace('/main'), 300)
         };
-
-        dispatch({type: QUESTIONLIST_DELETE})
-        dispatch({type: ENTEREDSESSION_DELETE})
-        
-        const liveInter = setInterval(()=>{
-            dispatch(getEnteredSession(props.channelNum))
-            dispatch(getQuestionList(props.holeId))
-        }, 5000);
-        
-        // window.addEventListener("beforeunload", refreshOut);
-
+        window.addEventListener("beforeunload", refreshOut);
         window.onpageshow =  function(event) { // BFCahe
-            if (event.persisted) {
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                // console.log("onpageshow out ")
                 refreshOut();
             }
         }
-
+        
+        roomSocket && roomSocket.close();
+        setRoomSocket(dispatch(onRoomMessagesRead(props.holeId, props.channelNum)));
+    
+        // 소켓 관련 끝 ------
+        
+        dispatch({type: QUESTIONLIST_DELETE})
+        dispatch({type: ENTEREDSESSION_DELETE})
+        dispatch({type: CLEAR_VOLUME});
+        setLiveVoice(false)
+        
+        dispatch(getQuestionList(props.holeId))
+        setTimeout(()=>dispatch(getEnteredSession(props.channelNum)),4500);
+        
+        //! 소켓으로 바꾸는중
+        
+        
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
         rtmChannel.on('ChannelMessage', (message, memberId) => {
-            console.log(`Message ${message}, from ${memberId}`);
+            // console.log(`Message ${message}, from ${memberId}`);
             
             rtmClient.logout();
             leave();
             leavePatchApi();
-            clearInterval(liveInter);
+            // roomSocket && roomSocket.close();
+            //! 소켓으로 바꾸는중
             handleClick();
         });
 
@@ -405,39 +396,39 @@ const LiveSession = (props) => {
             setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
         }
              
-
         return () => {
+            // console.log("normal out")
+            unblock();
 
-            // unblock();
-
-            console.log("호스트!!!: ", props.isHost)
-            // window.removeEventListener("beforeunload", refreshOut);
-            if(props.isHost){
-
+            window.removeEventListener("beforeunload", refreshOut);
+            if (props.isHost)
+            {
                 rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
                     // Your code for handling the event when the channel message is successfully sent.
-                        console.log('host is leaving')
+                    // console.log('host is leaving')
                     }).catch(error => {
                     // Your code for handling the event when the channel message fails to be sent.
-                        console.log('host leaving error')
-                    });
-            }
+                    // console.log('host leaving error')
+                });
 
+            }
+            
             rtmClient.logout();
             leave();
             leavePatchApi();
-            clearInterval(liveInter)
+            // roomSocket && roomSocket.close();
             
             // history.replace('/main');
-            setTimeout(window.location.replace('/main'), 300);
-                
-            }
+            setTimeout(()=>window.location.replace('/main'), 300);
+            
+        }
+        
 
     }, [history])
 
     // ^ =============================================================
     
-    const [liveVoice,setLiveVoice] = useState(false);
+    
 
     return (
         <>
@@ -451,7 +442,7 @@ const LiveSession = (props) => {
                                 <div style={style.follow}>
                                 <div
                                     style={style.closeBtn}
-                                    onClick={()=>{history.push('/main')}}
+                                    onClick={()=>history.push('/main')}
                                     >
                                         <span 
                                         className="NanumGothic2"
@@ -475,7 +466,7 @@ const LiveSession = (props) => {
                         <tr>
                             <td style={style.td2}>
                                 <img className="live_img" src="/static/live.png"/>
-                                <span style={{marginLeft:"9px", color:"rgba(255, 255, 255, 0.6)"}} className="NotoSans3">{partiNum}</span>
+                                <span style={{marginLeft:"9px", color:"rgba(255, 255, 255, 0.6)"}} className="NotoSans3">{remoteUsers.length + 1}명</span>
                             </td>
                             <td></td>
                         </tr>
@@ -493,14 +484,13 @@ const LiveSession = (props) => {
                                 <div className="forLiveVoice">
                                     <tr>
                                     <StyledBadge badgeContent={<MicIcon/>} color="error">
-                                        <Avatar hostName={props.hostName} imageLink={props.imageLink}/>
+                                        <Avatar isHostAvatar={true} hostName={props.hostName} imageLink={props.imageLink}/>
                                     </StyledBadge>
                                     </tr>
                                     <tr className="centered">
                                         <span style={{color: "rgba(255,255,255,0.8)"}}className="BMDOHYEON">{props.hostName}</span>
                                     </tr>
                                 </div>
-
                         </div>
         
                      
@@ -509,6 +499,7 @@ const LiveSession = (props) => {
                         {/* <Grid container justify="center"> */}
                             <div>
                                  <CurrentQuestion 
+                                 roomSocket={roomSocket}
                                  setLiveVoice={setLiveVoice}
                                  liveVoice={liveVoice}
                                  holeId={props.holeId} 
@@ -527,7 +518,18 @@ const LiveSession = (props) => {
                 </div>
                 <div style={style.session_bottom}>
                     <div className="chattingWrapper"/>
-                    <Chat holeId={props.holeId} isHost={props.isHost} channelNum={props.channelNum} goQueUp={setQueUp} goListUp = {setListUp} goUserUp = {setUserUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>                   
+                    <Chat 
+                    roomSocket={roomSocket}
+                    holeId={props.holeId} 
+                    isHost={props.isHost} 
+                    channelNum={props.channelNum} 
+                    goQueUp={setQueUp} 
+                    goListUp = {setListUp} 
+                    goUserUp = {setUserUp} 
+                    goDark={setDark} 
+                    room={room} 
+                    windowHeight="1000px" 
+                    onBack={()=>setRoom(null)}/>                   
                 </div>
             
            
@@ -541,7 +543,7 @@ const LiveSession = (props) => {
         </div>
         :   
         <div style={queUp} className="hiddenQue">
-            <Questioning openQuestionAlert={openQuestionAlert} holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
+            <Questioning roomSocket={roomSocket} openQuestionAlert={openQuestionAlert} holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         }
         <div style={listup} className="hiddenlist">

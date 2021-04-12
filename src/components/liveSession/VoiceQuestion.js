@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   }));   
 
 const VoiceQuestion = (props) => {
-    console.log("무야호", props)
+    // console.log("무야호", props)
     const classes = useStyles();
     const [click, setClick] = useState(false)
     const [clickStyle, setClickStyle] = useState({color: "#EF5941"})
@@ -40,29 +40,29 @@ const VoiceQuestion = (props) => {
     })
 
     const sendP2PMessage = useCallback((recipientUID, peerMsg) => {
-        console.log("sendP2PMessage");
+        // console.log("sendP2PMessage");
     
         // An RtmMessage object.
         const remoteUID = String(recipientUID);
     
 
         // p2p message
-        console.log("리모트 UID: ", remoteUID);
-        console.log("리모트 msg: ", peerMsg);
+        // console.log("리모트 UID: ", remoteUID);
+        // console.log("리모트 msg: ", peerMsg);
     
         if (peerMsg) {
           (props.rtmClient)
             .sendMessageToPeer({ text: peerMsg }, remoteUID)
             .then((sendResult) => {
               if (sendResult.hasPeerReceived) {
-                console.log("peer recieved " + peerMsg + " successfully");
+                // console.log("peer recieved " + peerMsg + " successfully");
 
               } else {
-                console.log("peer did not recieved " + peerMsg + " unlog");
+                // console.log("peer did not recieved " + peerMsg + " unlog");
               }
             })
             .catch((error) => {
-              console.log("RTM message recieved err");
+            //   console.log("RTM message recieved err");
             });
         }
       }, []);
@@ -88,7 +88,13 @@ const VoiceQuestion = (props) => {
                 marginTop:"13px",
                 width:"6em"}}>
                 <div style={{zIndex: "1",width:"5.6em"}}>
-                <Avatar style={{zIndex: "1"}} alt={props.userNickName} imageLink={props.imageLink} className={classes.large}/>
+                    <Avatar 
+                    userUid={props.userUid}
+                    isHostAvatar={false}
+                    style={{zIndex: "1"}} 
+                    alt={props.userNickName} 
+                    imageLink={props.imageLink} 
+                    className={classes.large}/>
                 </div>
                 <div style={{display:"flex", justifyContent:"center"}}>
                     <p className="BMDOHYEON" style={{marginTop:"5px", marginLeft:"-8px", color:"rgba(255,255,255,0.8)"}}>{props.userNickName}</p>

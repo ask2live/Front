@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
       width: "5em",
       height: "5em",
       backgroundPosition: "center center",
-      backgroundSize: "100%",
+      backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       overflow: "hidden",
     },

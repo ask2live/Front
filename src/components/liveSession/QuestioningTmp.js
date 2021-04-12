@@ -129,7 +129,7 @@ const Questioning = (props) => {
               is_voice: isVoice,
               question: askValue,
           };
-          console.log(data);
+        //   console.log(data);
           const res = await axios.post(
             "https://www.ask2live.me/api/hole/"+props.holeId + "/question/create",
             data,

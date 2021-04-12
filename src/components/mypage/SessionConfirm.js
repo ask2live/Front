@@ -51,7 +51,7 @@ const style = {
 };
 
 const SessionConfirm = (props) => {
-  console.log("SessionConfirm");
+  // console.log("SessionConfirm");
   const { session, goListUp, goDark, handleClick } = props;
   const classes = useStyles();
   const history = useHistory();
