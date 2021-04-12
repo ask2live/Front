@@ -217,7 +217,7 @@ const rtmClient = AgoraRTM.createInstance(appid);
 
 const LiveSession = (props) => {
     const history = useHistory();
-    console.log("!!!!!!!!!!!!!!!!!", props);
+    // console.log("!!!!!!!!!!!!!!!!!", props);
     // console.log("history state: ", history.state)
     // history.pushState(null, null, '');
     // console.log("history state: ", history.state)
@@ -232,13 +232,13 @@ const LiveSession = (props) => {
               channel_num : props.channelNum,
               host_uid : hostUid,
           };
-          console.log("LiveSession Host Post :", data);
+        //   console.log("LiveSession Host Post :", data);
           const res = await axios.post(
             "https://143.248.226.7:8000/api/hole/"+props.holeId+"/live/create",
             data,
             {headers:headers}
           );
-          console.log(res.data);
+        //   console.log(res.data);
     }
     
     const audiencePutApi = async(audienceUid) =>  {
@@ -248,13 +248,13 @@ const LiveSession = (props) => {
           const data = {
               uid : audienceUid,
           };
-          console.log("LiveSession Audience Post :", data);
+        //   console.log("LiveSession Audience Post :", data);
           const res = await axios.put(
             "https://143.248.226.7:8000/api/hole/"+props.holeId+"/live/join/"+props.channelNum,
             data,
             {headers:headers}
           );
-          console.log(res.data);
+        //   console.log(res.data);
     }
 
     const leavePatchApi = async() =>  {
@@ -326,7 +326,7 @@ const LiveSession = (props) => {
 
     // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
     const handleClick = () => {
-        console.log("호스트 나감2", hostExit)
+        // console.log("호스트 나감2", hostExit)
         setOpen(true);
     };
     
@@ -399,7 +399,7 @@ const LiveSession = (props) => {
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
         rtmChannel.on('ChannelMessage', (message, memberId) => {
-            console.log(`Message ${message}, from ${memberId}`);
+            // console.log(`Message ${message}, from ${memberId}`);
             
             rtmClient.logout();
             leave();
@@ -420,7 +420,7 @@ const LiveSession = (props) => {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
 
-                console.log("호스트!!!: ", props.isHost)
+                // console.log("호스트!!!: ", props.isHost)
                 window.removeEventListener("beforeunload", refreshOut);
                 if (props.isHost)
                 {
@@ -514,7 +514,6 @@ const LiveSession = (props) => {
                                         <span style={{color: "rgba(255,255,255,0.8)"}}className="BMDOHYEON">{props.hostName}</span>
                                     </tr>
                                 </div>
-
                         </div>
         
                      

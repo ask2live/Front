@@ -13,18 +13,18 @@ const initialState = {
     data: {}
 };
 
-//¸®µà¼­
+//ï¿½ï¿½ï¿½à¼­
 const questionlist = (state = initialState, action) => {
     switch (action.type) {
         case QUESTIONLIST_GET_PENDING:
-            console.log("PENDING");
+            // console.log("PENDING");
             return {
                 ...state,
                 pending: true,
                 error: false
             };
         case QUESTIONLIST_GET_SUCCESS:
-            console.log("SUCCESS :", action.payload.data);
+            // console.log("SUCCESS :", action.payload.data);
             return {
                 ...state,
                 arrived: true,

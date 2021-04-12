@@ -38,7 +38,7 @@ const App = () => {
                 document.body.appendChild(script);
                 
             } else {
-                script.text = "location.href='intent://www.ask2live.me#Intent;scheme=https;package=com.android.chrome;end'";
+                script.text = "location.href='intent://143.248.226.7:8000#Intent;scheme=https;package=com.android.chrome;end'";
                 document.body.appendChild(script);
             }
     

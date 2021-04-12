@@ -112,7 +112,7 @@ const JoinCard = (props) => {
   const getMike = () => {
       navigator.mediaDevices.getUserMedia({ audio: true })
       .then(function(stream) {
-        console.log('You let me use your mic!')
+        // console.log('You let me use your mic!')
         setMike(1);
       })
       .catch(function(err) {
@@ -155,7 +155,7 @@ const JoinCard = (props) => {
           </p>
             }
         <div>
-          {console.log(props.isHost)}
+          {/* {console.log(props.isHost)} */}
             {props.isHost ?
                 mike?
                     <button 

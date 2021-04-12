@@ -187,7 +187,7 @@ const onClickWishCancel = (sessionId) => {
 }
 
 const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
-  console.log("컴포넌트 시작 Enter : CurrentReserveSessionsCards")
+  // console.log("컴포넌트 시작 Enter : CurrentReserveSessionsCards")
 
 
     const [open, setOpen] = useState(false);

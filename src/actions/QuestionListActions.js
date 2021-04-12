@@ -11,13 +11,13 @@ function getApi(holeId){
 }
 
 const getQuestionlist = holeId => dispatch => {
-    console.log('-----getQuestionlist-----')
+    // console.log('-----getQuestionlist-----')
     dispatch({type: QUESTIONLIST_GET_PENDING}); // ��û�� ���۵Ǿ��ٴ� ���� �˸�
 
     // ��û ����
     return getApi(holeId).then(
         (response) => {
-            console.log(response);
+            // console.log(response);
             dispatch({ type: QUESTIONLIST_GET_SUCCESS, payload: response });
         }
     ).catch(error => {

@@ -129,7 +129,7 @@ const MypageEdit = (props) => {
   
   let usernameValue;
   const [username, setUsername] = useState(user.username);
-  const [profileImage, setProfileImage] = useState("https://www.ask2live.me" + user.profile_image)
+  const [profileImage, setProfileImage] = useState("https://143.248.226.7:8000" + user.profile_image)
   const [workField, setWorkField] = useState(user.work_field);
   const [workCompany, setWorkCompany] = useState(user.work_company);
   const [bio, setBio] = useState(user.bio);
@@ -183,14 +183,14 @@ const MypageEdit = (props) => {
 
     try {
       await axios.patch(
-        "https://www.ask2live.me/api/user/update",
+        "https://143.248.226.7:8000/api/user/update",
         formData,
         config
       )
 
         dispatch(getUserInfo(localStorage.token));
         const resGet = await axios.get(
-          "https://www.ask2live.me/api/user/read",
+          "https://143.248.226.7:8000/api/user/read",
           config
         );
         

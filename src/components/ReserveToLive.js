@@ -4,7 +4,7 @@ import JoinCard from "./JoinCard"
 import LiveSessionContainer from "../containers/LiveSessionContainer"
 
 const ReserveToLive = (props) => {
-    console.log("Enter : ReserveToLive")
+    // console.log("Enter : ReserveToLive")
 
     const holeId = props.holeId
     const sessions = useSelector(state => state.session.data)
@@ -23,8 +23,8 @@ const ReserveToLive = (props) => {
             break
     }
 
-    console.log("MakeChannelNum", channelNum);
-    console.log("ReserveToLive Props", props);
+    // console.log("MakeChannelNum", channelNum);
+    // console.log("ReserveToLive Props", props);
 
     return <LiveSessionContainer hostName={props.hostName} hostImage={props.hostImage} holeId={holeId} channelNum={channelNum} isHost={true}/>
 }

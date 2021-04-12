@@ -138,7 +138,7 @@ const MypageConfirmedSession = ({ session }) => {
       
   //   }
   //   const res = await axios.post(
-  //     "https://www.ask2live.me/api/hole/" + session.id + "/live/create",
+  //     "https://143.248.226.7:8000/api/hole/" + session.id + "/live/create",
   //     data,
   //     config,
   //   );
@@ -153,7 +153,7 @@ const MypageConfirmedSession = ({ session }) => {
     };
 
     await axios.delete(
-      "https://www.ask2live.me/api/hole/delete/" + session.id,
+      "https://143.248.226.7:8000/api/hole/delete/" + session.id,
       config
     );
 

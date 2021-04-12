@@ -82,7 +82,7 @@ const SessionCreateContainer = (props) => {
   let afterOneMinutes = new Date(nowDate.setDate(nowDate.getMinutes() + 1))
 
   let defaultDate = afterOneMinutes.toISOString()
-  console.log("defaultDate", defaultDate)
+  // console.log("defaultDate", defaultDate)
 
   const holeId = urlSearchParams.get("holeId");
 
@@ -109,7 +109,7 @@ const SessionCreateContainer = (props) => {
         .get("https://143.248.226.7:8000/api/hole/read/" + holeId)
         .then((res) => {
           const session = res.data.detail;
-          console.log(session)
+          // console.log(session)
           setTitle(session.title);
           setDescription(session.description);
           let date = session.reserve_date.split(":");
@@ -162,7 +162,7 @@ const SessionCreateContainer = (props) => {
     const config = {
       headers: { Authorization: "Token " + localStorage.token },
     };
-    console.log(localStorage.token);
+    // console.log(localStorage.token);
     
     let session = {}
     

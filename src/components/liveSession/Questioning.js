@@ -144,7 +144,7 @@ const Questioning = (props) => {
               is_voice: isVoice,
               question: askValue,
           };
-          console.log(data);
+        //   console.log(data);
           const res = await axios.post(
             "https://143.248.226.7:8000/api/hole/"+props.holeId + "/question/create",
             data,

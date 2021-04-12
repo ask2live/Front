@@ -10,7 +10,6 @@ export const onRoomMessagesRead = (realHoleId, holeId) => dispatch => {
   dispatch({ type: ON_MESSAGES_READING });
 
   const socket = new ReconnectingWebSocket(`${WS_ENDPOINT()}/hole/${holeId}/`);
-
   socket.debug = true;
 
   console.log("-----------socket--------------",socket);
