@@ -6,14 +6,12 @@ import mySession from './mySession';
 import messages from './messages';
 import authorize from './authorize';
 import questionlist from './questionlist';
-import enteredSession from './enteredSession'
-import allUsers from './allUsers';
+import enteredSession from './enteredSession';
 import volume from './volume';
 
 const rootReducer = combineReducers({
     counter,
     user,
-    allUsers,
     session,
     mySession,
     messages,

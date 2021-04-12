@@ -37,24 +37,24 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(2),
     },
     avatar : {
-      width: theme.spacing(7),
-      height: theme.spacing(7),
-      transform: "translate(0.35em,-3.35em)"
+      width: theme.spacing(10.5),
+      height: theme.spacing(10.5),
+      transform: "translate(0.4em,-4.85em)"
       // opacity: 0.7,
     },
     title : {
       paddingLeft: "1em",
-      fontFamily: "NanumGothic",
+      fontFamily: "BMJUA",
       fontStyle: "normal",
       fontWeight: "500",
-      fontSize: "1.1em",
+      fontSize: "1.8em",
       paddingTop: "0.8em",
       paddingBottom: "1em",
     },
     time : {
       paddingLeft: "1em",
       paddingBottom: "1em",
-      fontFamily: "NanumGothic",
+      fontFamily: "BMJUA",
       fontStyle: "normal",
       fontWeight: "500",
       fontSize: "1em",
@@ -64,10 +64,13 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
       paddingLeft: "1em",
       paddingBottom: "1em",
-      fontFamily: "NanumGothic",
+      fontFamily: "BMJUA",
       fontStyle: "normal",
       fontWeight: "500",
       fontSize: "1em",
+    },
+    progress : {
+      transform: "translate(-1em,1em)"
     }
 
   }));
@@ -98,7 +101,7 @@ const SessionDetail = ({session}) => {
           type="dashboard"
           strokeColor="#F24822"
           gapDegree = "85"
-          width={70}
+          width={100}
           format={percent => {
             // 여기 수정 필요
             if(percent == 100){
@@ -131,7 +134,7 @@ const SessionDetail = ({session}) => {
         </Grid>
         <Grid container direction="column" justify="flex-start" alignItems="flex-start">
           <div className={classes.time}>라이브 예정 일자 : {``}
-            <Moment format="MM.DD hh시 mm분">
+            <Moment format="MM월 DD일 A h:mm">
                   {session.reserve_date}
             </Moment></div>
 
@@ -179,7 +182,7 @@ const PreQuestions = () => {
     
     return (
             <>
-        <MypageNav text={'Live Q&A 상세'} />
+        <MypageNav text={'Live Q&A 질문방'} />
         {/* <div style={{position : "absolute", height:"12em", width: "100%", backgroundColor:"skyblue"}}>{""}</div> */}
         <div style={{display:"flex", justifyContent:"center", position:"absolute", top:"9%" , width:"100%"}}>
           <div style={{width:"100%", maxWidth:"50em"}}>

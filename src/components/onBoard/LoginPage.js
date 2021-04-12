@@ -138,19 +138,7 @@ const LoginPage = (props) => {
     const dispatch = useDispatch();
 
 
-    /*
-    axios.patch(
-    "https://143.248.226.7:8000/api/reservation/hole/" + sessionId + "/wish",
-    data,
-    config,
-  ).then((response) => {
-    console.log("onClickWish 응답 받음", response)
-  }).catch((e) => {
-    console.log('error',e.response)
-    alert(e.response.data.detail)
-  })
-    */
-
+    // const [id, setId] = useState("") 
 
     const Login = async({loginId, loginPassword}) => {
       let dataToSubmit = {

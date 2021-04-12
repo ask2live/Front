@@ -13,11 +13,15 @@ import Icon from '@material-ui/core/Icon';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import { Person } from '@material-ui/icons';
 import {useHistory} from "react-router-dom"
 
 import "../styles/style.css"
 import "../App.css"
 import { Opacity } from '@material-ui/icons';
+
+const [MyPageIcon] = [Person];
 
 let myLiveSessions = []
 let otherLiveSessions = []
@@ -97,7 +101,7 @@ const style = {
     },
     logOut : {
         position :"absolute",
-        transform:"translate(-2em, -3em)",
+        transform:"translate(-0.5em, -3em)",
         right: "0%",
         color: "white",
         cursor:"pointer",
@@ -111,9 +115,7 @@ const SessionCardContainer = (props) => {
     const user = useSelector(state => state.user);
     const sessions = useSelector(state => state.session.data);
     const history = useHistory();
-    const allUsersData = useSelector(state => state.allUsers);
     const mySession = useSelector(state => state.mySession.data);
-    // console.log('allUsers.data.data.detail', allUsersData.data.data.detail);
 
     const wrapperCnt = (cnt) => {
         let defaultSize = 270;
@@ -159,14 +161,6 @@ const SessionCardContainer = (props) => {
         })
     }
 
-    if(Object.keys(allUsersData.data).length != 0){
-        const allUsers = allUsersData.data.data.detail;
-        allUsers.map((candidate) => {
-            if(candidate.hole_open_auth === true){
-                hosts = [...hosts, candidate]
-            }
-        })
-    }
 
     const [swiperCnt, setSwiperCnt] = useState(1);
 
@@ -206,9 +200,21 @@ const SessionCardContainer = (props) => {
         <div style={style.mainOragne}>
             <div style={style.cookie1} className="helloCookie"/>
         </div>
+        <div style={{float: "right", transform: "translate(-1em, 0.6em)", textAlign: "center", color: "white"}}>
+
+
+                <IconButton color="inherit" aria-label="mypage" style={{}}>
+                    <MyPageIcon style={{border: "2px solid", borderColor: "white", borderRadius: "100%"}} onClick={ () => {
+                    history.push("/mypage");
+                    } }/>
+                </IconButton>
+
+
+        </div>
         <br></br>
+        
         <div style={style.mainLogo}/>
-        <span 
+        {/* <span 
         className="BMJUA" 
         style={style.logOut}
         onClick={()=> {
@@ -216,7 +222,8 @@ const SessionCardContainer = (props) => {
             localStorage.clear()
             window.location.replace('/')
             }}
-        >로그아웃</span>
+        >로그아웃</span> */}
+
             {
                 myLiveSessions.length == 0 ?
                 <>

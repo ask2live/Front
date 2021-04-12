@@ -1,6 +1,6 @@
 import React, { Component, useCallback } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { combineReducers } from 'redux';
 import { NavOfGuest, NavOfUser } from '../components/Nav';

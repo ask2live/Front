@@ -166,8 +166,8 @@ const style = {
 
     alert : {
         boxShadow: "2px 2px 2px 2px #D95032",    // 섀도우 색
-        border: "solid 1px white",    // 테두리 색
-        backgroundColor:"black"      // 배경색
+        border:"2px solid #4CC0D0",    // 테두리 색
+        backgroundColor:"white"      // 배경색
     },
 
     closeBtn : {
@@ -344,7 +344,6 @@ const LiveSession = (props) => {
     
     //^ =============================================================
     let rtmChannel;
-    const [channel, setChannel] = useState();
 
     const {
         localAudioTrack,
@@ -372,7 +371,7 @@ const LiveSession = (props) => {
         setLiveVoice(false)
 
         dispatch(getQuestionList(props.holeId))
-        dispatch(getEnteredSession(props.channelNum))
+        setTimeout(()=>dispatch(getEnteredSession(props.channelNum)),4500);
         
         
         // const liveInter = setInterval(()=>{
@@ -386,8 +385,8 @@ const LiveSession = (props) => {
             rtmClient.logout();
             leave();
             leavePatchApi();
-            // clearInterval(liveInter);
-            // clearInterval(volumeInter);
+            window.location.replace('/main')
+
         };
         window.addEventListener("beforeunload", refreshOut);
         window.onpageshow =  function(event) { // BFCahe
@@ -418,7 +417,6 @@ const LiveSession = (props) => {
         else
             setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
              
-
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
 
@@ -584,7 +582,7 @@ const LiveSession = (props) => {
         </div>
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} style={style.alert} severity="success">
-            <span style={{color:"white"}}>호스트 {props.hostName}가<br/>세션을 종료하였습니다</span>
+            <span className="BMJUA">호스트 [{props.hostName}]가<br/>세션을 종료하였습니다</span>
         </Alert>
         </Snackbar>
 
@@ -599,14 +597,14 @@ const LiveSession = (props) => {
             />
         </div>
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={1500} onClose={closeQuestionAlert}>
-            <Alert onClose={closeQuestionAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
-                <span style={{ color:"white"}}>질문 등록 성공!</span>
+            <Alert onClose={closeQuestionAlert} style={{ backgroundColor:"white", boxShadow: "2px 2px 2px 2px #D95032", border:"2px solid #4CC0D0"}} severity="success">
+                <span className="BMJUA">질문 등록 성공!</span>
             </Alert>
         </Snackbar>
 
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={copiedAlert} autoHideDuration={1500} onClose={closeCopiedAlert}>
-            <Alert onClose={closeCopiedAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
-                <span style={{ color:"white"}}>링크 복사 완료</span>
+            <Alert onClose={closeCopiedAlert} style={{ backgroundColor:"white", boxShadow: "2px 2px 2px 2px #D95032", border:"2px solid #4CC0D0"}} severity="success">
+                <span className="BMJUA">링크 복사 완료</span>
             </Alert>
         </Snackbar>
         </>

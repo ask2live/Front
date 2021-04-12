@@ -10,11 +10,9 @@ export const onRoomMessagesRead = (realHoleId, holeId) => dispatch => {
   dispatch({ type: ON_MESSAGES_READING });
 
   const socket = new ReconnectingWebSocket(`${WS_ENDPOINT()}/hole/${holeId}/`);
-  // const socket = new WebSocket(`${WS_ENDPOINT()}/hole/${holeId}/`);
-  socket.debug = true;
-  // socket.timeoutInterval = 4400;
 
-  // const socket = new WebSocket(`${WS_ENDPOINT()}/hole/${holeId}`);
+  socket.debug = true;
+
   console.log("-----------socket--------------",socket);
 
   socket.onopen = event => console.log('WebSocket Connected'); 

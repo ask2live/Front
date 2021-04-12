@@ -2,8 +2,6 @@ import { useLocation, withRouter } from "react-router-dom";
 import React, { useCallback } from "react";
 import MediaPlayer from "./MediaPlayer";
 
-// import "../../Call.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
 
 const PlayerWrapper = ({
   client,

@@ -1,6 +1,5 @@
 import { postSessionToReserve } from '../../actions/SessionToReserveActions';
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useDispatch } from 'react-redux'
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
@@ -56,7 +55,6 @@ const SessionConfirm = (props) => {
   const { session, goListUp, goDark, handleClick } = props;
   const classes = useStyles();
   const history = useHistory();
-  const dispatch = useDispatch();
   
   return (
     <>

@@ -1,5 +1,4 @@
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import React from 'react';
 import axios from 'axios';
 
@@ -106,7 +105,6 @@ const NavOfUser = (props) => {
     const user = props.user.data.detail;
     
     const classes = useStyles();
-    const dispatch = useDispatch();
 
     const history = useHistory();
 

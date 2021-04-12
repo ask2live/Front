@@ -21,6 +21,7 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper';
 import SendIcon from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
+import Avatar from '@material-ui/core/Avatar';
 import getQuestionlist from '../../actions/QuestionListActions';
 import TextField from '@material-ui/core/TextField';
 import { red } from '@material-ui/core/colors';
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     maxWidth: "1000",
-    backgroundColor: "#E2D8CF",
+    backgroundColor: "#FFEBE8",
     paddingBottom: "3em",
     fontFamily: "NanumGothic",
   },
@@ -49,6 +50,15 @@ const useStyles = makeStyles((theme) => ({
   fontStyle: "normal",
   fontWeight: "normal",
   fontSize: "1.3em"
+  },
+  avatar : {
+    position : "absolute"
+  },
+  questionText : {
+    marginLeft : "3em",
+    fontFamily: "NanumGothic",
+    fontStyle: "normal",
+    fontWeight: "500",
   }
 }));
 
@@ -78,9 +88,6 @@ const style = {
     }
   },
   
-
-
-
 }
 
 
@@ -180,9 +187,18 @@ const QuestionCard = ({question}) => {
         <>
         <Card key={question.id} className={classes.card}>
           <CardContent>
+          <Grid container>
         <div className="NanumGothic3">
-          <span className={classes.cardText}>{question.user_username} : {question.question}</span>
+          {question.user_profile_image_url?
+                <Avatar className={classes.avatar} src={`https://www.ask2live.me${question.user_profile_image_url}`} />
+              :
+                <Avatar className={classes.avatar} src="static/reigns/1.jpg" />
+          }
         </div>
+        <div className={classes.questionText}>
+        <span className={classes.cardText}>{question.user_username} : {question.question}</span>
+        </div>
+        </Grid>
         </CardContent>
         </Card>
         </>
@@ -247,7 +263,7 @@ const PreQuestionNav = ({session}) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{backgroundColor:"gray"}}>
+      <AppBar position="static" style={{backgroundColor:"#35528C"}}>
         <Tabs
           variant="fullWidth"
           value={value}

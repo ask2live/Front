@@ -58,6 +58,7 @@ const UserAvatar = memo((props) => {
 
     if (liveInfo.arrived)
     {
+        console.log("liveInfo ----------",liveInfo);
         if (props.isHostAvatar)
         {
             const hostUid = liveInfo.data.detail.livehole.host_uid;
