@@ -4,13 +4,11 @@ import {
     ON_MESSAGES_INIT,
     ON_MESSAGES_READ
   } from '../actions/types';
-  
   const INITIAL_STATE = {
     messages: [],
     loading: false,
     error: '',
   };
-  
   export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
       case ON_MESSAGES_VALUE_CHANGE:

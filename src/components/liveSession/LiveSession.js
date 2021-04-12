@@ -7,7 +7,8 @@ import getEnteredSession from "../../actions/EnteredSessionActions"
 import getQuestionList from "../../actions/QuestionListActions";
 import {
     QUESTIONLIST_DELETE,
-    ENTEREDSESSION_DELETE
+    ENTEREDSESSION_DELETE,
+    CLEAR_VOLUME,
 } from "../../actions/types.js";
 
 
@@ -25,6 +26,7 @@ import Question from "./Question";
 import Avatar from "../Avatar";
 import "../../index.css"
 import PlayerWrapper from "./agora/PlayerWrapper";
+import { onRoomMessagesRead } from '../../actions/MessagesActions';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
@@ -164,8 +166,8 @@ const style = {
 
     alert : {
         boxShadow: "2px 2px 2px 2px #D95032",    // 섀도우 색
-        border: "solid 1px white",    // 테두리 색
-        backgroundColor:"black"      // 배경색
+        border:"2px solid #4CC0D0",    // 테두리 색
+        backgroundColor:"white"      // 배경색
     },
 
     closeBtn : {
@@ -265,7 +267,9 @@ const LiveSession = (props) => {
             data,
             {headers:headers}
           );
-        //   console.log(res.data);
+          console.log("--------leavePatch-----",res.data);
+        //   if (res.data.response === "SUCCESS"){
+        //   }
     }
 
 
@@ -282,6 +286,11 @@ const LiveSession = (props) => {
     const [refreshAlert, setRefreshAlert] = useState(false)
 
     const [hostExit, setHostExit] = useState(false);
+    const [liveVoice,setLiveVoice] = useState(false);
+
+    const [roomSocket, setRoomSocket] = useState(null);
+
+
 
     const openQuestionAlert = () => {
         setOuestionAlert(true);
@@ -306,14 +315,14 @@ const LiveSession = (props) => {
     };
     // const history = useHistory()
     
-    let partiNum = "로딩중";
-    const holeInfo = useSelector(state => state.enteredSession, [partiNum])
+    const holeInfo = useSelector(state => state.enteredSession)
     const hostImage = holeInfo.arrived ? 
             holeInfo.data.detail.livehole.host_profile_image_url
             : "/static/live_png";
-    partiNum = holeInfo.arrived ? 
-         holeInfo.data.detail.participant.length + "명"
-        : "로딩중"
+
+    // partiNum = holeInfo.arrived ? 
+    //      holeInfo.data.detail.participant.length + "명"
+    //     : "로딩중"
 
     // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
     const handleClick = () => {
@@ -335,7 +344,6 @@ const LiveSession = (props) => {
     
     //^ =============================================================
     let rtmChannel;
-    const [channel, setChannel] = useState();
 
     const {
         localAudioTrack,
@@ -349,23 +357,36 @@ const LiveSession = (props) => {
     
     
     useEffect(() => {
+        
+        // 소켓 관련 -------
+    
+        // roomSocket && roomSocket.close();
+        setRoomSocket(dispatch(onRoomMessagesRead(props.holeId, props.channelNum)));
+    
+        // 소켓 관련 끝 ------
 
         dispatch({type: QUESTIONLIST_DELETE})
         dispatch({type: ENTEREDSESSION_DELETE})
-        
-        const liveInter = setInterval(()=>{
-            dispatch(getEnteredSession(props.channelNum))
-            dispatch(getQuestionList(props.holeId))
-        }, 5000);
+        dispatch({type: CLEAR_VOLUME});
+        setLiveVoice(false)
 
+        dispatch(getQuestionList(props.holeId))
+        setTimeout(()=>dispatch(getEnteredSession(props.channelNum)),4500);
         
+        
+        // const liveInter = setInterval(()=>{
+        //     dispatch(getEnteredSession(props.channelNum))
+        //     dispatch(getQuestionList(props.holeId))
+        // }, 5000); 
+        //! 소켓으로 바꾸는중
+
         
         const refreshOut = () => {
             rtmClient.logout();
             leave();
             leavePatchApi();
-            clearInterval(liveInter);
-            // clearInterval(volumeInter);
+            window.location.replace('/main')
+
         };
         window.addEventListener("beforeunload", refreshOut);
         window.onpageshow =  function(event) { // BFCahe
@@ -383,7 +404,10 @@ const LiveSession = (props) => {
             rtmClient.logout();
             leave();
             leavePatchApi();
-            clearInterval(liveInter);
+            // clearInterval(liveInter);
+            //! 소켓으로 바꾸는중
+
+
             // clearInterval(volumeInter);
             handleClick();
         });
@@ -393,64 +417,41 @@ const LiveSession = (props) => {
         else
             setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
              
-        if (props.isHost)
-        {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
-                // dispatch({type: QUESTIONLIST_DELETE})
-                // dispatch({type: ENTEREDSESSION_DELETE})
 
                 // console.log("호스트!!!: ", props.isHost)
                 window.removeEventListener("beforeunload", refreshOut);
+                if (props.isHost)
+                {
+                    rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
+                        // Your code for handling the event when the channel message is successfully sent.
+                            console.log('host is leaving')
+                        }).catch(error => {
+                        // Your code for handling the event when the channel message fails to be sent.
+                            console.log('host leaving error')
+                        });
 
-                rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
-                    // Your code for handling the event when the channel message is successfully sent.
-                        // console.log('host is leaving')
-                    }).catch(error => {
-                    // Your code for handling the event when the channel message fails to be sent.
-                        // console.log('host leaving error')
-                    });
-
+                }
+                
                 rtmClient.logout();
                 leave();
                 leavePatchApi();
-                clearInterval(liveInter)
+                // clearInterval(liveInter)
                 // clearInterval(volumeInter);
                 unblock();
                 
                 // history.replace('/main');
-                setTimeout(window.location.replace('/main'), 300);
+                // setTimeout(window.location.replace('/main'), 300);
                 
             }
-
-        }
         
-        else {
-            const unblock = history.block('정말 떠나시겠습니까?');
-            return () => {
-                // dispatch({type: QUESTIONLIST_DELETE})
-                // dispatch({type: ENTEREDSESSION_DELETE})
 
-                // console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
-                window.removeEventListener("beforeunload", refreshOut);
-
-                // rtmChannel.leave();
-                rtmClient.logout();
-                leave();
-                leavePatchApi();
-                clearInterval(liveInter)
-                // clearInterval(volumeInter);
-                unblock();
-                
-                // history.replace('/main');
-                setTimeout(window.location.replace('/main'), 300);
-            }
-        }
     }, [history])
 
     // ^ =============================================================
     
-    const [liveVoice,setLiveVoice] = useState(false);
+    
 
     return (
         <>
@@ -488,7 +489,7 @@ const LiveSession = (props) => {
                         <tr>
                             <td style={style.td2}>
                                 <img className="live_img" src="/static/live.png"/>
-                                <span style={{marginLeft:"9px", color:"rgba(255, 255, 255, 0.6)"}} className="NotoSans3">{partiNum}</span>
+                                <span style={{marginLeft:"9px", color:"rgba(255, 255, 255, 0.6)"}} className="NotoSans3">{remoteUsers.length + 1}명</span>
                             </td>
                             <td></td>
                         </tr>
@@ -506,7 +507,7 @@ const LiveSession = (props) => {
                                 <div className="forLiveVoice">
                                     <tr>
                                     <StyledBadge badgeContent={<MicIcon/>} color="error">
-                                        <Avatar hostName={props.hostName} imageLink={props.imageLink}/>
+                                        <Avatar isHostAvatar={true} hostName={props.hostName} imageLink={props.imageLink}/>
                                     </StyledBadge>
                                     </tr>
                                     <tr className="centered">
@@ -521,6 +522,7 @@ const LiveSession = (props) => {
                         {/* <Grid container justify="center"> */}
                             <div>
                                  <CurrentQuestion 
+                                 roomSocket={roomSocket}
                                  setLiveVoice={setLiveVoice}
                                  liveVoice={liveVoice}
                                  holeId={props.holeId} 
@@ -539,7 +541,18 @@ const LiveSession = (props) => {
                 </div>
                 <div style={style.session_bottom}>
                     <div className="chattingWrapper"/>
-                    <Chat holeId={props.holeId} isHost={props.isHost} channelNum={props.channelNum} goQueUp={setQueUp} goListUp = {setListUp} goUserUp = {setUserUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>                   
+                    <Chat 
+                    roomSocket={roomSocket}
+                    holeId={props.holeId} 
+                    isHost={props.isHost} 
+                    channelNum={props.channelNum} 
+                    goQueUp={setQueUp} 
+                    goListUp = {setListUp} 
+                    goUserUp = {setUserUp} 
+                    goDark={setDark} 
+                    room={room} 
+                    windowHeight="1000px" 
+                    onBack={()=>setRoom(null)}/>                   
                 </div>
             
            
@@ -553,7 +566,7 @@ const LiveSession = (props) => {
         </div>
         :   
         <div style={queUp} className="hiddenQue">
-            <Questioning openQuestionAlert={openQuestionAlert} holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
+            <Questioning roomSocket={roomSocket} openQuestionAlert={openQuestionAlert} holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         }
         <div style={listup} className="hiddenlist">
@@ -568,7 +581,7 @@ const LiveSession = (props) => {
         </div>
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} style={style.alert} severity="success">
-            <span style={{color:"white"}}>호스트 {props.hostName}가<br/>세션을 종료하였습니다</span>
+            <span className="BMJUA">호스트 [{props.hostName}]가<br/>세션을 종료하였습니다</span>
         </Alert>
         </Snackbar>
 
@@ -583,14 +596,14 @@ const LiveSession = (props) => {
             />
         </div>
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={1500} onClose={closeQuestionAlert}>
-            <Alert onClose={closeQuestionAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
-                <span style={{ color:"white"}}>질문 등록 성공!</span>
+            <Alert onClose={closeQuestionAlert} style={{ backgroundColor:"white", boxShadow: "2px 2px 2px 2px #D95032", border:"2px solid #4CC0D0"}} severity="success">
+                <span className="BMJUA">질문 등록 성공!</span>
             </Alert>
         </Snackbar>
 
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={copiedAlert} autoHideDuration={1500} onClose={closeCopiedAlert}>
-            <Alert onClose={closeCopiedAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
-                <span style={{ color:"white"}}>링크 복사 완료</span>
+            <Alert onClose={closeCopiedAlert} style={{ backgroundColor:"white", boxShadow: "2px 2px 2px 2px #D95032", border:"2px solid #4CC0D0"}} severity="success">
+                <span className="BMJUA">링크 복사 완료</span>
             </Alert>
         </Snackbar>
         </>

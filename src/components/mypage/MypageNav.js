@@ -4,6 +4,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import { Home } from '@material-ui/icons';
 
 const style = {
   root: {
@@ -43,6 +44,11 @@ const MypageNav = (props) => {
         >
           <ArrowBackIosIcon />
         </IconButton>
+        <IconButton style={{ position: "absolute", right: 0, height: "100%", marginRight:"10px"}} color="inherit" aria-label="menu">
+            <Home onClick={() => {
+            history.push('/');}} />
+        </IconButton>
+
         <div style={style.borderbox}>
           <span style={style.text}>{props.text}</span>
         </div>

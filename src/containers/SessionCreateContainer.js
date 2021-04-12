@@ -64,12 +64,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const style = {
-  alert: {
-    boxShadow: "2px 2px 2px 2px #D95032", // 섀도우 색
-    border: "solid 1px white", // 테두리 색
-    backgroundColor: "black", // 배경색
-  },
-};
+  alert : {
+    color: "white",
+    backgroundColor:"black",
+    border:"2px solid #4CC0D0",
+    boxShadow:"2px 2px 15px 10px rgba(0, 0, 0, 0.6)"
+  }
+}
 
 const SessionCreateContainer = (props) => {
 
@@ -544,9 +545,9 @@ const SessionCreateContainer = (props) => {
       >
         <Alert onClose={handleClose} style={style.alert} severity="success">
           {holeId ? (
-            <span style={{ color: "white" }}>Live Q&A 수정 완료!</span>
+            <span className="BMJUA">Live Q&A 수정 완료!</span>
           ) : (
-            <span style={{ color: "white" }}>Live Q&A 생성 완료!</span>
+            <span className="BMJUA">Live Q&A 생성 완료!</span>
           )}
         </Alert>
       </Snackbar>

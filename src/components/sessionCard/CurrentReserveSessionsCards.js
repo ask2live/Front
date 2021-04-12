@@ -137,6 +137,13 @@ const useStyles = makeStyles((theme) => ({
       opacity: "0",
       cursor:"pointer",
     },
+    frame : {
+      position:"absolute",
+      width : "10px",
+      height : "10px",
+      backgroundColor:"skyblue",
+      transform : "translate(-2em,-0.5em)",
+    }
 
   }));
 
@@ -204,7 +211,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
     let i = 0;
     return (
         <>
-        {console.log("렌더링 시작")}
+        
         <div className={classes.root}>
             {currentReserveSessions.map((session) => (
                 <>

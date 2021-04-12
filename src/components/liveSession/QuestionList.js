@@ -50,21 +50,21 @@ const QuestionList = (props) => {
         <>
         <Paper className="questionList" elevation={0}>
             {questionAry.arrived ? 
-            questionAry.data.detail.findIndex((questionInfo) => !(questionInfo.is_answered)) === -1 ?
+            questionAry.data.findIndex((questionInfo) => !(questionInfo.is_answered)) === -1 ?
             <div style={{display:"flex", justifyContent:"center", width:"100%", maxWidth:"45em"}}>
                 <p className="CookieRun">등록된 질문이 없습니다</p>
             </div>
             :
-                questionAry.data.detail.map((questionInfo) =>
+                questionAry.data.map((questionInfo) =>
                     questionInfo.is_answered ?
                         null
                     :
                         questionInfo.user_username === myName?
                         <Question  isVoice={questionInfo.is_voice} userName={questionInfo.user_username} value={questionInfo.question} myQuestion={true}
-                        isFirst={questionInfo === questionAry.data.detail[questionAry.data.detail.findIndex((value) => value.is_answered === false)]}/>
+                        isFirst={questionInfo === questionAry.data[questionAry.data.findIndex((value) => value.is_answered === false)]}/>
                         :
                         <Question isVoice={questionInfo.is_voice} userName={questionInfo.user_username} value={questionInfo.question} myQuestion={false}
-                        isFirst={questionInfo === questionAry.data.detail[questionAry.data.detail.findIndex((value) => value.is_answered === false)]}/>
+                        isFirst={questionInfo === questionAry.data[questionAry.data.findIndex((value) => value.is_answered === false)]}/>
                 )
 
                 : <p>로딩중</p>}
@@ -74,12 +74,12 @@ const QuestionList = (props) => {
         <>
         <Paper className="questionList" elevation={0}>
             {questionAry.arrived ?
-            questionAry.data.detail.findIndex((questionInfo) => questionInfo.is_answered) === -1 ?
+            questionAry.data.findIndex((questionInfo) => questionInfo.is_answered) === -1 ?
             <div style={{display:"flex", justifyContent:"center", width:"100%", maxWidth:"45em"}}>
                 <p className="CookieRun">아직 답변된 질문이 없습니다.</p>
             </div>
             :
-                questionAry.data.detail.map((questionInfo) =>
+                questionAry.data.map((questionInfo) =>
                     questionInfo.is_answered ?
                         questionInfo.user_username === myName?
                         <Question  isVoice={questionInfo.is_voice} userName={questionInfo.user_username} value={questionInfo.question} myQuestion={true}/>

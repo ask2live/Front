@@ -35,16 +35,14 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileGate = (props) => {
   // if(!props.location.state) history.push('/mypge');
-    console.log("profileGate", props.user.detail);
+    // console.log("profileGate", props.user.detail);
     const classes = useStyles();
     const history = useHistory();
 
     const goToDetail = () => {
-        console.log('onClick');
         history.push({
           pathname: '/mypage/' + props.user.detail.username,
           state: props.user.detail});
-
     }
 
   return (

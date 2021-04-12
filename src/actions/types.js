@@ -15,6 +15,9 @@ export const QUESTIONLIST_GET_PENDING = 'questionlist/QUESTIONLIST_GET_PENDING';
 export const QUESTIONLIST_GET_SUCCESS = 'questionlist/QUESTIONLIST_GET_SUCCESS';
 export const QUESTIONLIST_GET_ERROR = 'questionlist/QUESTIONLIST_GET_ERROR';
 export const QUESTIONLIST_DELETE = 'questionlist/QUESTIONLIST_DELETE'
+export const QUESTIONLIST_SOCKET_READ = 'questionlist/QUESTIONLIST_SOCKET_READ';
+// export const QUESTIONLIST_DELETE = 'questionlist/QUESTIONLIST_DELETE'
+// export const QUESTIONLIST_INIT = 'questionlist/QUESTIONLIST_INIT'
 
 // SESSION ACTIONS TYPES
 export const SETLIVE = 'session/setlive';
@@ -33,3 +36,7 @@ export const ENTEREDSESSION_GET_PENDING = 'enteredSession/ENTEREDSESSION_GET_PEN
 export const ENTEREDSESSION_GET_SUCCESS = 'enteredSession/ENTEREDSESSION_GET_SUCCESS';
 export const ENTEREDSESSION_GET_ERROR = 'enteredSession/ENTEREDSESSION_GET_ERROR';
 export const ENTEREDSESSION_DELETE = 'enteredSession/ENTEREDSESSION_DELETE'
+
+// Volume Type
+export const PATCH_VOLUME = 'volume/PATCH_VOLUME';
+export const CLEAR_VOLUME = 'volume/CLEAR_VOLUME';

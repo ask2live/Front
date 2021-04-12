@@ -2,7 +2,8 @@ import {
     QUESTIONLIST_GET_PENDING,
     QUESTIONLIST_GET_SUCCESS,
     QUESTIONLIST_GET_ERROR,
-    QUESTIONLIST_DELETE
+    QUESTIONLIST_DELETE,
+    QUESTIONLIST_SOCKET_READ,
   } from '../actions/types';
 
 const initialState = {
@@ -29,7 +30,7 @@ const questionlist = (state = initialState, action) => {
                 arrived: true,
                 pending: false,
                 error: true,
-                data: action.payload.data
+                data: action.payload.data.detail
             };
         case QUESTIONLIST_GET_ERROR:
             return {
@@ -43,9 +44,15 @@ const questionlist = (state = initialState, action) => {
                 ...state,
                 ...initialState
             }
+        case QUESTIONLIST_SOCKET_READ:
+            return {
+                ...state,
+                arrived: true,
+                data: action.payload, 
+            }
         default:
             return state;
     }
-}
+}  //! ?? ??? ?? ??
 
 export default questionlist;
