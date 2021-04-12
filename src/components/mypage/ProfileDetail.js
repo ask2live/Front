@@ -171,7 +171,7 @@ const ProfileDetail = (props) => {
             <Avatar
             className={classes.avatar}
             aria-label="recipe"
-            src={`https://143.248.226.7:8000${profile.profile_image}`}
+            src={`https://www.ask2live.me${profile.profile_image}`}
           ></Avatar>
           :
           <Avatar

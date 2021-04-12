@@ -159,7 +159,7 @@ const MyLiveSessionsCard = ({session}) => {
         <Card key={session.livehole_id} className={classes.root}>
             <br/>
             <div
-            style={{backgroundImage: session.host_profile_image? "url('https://143.248.226.7:8000"+session.host_profile_image + "')" : "url('/static/reigns/1.jpg')"}}
+            style={{backgroundImage: session.host_profile_image? "url('https://www.ask2live.me"+session.host_profile_image + "')" : "url('/static/reigns/1.jpg')"}}
             className={classes.cookieWrapper}
 
             ><div className={classes.useCookie}></div> </div>

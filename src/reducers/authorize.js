@@ -4,7 +4,7 @@ const authorize = (state = initialState, action) => {
 
   switch(action.type){
     case "superHost":
-      console.log("make super HOST", action.payload);
+      // console.log("make super HOST", action.payload);
       state = action.payload;
       return state;
 

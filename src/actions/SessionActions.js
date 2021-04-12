@@ -10,14 +10,14 @@ import {
 import axios from 'axios'
 
 function sessionGetApi(){
-    return axios.get('https://143.248.226.7:8000/api/hole')
+    return axios.get('https://www.ask2live.me/api/hole')
 }
 
 function userSessionGetApi(token){
     const config = {
         headers: {Authorization: 'Token ' + token}
     }
-    return axios.get('https://143.248.226.7:8000/api/user/read/hole',
+    return axios.get('https://www.ask2live.me/api/user/read/hole',
         config
     )
 }

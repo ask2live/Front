@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   }));   
 
 const VoiceQuestion = (props) => {
-    console.log("무야호", props)
+    // console.log("무야호", props)
     const classes = useStyles();
     const [click, setClick] = useState(false)
     const [clickStyle, setClickStyle] = useState({color: "#EF5941"})
@@ -40,29 +40,29 @@ const VoiceQuestion = (props) => {
     })
 
     const sendP2PMessage = useCallback((recipientUID, peerMsg) => {
-        console.log("sendP2PMessage");
+        // console.log("sendP2PMessage");
     
         // An RtmMessage object.
         const remoteUID = String(recipientUID);
     
 
         // p2p message
-        console.log("리모트 UID: ", remoteUID);
-        console.log("리모트 msg: ", peerMsg);
+        // console.log("리모트 UID: ", remoteUID);
+        // console.log("리모트 msg: ", peerMsg);
     
         if (peerMsg) {
           (props.rtmClient)
             .sendMessageToPeer({ text: peerMsg }, remoteUID)
             .then((sendResult) => {
               if (sendResult.hasPeerReceived) {
-                console.log("peer recieved " + peerMsg + " successfully");
+                // console.log("peer recieved " + peerMsg + " successfully");
 
               } else {
-                console.log("peer did not recieved " + peerMsg + " unlog");
+                // console.log("peer did not recieved " + peerMsg + " unlog");
               }
             })
             .catch((error) => {
-              console.log("RTM message recieved err");
+            //   console.log("RTM message recieved err");
             });
         }
       }, []);

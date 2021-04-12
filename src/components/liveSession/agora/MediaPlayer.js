@@ -6,7 +6,7 @@ export default function MediaPlayer(props) {
 
   const { audioTrack, client, user } = props;
 
-  const authority = useSelector((state) => state.Authorize);
+  // const authority = useSelector((state) => state.Authorize);
     const dispatch = useDispatch();
     // const patchVolume = () => {
     //     const audioVolume = audioTrack.getVolumeLevel();
@@ -17,7 +17,7 @@ export default function MediaPlayer(props) {
   useEffect(() => {
 
     if (audioTrack && client.remoteUsers.length === 0) {
-      console.log("여기는 호스트");
+      // console.log("여기는 호스트");
 
       audioTrack.setEnabled(true);
       const volumeInter = setInterval(()=>{
@@ -34,7 +34,7 @@ export default function MediaPlayer(props) {
     }
     
     else if(audioTrack && client.remoteUsers.length != 0) {
-        console.log("여기는 게스트");
+        // console.log("여기는 게스트");
         
         audioTrack.play();
         const volumeInter = setInterval(()=>{

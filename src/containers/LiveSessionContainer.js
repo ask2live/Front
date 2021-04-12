@@ -15,7 +15,7 @@ const LiveSessionContainer = (props) => {
 
     const [join, setJoin] = useState(props.joinPass); // ?���? ?��?��코딩
 
-    console.log(join);
+    // console.log(join);
 
     // if (1) //props.isHost
     //     return <LiveSession hostName={hostName} imageLink={imageLink} channelNum={channelNum} isHost={1}/>

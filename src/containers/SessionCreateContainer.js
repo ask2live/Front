@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { postSessionToReserve } from '../actions/SessionToReserveActions';
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -14,7 +14,6 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import Avatar from "@material-ui/core/Avatar";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import HelpIcon from '@material-ui/icons/HelpOutline';
@@ -106,7 +105,7 @@ const SessionCreateContainer = (props) => {
   useEffect(() => {
     if (holeId) {
       axios
-        .get("https://143.248.226.7:8000/api/hole/read/" + holeId)
+        .get("https://www.ask2live.me/api/hole/read/" + holeId)
         .then((res) => {
           const session = res.data.detail;
           // console.log(session)
@@ -172,16 +171,16 @@ const SessionCreateContainer = (props) => {
       reserve_date: reserveDate,
       target_demand: count,
     };
-    console.log(data);
+    // console.log(data);
     if (holeId) {
       await axios
         .patch(
-          "https://143.248.226.7:8000/api/hole/update/" + holeId,
+          "https://www.ask2live.me/api/hole/update/" + holeId,
           data,
           config
         )
         .then((res) => {
-          console.log("hole created: ", res);
+          // console.log("hole created: ", res);
           handleClick();
           setTimeout(() => {
             dispatch(getUserSessionInfo(localStorage.token));
@@ -197,13 +196,13 @@ const SessionCreateContainer = (props) => {
     } else if(skipValid){
       // sessionCreate
       await axios
-      .post("https://143.248.226.7:8000/api/hole/create", data, config)
+      .post("https://www.ask2live.me/api/hole/create", data, config)
         .then((res) => {
-          console.log("hole created: ", res);
+          // console.log("hole created: ", res);
           session = res.data.detail
           // sessionToReserve
           postSessionToReserve(session);
-          console.log("postSessionToReserve success")
+          // console.log("postSessionToReserve success")
           // 라이브 하기
           history.push({
             pathname: "/session/reserve",
@@ -221,9 +220,9 @@ const SessionCreateContainer = (props) => {
       
     }else {
       await axios
-        .post("https://143.248.226.7:8000/api/hole/create", data, config)
+        .post("https://www.ask2live.me/api/hole/create", data, config)
         .then((res) => {
-          console.log("hole created: ", res);
+          // console.log("hole created: ", res);
           handleClick();
           setTimeout(() => {
             dispatch(getUserSessionInfo(localStorage.token));
@@ -256,7 +255,6 @@ const SessionCreateContainer = (props) => {
           <Typography
             component="h1"
             variant="body1"
-            butterBottom
             style={{ fontFamily: "BMJUA" }}
           >
             세션 정보를 입력하세요
@@ -291,7 +289,7 @@ const SessionCreateContainer = (props) => {
             />
             
             <Checkbox onChange={(e) => {
-              console.log("e.target.checked", e.target.checked)
+              // console.log("e.target.checked", e.target.checked)
               if(e.target.checked){
                 setSkipValid(true)
                 setCount(0)
@@ -394,12 +392,12 @@ const SessionCreateContainer = (props) => {
                 onChange={(e) => {
                   setReserveDate(e.target.value);
                   let cur_date = new Date();
-                  console.log(reserveDate);
-                  console.log("설정한시간", toDate(e.target.value).getTime());
-                  console.log("현재시간", cur_date.getTime());
-                  console.log(
-                    (toDate(e.target.value).getTime() - cur_date.getTime()) / 1000
-                  );
+                  // console.log(reserveDate);
+                  // console.log("설정한시간", toDate(e.target.value).getTime());
+                  // console.log("현재시간", cur_date.getTime());
+                  // console.log(
+                    // (toDate(e.target.value).getTime() - cur_date.getTime()) / 1000
+                  // );
                   if (toDate(e.target.value).getTime() - cur_date.getTime() < 0)
                       setEarlyDateValid(true)
                   else
