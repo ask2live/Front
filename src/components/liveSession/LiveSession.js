@@ -26,6 +26,7 @@ import Question from "./Question";
 import Avatar from "../Avatar";
 import "../../index.css"
 import PlayerWrapper from "./agora/PlayerWrapper";
+import { onRoomMessagesRead } from '../../actions/MessagesActions';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
@@ -233,7 +234,7 @@ const LiveSession = (props) => {
           };
           console.log("LiveSession Host Post :", data);
           const res = await axios.post(
-            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/create",
+            "https://143.248.226.7:8000/api/hole/"+props.holeId+"/live/create",
             data,
             {headers:headers}
           );
@@ -249,7 +250,7 @@ const LiveSession = (props) => {
           };
           console.log("LiveSession Audience Post :", data);
           const res = await axios.put(
-            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/join/"+props.channelNum,
+            "https://143.248.226.7:8000/api/hole/"+props.holeId+"/live/join/"+props.channelNum,
             data,
             {headers:headers}
           );
@@ -262,11 +263,13 @@ const LiveSession = (props) => {
           }
           const data = {};
           const res = await axios.patch(
-            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/leave/"+props.channelNum,
+            "https://143.248.226.7:8000/api/hole/"+props.holeId+"/live/leave/"+props.channelNum,
             data,
             {headers:headers}
           );
-          console.log(res.data);
+          console.log("--------leavePatch-----",res.data);
+        //   if (res.data.response === "SUCCESS"){
+        //   }
     }
 
 
@@ -284,6 +287,10 @@ const LiveSession = (props) => {
 
     const [hostExit, setHostExit] = useState(false);
     const [liveVoice,setLiveVoice] = useState(false);
+
+    const [roomSocket, setRoomSocket] = useState(null);
+
+
 
     const openQuestionAlert = () => {
         setOuestionAlert(true);
@@ -308,14 +315,14 @@ const LiveSession = (props) => {
     };
     // const history = useHistory()
     
-    let partiNum = "로딩중";
-    const holeInfo = useSelector(state => state.enteredSession, [partiNum])
+    const holeInfo = useSelector(state => state.enteredSession)
     const hostImage = holeInfo.arrived ? 
             holeInfo.data.detail.livehole.host_profile_image_url
             : "/static/live_png";
-    partiNum = holeInfo.arrived ? 
-         holeInfo.data.detail.participant.length + "명"
-        : "로딩중"
+
+    // partiNum = holeInfo.arrived ? 
+    //      holeInfo.data.detail.participant.length + "명"
+    //     : "로딩중"
 
     // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
     const handleClick = () => {
@@ -351,24 +358,35 @@ const LiveSession = (props) => {
     
     
     useEffect(() => {
+        
+        // 소켓 관련 -------
+    
+        // roomSocket && roomSocket.close();
+        setRoomSocket(dispatch(onRoomMessagesRead(props.holeId, props.channelNum)));
+    
+        // 소켓 관련 끝 ------
 
         dispatch({type: QUESTIONLIST_DELETE})
         dispatch({type: ENTEREDSESSION_DELETE})
         dispatch({type: CLEAR_VOLUME});
         setLiveVoice(false)
-        
-        const liveInter = setInterval(()=>{
-            dispatch(getEnteredSession(props.channelNum))
-            dispatch(getQuestionList(props.holeId))
-        }, 5000);
 
+        dispatch(getQuestionList(props.holeId))
+        dispatch(getEnteredSession(props.channelNum))
         
+        
+        // const liveInter = setInterval(()=>{
+        //     dispatch(getEnteredSession(props.channelNum))
+        //     dispatch(getQuestionList(props.holeId))
+        // }, 5000); 
+        //! 소켓으로 바꾸는중
+
         
         const refreshOut = () => {
             rtmClient.logout();
             leave();
             leavePatchApi();
-            clearInterval(liveInter);
+            // clearInterval(liveInter);
             // clearInterval(volumeInter);
         };
         window.addEventListener("beforeunload", refreshOut);
@@ -387,7 +405,10 @@ const LiveSession = (props) => {
             rtmClient.logout();
             leave();
             leavePatchApi();
-            clearInterval(liveInter);
+            // clearInterval(liveInter);
+            //! 소켓으로 바꾸는중
+
+
             // clearInterval(volumeInter);
             handleClick();
         });
@@ -397,26 +418,28 @@ const LiveSession = (props) => {
         else
             setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
              
-        if (props.isHost)
-        {
+
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
 
                 console.log("호스트!!!: ", props.isHost)
                 window.removeEventListener("beforeunload", refreshOut);
+                if (props.isHost)
+                {
+                    rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
+                        // Your code for handling the event when the channel message is successfully sent.
+                            console.log('host is leaving')
+                        }).catch(error => {
+                        // Your code for handling the event when the channel message fails to be sent.
+                            console.log('host leaving error')
+                        });
 
-                rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
-                    // Your code for handling the event when the channel message is successfully sent.
-                        console.log('host is leaving')
-                    }).catch(error => {
-                    // Your code for handling the event when the channel message fails to be sent.
-                        console.log('host leaving error')
-                    });
-
+                }
+                
                 rtmClient.logout();
                 leave();
                 leavePatchApi();
-                clearInterval(liveInter)
+                // clearInterval(liveInter)
                 // clearInterval(volumeInter);
                 unblock();
                 
@@ -424,30 +447,8 @@ const LiveSession = (props) => {
                 // setTimeout(window.location.replace('/main'), 300);
                 
             }
-
-        }
         
-        else {
-            const unblock = history.block('정말 떠나시겠습니까?');
-            return () => {
-                dispatch({type: QUESTIONLIST_DELETE})
-                dispatch({type: ENTEREDSESSION_DELETE})
 
-                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
-                window.removeEventListener("beforeunload", refreshOut);
-
-                // rtmChannel.leave();
-                rtmClient.logout();
-                leave();
-                leavePatchApi();
-                clearInterval(liveInter)
-                // clearInterval(volumeInter);
-                unblock();
-                
-                // history.replace('/main');
-                setTimeout(window.location.replace('/main'), 300);
-            }
-        }
     }, [history])
 
     // ^ =============================================================
@@ -490,7 +491,7 @@ const LiveSession = (props) => {
                         <tr>
                             <td style={style.td2}>
                                 <img className="live_img" src="/static/live.png"/>
-                                <span style={{marginLeft:"9px", color:"rgba(255, 255, 255, 0.6)"}} className="NotoSans3">{partiNum}</span>
+                                <span style={{marginLeft:"9px", color:"rgba(255, 255, 255, 0.6)"}} className="NotoSans3">{remoteUsers.length + 1}명</span>
                             </td>
                             <td></td>
                         </tr>
@@ -524,6 +525,7 @@ const LiveSession = (props) => {
                         {/* <Grid container justify="center"> */}
                             <div>
                                  <CurrentQuestion 
+                                 roomSocket={roomSocket}
                                  setLiveVoice={setLiveVoice}
                                  liveVoice={liveVoice}
                                  holeId={props.holeId} 
@@ -542,7 +544,18 @@ const LiveSession = (props) => {
                 </div>
                 <div style={style.session_bottom}>
                     <div className="chattingWrapper"/>
-                    <Chat holeId={props.holeId} isHost={props.isHost} channelNum={props.channelNum} goQueUp={setQueUp} goListUp = {setListUp} goUserUp = {setUserUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>                   
+                    <Chat 
+                    roomSocket={roomSocket}
+                    holeId={props.holeId} 
+                    isHost={props.isHost} 
+                    channelNum={props.channelNum} 
+                    goQueUp={setQueUp} 
+                    goListUp = {setListUp} 
+                    goUserUp = {setUserUp} 
+                    goDark={setDark} 
+                    room={room} 
+                    windowHeight="1000px" 
+                    onBack={()=>setRoom(null)}/>                   
                 </div>
             
            
@@ -556,7 +569,7 @@ const LiveSession = (props) => {
         </div>
         :   
         <div style={queUp} className="hiddenQue">
-            <Questioning openQuestionAlert={openQuestionAlert} holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
+            <Questioning roomSocket={roomSocket} openQuestionAlert={openQuestionAlert} holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         }
         <div style={listup} className="hiddenlist">

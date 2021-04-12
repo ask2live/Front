@@ -61,7 +61,7 @@ const ProfileGate = (props) => {
               avatar={
                 <Avatar
                   aria-label="recipe"
-                  src={`https://www.ask2live.me${props.user.detail.profile_image}`}
+                  src={`https://143.248.226.7:8000${props.user.detail.profile_image}`}
                   // className={classes.avatar}
                   className={classes.large}
                 ></Avatar>

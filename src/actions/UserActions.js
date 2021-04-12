@@ -11,7 +11,7 @@ function userGetApi(token){
     const config = {
                 headers: { Authorization: 'Token ' + token }
             }
-    return axios.get('https://www.ask2live.me/api/user/read', config)
+    return axios.get('https://143.248.226.7:8000/api/user/read', config)
 }
 
 export const giveUser = (given) => ({ type : GIVEUSER, user : given });

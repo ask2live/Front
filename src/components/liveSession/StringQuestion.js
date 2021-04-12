@@ -114,7 +114,7 @@ const StringQuestion = (props) => {
                             height:"100%", 
                             marginLeft: "1.5em"}}>
                                 <div style={{display:"inline-block"}}>
-                                    <Avatar src={props.imageLink? "https://www.ask2live.me" + props.imageLink : "/static/reigns/1.jpg"} className={classes.small}/>
+                                    <Avatar src={props.imageLink? "https://143.248.226.7:8000" + props.imageLink : "/static/reigns/1.jpg"} className={classes.small}/>
                                 </div>
                                 <span
                                 style={{marginLeft:"6px", marginTop:"3px", color:"white"}}

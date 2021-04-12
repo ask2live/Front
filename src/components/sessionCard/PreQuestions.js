@@ -105,7 +105,7 @@ const SessionDetail = ({session}) => {
               return(
                 <>
                 {session.host_profile_image?
-                <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
+                <Avatar className={classes.avatar} src={`https://143.248.226.7:8000${session.host_profile_image}`} />
               :
                 <Avatar className={classes.avatar} src="/static/reigns/1.jpg" />
               }
@@ -116,7 +116,7 @@ const SessionDetail = ({session}) => {
               return(
                 <>
                   {session.host_profile_image?
-                <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
+                <Avatar className={classes.avatar} src={`https://143.248.226.7:8000${session.host_profile_image}`} />
               :
                 <Avatar className={classes.avatar} src="static/reigns/1.jpg" />
               }

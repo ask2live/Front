@@ -21,8 +21,8 @@ export default function MediaPlayer(props) {
 
       audioTrack.setEnabled(true);
       const volumeInter = setInterval(()=>{
-        console.log("나의 오디오", client.uid);
-        console.log("나의 오디오", audioTrack.getVolumeLevel());
+        // console.log("나의 오디오", client.uid);
+        // console.log("나의 오디오", audioTrack.getVolumeLevel());
         dispatch({type : PATCH_VOLUME, userUid : client.uid, userVolume : audioTrack.getVolumeLevel()});
     }, 400)
     
@@ -38,8 +38,8 @@ export default function MediaPlayer(props) {
         
         audioTrack.play();
         const volumeInter = setInterval(()=>{
-            console.log("상대방오디오", user.uid);
-            console.log("상대방오디오", audioTrack.getVolumeLevel());
+            // console.log("상대방오디오", user.uid);
+            // console.log("상대방오디오", audioTrack.getVolumeLevel());
             dispatch({type : PATCH_VOLUME, userUid : user.uid, userVolume : audioTrack.getVolumeLevel()})
         }, 400)
         

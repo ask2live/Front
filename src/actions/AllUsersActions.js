@@ -6,7 +6,7 @@ import {
 import axios from 'axios'
 
 function AllUsersGetApi(){
-    return axios.get('https://www.ask2live.me/api/user/all_read')
+    return axios.get('https://143.248.226.7:8000/api/user/all_read')
 }
 
 export const getAllUsersInfo = () => dispatch => {

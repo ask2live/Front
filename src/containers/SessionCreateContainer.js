@@ -101,7 +101,7 @@ const SessionCreateContainer = (props) => {
   useEffect(() => {
     if (holeId) {
       axios
-        .get("https://www.ask2live.me/api/hole/read/" + holeId)
+        .get("https://143.248.226.7:8000/api/hole/read/" + holeId)
         .then((res) => {
           const session = res.data.detail;
           console.log(session)
@@ -171,7 +171,7 @@ const SessionCreateContainer = (props) => {
     if (holeId) {
       await axios
         .patch(
-          "https://www.ask2live.me/api/hole/update/" + holeId,
+          "https://143.248.226.7:8000/api/hole/update/" + holeId,
           data,
           config
         )
@@ -192,7 +192,7 @@ const SessionCreateContainer = (props) => {
     } else if(skipValid){
       // sessionCreate
       await axios
-      .post("https://www.ask2live.me/api/hole/create", data, config)
+      .post("https://143.248.226.7:8000/api/hole/create", data, config)
         .then((res) => {
           console.log("hole created: ", res);
           session = res.data.detail
@@ -208,7 +208,7 @@ const SessionCreateContainer = (props) => {
       
     }else {
       await axios
-        .post("https://www.ask2live.me/api/hole/create", data, config)
+        .post("https://143.248.226.7:8000/api/hole/create", data, config)
         .then((res) => {
           console.log("hole created: ", res);
           handleClick();

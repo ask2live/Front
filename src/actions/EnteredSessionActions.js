@@ -7,7 +7,7 @@ import {
 import axios from 'axios'
 
 function getApi(channelNum){
-    return axios.get('https://www.ask2live.me/api/hole/live/read/' + channelNum);
+    return axios.get('https://143.248.226.7:8000/api/hole/live/read/' + channelNum);
 }
 
 const getEnteredSession = channelNum => dispatch => {
