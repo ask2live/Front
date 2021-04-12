@@ -255,7 +255,7 @@ const LinkTab = (props) => {
 const PreQuestionNav = ({session}) => {
   const classes = useStyles();
   const questions = useSelector(state => state.questionlist)
-  // console.log(questions)
+  // console.log(questions.data)
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -285,15 +285,21 @@ const PreQuestionNav = ({session}) => {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-      {questions.data.length === 0 ? 
-        <div className="NanumGothic3">질문을 등록해주세요</div> :
-        
-        questions.data.map((question) => 
-        <>
-            <QuestionCard question={question}/>
-            <Divider light />
-            </>
-        )}
+      {questions.arrived?
+        questions.data.length === 0 ? 
+          <div className="NanumGothic3">질문을 등록해주세요</div>
+          :
+          questions.data.map((question) =>
+              <>
+              <QuestionCard question={question}/>
+              <Divider light />
+              </>
+          )
+        :
+        null
+      
+      }
+
       </TabPanel>
       <TabPanel value={value} index={1}>
         <MyQuestionSend session={session} />

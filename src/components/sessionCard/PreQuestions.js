@@ -179,8 +179,8 @@ const PreQuestions = () => {
     //   console.log(questions.data)
     //   if(questions.data.length === 0){
     //     console.log("dispatch!!!")
-        // dispatch(getQuestionlist(sessionId))
-      // }
+    //     dispatch(getQuestionlist(sessionId))
+    //   }
     // })
     
     return (
