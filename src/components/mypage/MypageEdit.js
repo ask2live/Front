@@ -131,7 +131,7 @@ const MypageEdit = (props) => {
   let usernameValue;
   const [username, setUsername] = useState(user.username);
   console.log(username);
-  const [profileImage, setProfileImage] = useState("https://www.ask2live.me" + user.profile_image)
+  const [profileImage, setProfileImage] = useState("https://143.248.226.7:8000" + user.profile_image)
   const [workField, setWorkField] = useState(user.work_field);
   const [workCompany, setWorkCompany] = useState(user.work_company);
   const [bio, setBio] = useState(user.bio);
@@ -144,7 +144,7 @@ const MypageEdit = (props) => {
   const [image, setImage] = useState({});
   // const [inputs, setInputs] = useState({
     // username: user.username,
-  //   profile_image: "https://www.ask2live.me" + user.profile_image,
+  //   profile_image: "https://143.248.226.7:8000" + user.profile_image,
   //   work_field: user.work_field,
   //   work_company: user.work_company,
   //   bio: user.bio,
@@ -204,7 +204,7 @@ const MypageEdit = (props) => {
     console.log("====DATA====", formData);
     // async await으로 바꾸기
     const resPatch = await axios.patch(
-      "https://www.ask2live.me/api/user/update",
+      "https://143.248.226.7:8000/api/user/update",
       formData,
       config
     );
@@ -216,7 +216,7 @@ const MypageEdit = (props) => {
       console.log("업데이트 성공~", resPatch.data);
       dispatch(getUserInfo(localStorage.token));
       const resGet = await axios.get(
-        "https://www.ask2live.me/api/user/read",
+        "https://143.248.226.7:8000/api/user/read",
         config
       );
         console.log("업데이트 유저 불러오기", resGet);

@@ -111,7 +111,7 @@ const Chat = props => {
     
     const onMessageSend = () => {
       if (roomSocket) {
-        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: user.username } }));
+        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: user.username, type:'ON_MESSAGES_READ' } }));
         setMessage('');
         setTimeout(scrollToBottom,300);
       }
@@ -139,14 +139,13 @@ const Chat = props => {
     return (
         <>
       <div className="chatting">
+        {console.log("----------message-----------",message)}
         <List
           className="comment-list NanumGothic3"
           itemLayout="horizontal"
           dataSource={messages}
           renderItem={message => <Message key={message.id.toString()} message={message} />}
         >
-        {/* <List>
-            {messages.map((message => <Message key={message.id.toString()} message={message} />))} */}
         </List>
           {loading && hasMore && <div className="loading-container"><Spin /></div>}
       </div>

@@ -81,7 +81,7 @@ const SessionCreateContainer = (props) => {
   let afterOneMinutes = new Date(nowDate.setDate(nowDate.getMinutes() + 1))
 
   let defaultDate = afterOneMinutes.toISOString()
-  console.log("defaultDate", defaultDate)
+  // console.log("defaultDate", defaultDate)
 
   const holeId = urlSearchParams.get("holeId");
 
@@ -105,10 +105,10 @@ const SessionCreateContainer = (props) => {
   useEffect(() => {
     if (holeId) {
       axios
-        .get("https://www.ask2live.me/api/hole/read/" + holeId)
+        .get("https://143.248.226.7:8000/api/hole/read/" + holeId)
         .then((res) => {
           const session = res.data.detail;
-          console.log(session)
+          // console.log(session)
           setTitle(session.title);
           setDescription(session.description);
           let date = session.reserve_date.split(":");
@@ -161,7 +161,7 @@ const SessionCreateContainer = (props) => {
     const config = {
       headers: { Authorization: "Token " + localStorage.token },
     };
-    console.log(localStorage.token);
+    // console.log(localStorage.token);
     
     let session = {}
     
@@ -175,7 +175,7 @@ const SessionCreateContainer = (props) => {
     if (holeId) {
       await axios
         .patch(
-          "https://www.ask2live.me/api/hole/update/" + holeId,
+          "https://143.248.226.7:8000/api/hole/update/" + holeId,
           data,
           config
         )
@@ -196,7 +196,7 @@ const SessionCreateContainer = (props) => {
     } else if(skipValid){
       // sessionCreate
       await axios
-      .post("https://www.ask2live.me/api/hole/create", data, config)
+      .post("https://143.248.226.7:8000/api/hole/create", data, config)
         .then((res) => {
           console.log("hole created: ", res);
           session = res.data.detail
@@ -220,7 +220,7 @@ const SessionCreateContainer = (props) => {
       
     }else {
       await axios
-        .post("https://www.ask2live.me/api/hole/create", data, config)
+        .post("https://143.248.226.7:8000/api/hole/create", data, config)
         .then((res) => {
           console.log("hole created: ", res);
           handleClick();

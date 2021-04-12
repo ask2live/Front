@@ -146,7 +146,7 @@ const MyQuestionSend = ({session}) => {
       };
       console.log(data);
       const res = await axios.post(
-        "https://www.ask2live.me/api/hole/"+session.id + "/question/create",
+        "https://143.248.226.7:8000/api/hole/"+session.id + "/question/create",
         data,
         {headers:headers}
       );
@@ -190,7 +190,7 @@ const QuestionCard = ({question}) => {
           <Grid container>
         <div className="NanumGothic3">
           {question.user_profile_image_url?
-                <Avatar className={classes.avatar} src={`https://www.ask2live.me${question.user_profile_image_url}`} />
+                <Avatar className={classes.avatar} src={`https://143.248.226.7:8000${question.user_profile_image_url}`} />
               :
                 <Avatar className={classes.avatar} src="static/reigns/1.jpg" />
           }

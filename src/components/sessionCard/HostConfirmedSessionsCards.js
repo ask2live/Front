@@ -180,7 +180,7 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
                 <div style={style.profileimage}>
                     <div className={classes.avatarRoot}>
                         <Avatar alt="Remy Sharp" className={classes.large} src={session.host_profile_image?
-                        `https://www.ask2live.me${session.host_profile_image}`
+                        `https://143.248.226.7:8000${session.host_profile_image}`
                         : "/static/reigns/1.jpg"} />
                     </div>
                 </div>

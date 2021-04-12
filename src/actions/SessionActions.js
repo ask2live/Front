@@ -2,7 +2,6 @@ import {
     SESSION_GET_PENDING,
     SESSION_GET_SUCCESS,
     SESSION_GET_FAILURE,
-    SETLIVE,
     MY_SESSION_GET_PENDING,
     MY_SESSION_GET_SUCCESS,
     MY_SESSION_GET_FAILURE,
@@ -10,23 +9,21 @@ import {
 
 import axios from 'axios'
 
-export const setLive = (given_holeId, given_livestate) => ({ type : SETLIVE, holeId: given_holeId,  livestate: given_livestate});  //
-
 function sessionGetApi(){
-    return axios.get('https://www.ask2live.me/api/hole')
+    return axios.get('https://143.248.226.7:8000/api/hole')
 }
 
 function userSessionGetApi(token){
     const config = {
         headers: {Authorization: 'Token ' + token}
     }
-    return axios.get('https://www.ask2live.me/api/user/read/hole',
+    return axios.get('https://143.248.226.7:8000/api/user/read/hole',
         config
     )
 }
 
 export const getSessionInfo = () => dispatch => {
-    console.log('-----getSessionInfo start-----')
+    // console.log('-----getSessionInfo start-----')
     dispatch({type: SESSION_GET_PENDING}); // 요청이 시작되었다는 것을 알림
 
     // 요청 시작
@@ -40,7 +37,6 @@ export const getSessionInfo = () => dispatch => {
 }
 
 export const getUserSessionInfo = token => dispatch => {
-    console.log('-----getUserSessionInfo start-----')
     dispatch({type: MY_SESSION_GET_PENDING}); // 요청이 시작되었다는 것을 알림
 
     // 요청 시작

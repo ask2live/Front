@@ -71,7 +71,7 @@ const style = {
 
 
 const MyPageContainer = (props) => {
-  console.log("컴포넌트 실행!");
+  // console.log("컴포넌트 실행!");
 
   const [flag, setFlag] = useState({ display: "none" });
   const [render, setRender] = useState(false);
@@ -82,7 +82,7 @@ const MyPageContainer = (props) => {
   const sessions = useSelector((state) => state.mySession.data);
   const wishSessions = useSelector((state) => state.mySession.data);
 
-  console.log("세션 :", sessions);
+  // console.log("세션 :", sessions);
 
   useEffect(() => {
     const token = localStorage.token

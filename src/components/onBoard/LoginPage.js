@@ -142,7 +142,7 @@ const LoginPage = (props) => {
         username : loginId,
         password : loginPassword
       }
-      axios.post('https://www.ask2live.me/api/user/login', 
+      axios.post('https://143.248.226.7:8000/api/user/login', 
       dataToSubmit,
       ).then((res) => {
         console.log("res", res)

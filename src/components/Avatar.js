@@ -37,7 +37,7 @@ const UserAvatar = (props) => {
         <>
         <div style={style.circle}>
             <div className={classes.root}>
-                <Avatar alt={props.hostName} src={props.imageLink ? "https://www.ask2live.me"+props.imageLink : "/static/reigns/1.jpg"} className={classes.large}/>
+                <Avatar alt={props.hostName} src={props.imageLink ? "https://143.248.226.7:8000"+props.imageLink : "/static/reigns/1.jpg"} className={classes.large}/>
             </div>
         </div>
         </>

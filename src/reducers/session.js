@@ -3,7 +3,6 @@ import {
     SESSION_GET_PENDING,
     SESSION_GET_SUCCESS,
     SESSION_GET_FAILURE,
-    SETLIVE,
   } from '../actions/types';
 
 
@@ -34,12 +33,6 @@ export const session = (state = initialState, action) => {
                 pending: false,
                 error: true
             }
-        case SETLIVE:
-            return {
-                ...state[state.findIndex(e => e.holeId === action.holeId)],
-                isLive : action.livestate,
-            };
-
         default:
             return state;
     }

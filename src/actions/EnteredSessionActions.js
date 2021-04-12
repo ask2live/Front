@@ -7,17 +7,17 @@ import {
 import axios from 'axios'
 
 function getApi(channelNum){
-    return axios.get('https://www.ask2live.me/api/hole/live/read/' + channelNum);
+    return axios.get('https://143.248.226.7:8000/api/hole/live/read/' + channelNum);
 }
 
 const getEnteredSession = channelNum => dispatch => {
-    console.log('-----getEnteredSession-----')
+    // console.log('-----getEnteredSession-----')
     dispatch({type: ENTEREDSESSION_GET_PENDING}); 
 
 
     return getApi(channelNum).then(
         (response) => {
-            console.log(response);
+            // console.log(response);
             dispatch({ type: ENTEREDSESSION_GET_SUCCESS, payload: response });
         }
     ).catch(error => {

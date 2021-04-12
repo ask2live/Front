@@ -215,7 +215,7 @@ const rtmClient = AgoraRTM.createInstance(appid);
 
 const LiveSession = (props) => {
     const history = useHistory();
-    console.log("!!!!!!!!!!!!!!!!!", props);
+    // console.log("!!!!!!!!!!!!!!!!!", props);
     // console.log("history state: ", history.state)
     // history.pushState(null, null, '');
     // console.log("history state: ", history.state)
@@ -230,13 +230,13 @@ const LiveSession = (props) => {
               channel_num : props.channelNum,
               host_uid : hostUid,
           };
-          console.log("LiveSession Host Post :", data);
+        //   console.log("LiveSession Host Post :", data);
           const res = await axios.post(
-            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/create",
+            "https://143.248.226.7:8000/api/hole/"+props.holeId+"/live/create",
             data,
             {headers:headers}
           );
-          console.log(res.data);
+        //   console.log(res.data);
     }
     
     const audiencePutApi = async(audienceUid) =>  {
@@ -246,13 +246,13 @@ const LiveSession = (props) => {
           const data = {
               uid : audienceUid,
           };
-          console.log("LiveSession Audience Post :", data);
+        //   console.log("LiveSession Audience Post :", data);
           const res = await axios.put(
-            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/join/"+props.channelNum,
+            "https://143.248.226.7:8000/api/hole/"+props.holeId+"/live/join/"+props.channelNum,
             data,
             {headers:headers}
           );
-          console.log(res.data);
+        //   console.log(res.data);
     }
 
     const leavePatchApi = async() =>  {
@@ -261,11 +261,11 @@ const LiveSession = (props) => {
           }
           const data = {};
           const res = await axios.patch(
-            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/leave/"+props.channelNum,
+            "https://143.248.226.7:8000/api/hole/"+props.holeId+"/live/leave/"+props.channelNum,
             data,
             {headers:headers}
           );
-          console.log(res.data);
+        //   console.log(res.data);
     }
 
 
@@ -317,7 +317,7 @@ const LiveSession = (props) => {
 
     // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
     const handleClick = () => {
-        console.log("호스트 나감2", hostExit)
+        // console.log("호스트 나감2", hostExit)
         setOpen(true);
     };
     
@@ -378,7 +378,7 @@ const LiveSession = (props) => {
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
         rtmChannel.on('ChannelMessage', (message, memberId) => {
-            console.log(`Message ${message}, from ${memberId}`);
+            // console.log(`Message ${message}, from ${memberId}`);
             
             rtmClient.logout();
             leave();
@@ -400,15 +400,15 @@ const LiveSession = (props) => {
                 // dispatch({type: QUESTIONLIST_DELETE})
                 // dispatch({type: ENTEREDSESSION_DELETE})
 
-                console.log("호스트!!!: ", props.isHost)
+                // console.log("호스트!!!: ", props.isHost)
                 window.removeEventListener("beforeunload", refreshOut);
 
                 rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
                     // Your code for handling the event when the channel message is successfully sent.
-                        console.log('host is leaving')
+                        // console.log('host is leaving')
                     }).catch(error => {
                     // Your code for handling the event when the channel message fails to be sent.
-                        console.log('host leaving error')
+                        // console.log('host leaving error')
                     });
 
                 rtmClient.logout();
@@ -431,7 +431,7 @@ const LiveSession = (props) => {
                 // dispatch({type: QUESTIONLIST_DELETE})
                 // dispatch({type: ENTEREDSESSION_DELETE})
 
-                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
+                // console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
                 window.removeEventListener("beforeunload", refreshOut);
 
                 // rtmChannel.leave();
@@ -513,7 +513,6 @@ const LiveSession = (props) => {
                                         <span style={{color: "rgba(255,255,255,0.8)"}}className="BMDOHYEON">{props.hostName}</span>
                                     </tr>
                                 </div>
-
                         </div>
         
                      

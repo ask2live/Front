@@ -14,8 +14,8 @@ export default function MediaPlayer(props) {
 
       audioTrack.setEnabled(true);
       const volumeInter = setInterval(()=>{
-        console.log("나의 오디오", client.uid);
-        console.log("나의 오디오", audioTrack.getVolumeLevel());
+        // console.log("나의 오디오", client.uid);
+        // console.log("나의 오디오", audioTrack.getVolumeLevel());
       }, 500)
 
       return () => {

@@ -148,7 +148,7 @@ const onClickWish = (sessionId) => {
     data: {}
   }
   axios.patch(
-    "https://www.ask2live.me/api/reservation/hole/" + sessionId + "/wish",
+    "https://143.248.226.7:8000/api/reservation/hole/" + sessionId + "/wish",
     data,
     config,
   ).then((response) => {
@@ -168,7 +168,7 @@ const onClickWishCancel = (sessionId) => {
   }
 
   axios.patch(
-    "https://www.ask2live.me/api/reservation/hole/" + sessionId + "/wishcancel",
+    "https://143.248.226.7:8000/api/reservation/hole/" + sessionId + "/wishcancel",
     data,
     config,
   ).then((response) => {
@@ -180,7 +180,7 @@ const onClickWishCancel = (sessionId) => {
 }
 
 const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
-  console.log("컴포넌트 시작 Enter : CurrentReserveSessionsCards")
+  // console.log("컴포넌트 시작 Enter : CurrentReserveSessionsCards")
 
 
     const [open, setOpen] = useState(false);
@@ -228,7 +228,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                           <>
                           <div className={classes.avatarWrapper}>
                             <Avatar className={classes.avatar} src={session.host_profile_image?
-                            `https://www.ask2live.me${session.host_profile_image}`
+                            `https://143.248.226.7:8000${session.host_profile_image}`
                             : "/static/reigns/1.jpg"} />
                             
                             {/* <CheckIcon size="large" style={{fontSize: "55", opacity: 0.6, position:"absolute", top:"25", left:"30"}} color='error'/> */}
@@ -241,7 +241,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                           {/* {percent} Days */}
                           <div className={classes.avatarWrapper}>
                           <Avatar className={classes.avatar} src={session.host_profile_image?
-                            `https://www.ask2live.me${session.host_profile_image}`
+                            `https://143.248.226.7:8000${session.host_profile_image}`
                             : "/static/reigns/1.jpg"} />
                           </div>
                           {/* <div className="NotoSans3" style={{fontSize:"large", position:"absolute", transform:"translate(1em, -3em)"}}>안녕안녕</div> */}

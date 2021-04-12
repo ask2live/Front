@@ -12,11 +12,11 @@ const SessionMatchContainer = (props) => {
     const history = useHistory()
     const [match, setMatch] = useState()
 
-    console.log(props);
+    // console.log(props);
     const sessionKind = props.routerInfo.match.params.state;
     let urlSearchParams = new URLSearchParams(props.routerInfo.location.search.slice(1));
-    console.log(props);
-    console.log(sessionKind);
+    // console.log(props);
+    // console.log(sessionKind);
 
     const holeId = urlSearchParams.get("holeId");
 
@@ -24,7 +24,7 @@ const SessionMatchContainer = (props) => {
     const currUser = tmp.detail? tmp.detail.username : "";
 
     useEffect(() => {
-        axios.get("https://www.ask2live.me/api/hole/read/"+holeId).then(
+        axios.get("https://143.248.226.7:8000/api/hole/read/"+holeId).then(
             (res) => {
                 if (res.data.response === "SUCCESS")
                     setMatch(res.data.detail);
@@ -120,7 +120,7 @@ const SessionMatchContainer = (props) => {
     //     case LIVE:
     //         const holeId = urlSearchParams.get("holeId");
     //         const channelNum = urlSearchParams.get("channelNum");
-    //         axios.get("https://www.ask2live.me/api/hole/read/"+holeId).then(
+    //         axios.get("https://143.248.226.7:8000/api/hole/read/"+holeId).then(
     //             (res) => {
     //                 if (res.data.response === "SUCCESS")
     //                 {
@@ -133,7 +133,7 @@ const SessionMatchContainer = (props) => {
     //     case RESERVE: // 占쏙옙占쏙옙 호占쏙옙트占쏙옙 占쏙옙占식곤옙占쏙옙
     //         const holeId_reserve = urlSearchParams.get("holeId");
     //         console.log(holeId_reserve)
-    //         axios.get("https://www.ask2live.me/api/hole/read/"+holeId).then(
+    //         axios.get("https://143.248.226.7:8000/api/hole/read/"+holeId).then(
     //             (res) => {
     //                 if (res.data.response === "SUCCESS")
     //                 {
