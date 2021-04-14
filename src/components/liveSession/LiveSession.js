@@ -192,7 +192,7 @@ const style = {
 
 
 //^ =============================================================
-const appid = "2e5346b36d1f40b1bbc62472116d96de";
+const appid = "387f33a0b6544314867242f62f4a2ded";
 const client = AgoraRTC.createClient({ codec: "vp8", mode: "rtc" });
 const rtmClient = AgoraRTM.createInstance(appid);
 
@@ -315,13 +315,13 @@ const LiveSession = (props) => {
     
     // 닫는 함수. 이미 아래에 자동적으로 사용되고 있음.
     const handleClose = (event, reason) => { 
-        console.log("host out")
+        // console.log("host out")
+        setTimeout(()=>window.location.replace('/main'), 300);
         // history.replace('/main')
         if (reason === 'clickaway') {
             return;
         }
         setOpen(false);
-        setTimeout(()=>window.location.replace('/main'), 300);
     };
     
     //^ =============================================================
@@ -356,7 +356,7 @@ const LiveSession = (props) => {
             event.preventDefault();
             event.returnValue = '';
         };
-        window.addEventListener("beforeunload", beforeUnloadListener);
+        window.addEventListener("beforeunload", refreshOut);
         window.addEventListener("pagehide", refreshOut);
         // window.onpagehide =  function(event) { // BFCahe
         //     if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
@@ -423,7 +423,7 @@ const LiveSession = (props) => {
             // roomSocket && roomSocket.close();
             
             // history.replace('/main');
-            setTimeout(()=>window.location.replace('/main'), 500);
+            setTimeout(()=>window.location.replace('/main'), 300);
             
         }
         
