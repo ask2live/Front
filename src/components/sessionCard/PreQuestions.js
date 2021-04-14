@@ -162,6 +162,7 @@ const PreQuestions = () => {
     const questions = useSelector(state => state.questionlist)
     // console.log(questions)
     const sessions = useSelector(state => state.session.data)
+    const [flag, setFlag] = useState(false);
     let targetSession = {};
 
     const href = window.location.href
@@ -175,13 +176,17 @@ const PreQuestions = () => {
             }
         })
       }
-    // useEffect(() => {
-    //   console.log(questions.data)
-    //   if(questions.data.length === 0){
-    //     console.log("dispatch!!!")
-    //     dispatch(getQuestionlist(sessionId))
-    //   }
-    // })
+      useEffect(() => {
+        // console.log(questions.data)
+        // if(Object.keys(questions.data).length === 0){
+          // console.log("dispatch!!!")
+          dispatch(getQuestionlist(sessionId))
+          setFlag(true)
+        // }
+        return () => {
+          dispatch({type : QUESTIONLIST_DELETE})
+        }
+      }, [flag])
     
     return (
             <>
