@@ -316,7 +316,7 @@ const LiveSession = (props) => {
     // 닫는 함수. 이미 아래에 자동적으로 사용되고 있음.
     const handleClose = (event, reason) => { 
         // console.log("host out")
-        setTimeout(()=>window.location.replace('/main'), 300);
+        setTimeout(()=>window.location.replace('/main'), 500);
         // history.replace('/main')
         if (reason === 'clickaway') {
             return;
@@ -349,7 +349,7 @@ const LiveSession = (props) => {
             leave();
             leavePatchApi();
             // roomSocket && roomSocket.close();
-            setTimeout(()=>window.location.replace('/main'), 300)
+            setTimeout(()=>window.location.replace('/main'), 500)
         };
         
         const beforeUnloadListener = (event) => {
@@ -403,7 +403,7 @@ const LiveSession = (props) => {
         return () => {
             // console.log("normal out")
             unblock();
-            window.removeEventListener("beforeunload", beforeUnloadListener);
+            window.removeEventListener("beforeunload", refreshOut);
             window.removeEventListener("pagehide", refreshOut);
 
             if (props.isHost)
@@ -423,7 +423,7 @@ const LiveSession = (props) => {
             // roomSocket && roomSocket.close();
             
             // history.replace('/main');
-            setTimeout(()=>window.location.replace('/main'), 300);
+            setTimeout(()=>window.location.replace('/main'), 500);
             
         }
         
