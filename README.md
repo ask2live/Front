@@ -2,7 +2,8 @@
 
 2021년 3월 11일 ~ 진행중
 
-1. Get start with ASK2LIVE
+
+### 1. Get start with ASK2LIVE
 First, type bellow commands into terminal
 
 ```
