@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { postSessionToReserve } from '../actions/SessionToReserveActions';
-
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+
+// components
+import MypageNav from "../components/mypage/MypageNav";
+
+// hooks
+import {
+  getSessionInfo,
+  getUserSessionInfo,
+  confirmSession, 
+  createSession,
+  updateSession
+} from '../actions/SessionActions';
+
+// CSS
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
@@ -18,11 +31,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import HelpIcon from '@material-ui/icons/HelpOutline';
 import { Checkbox } from 'antd';
-
-import axios from "axios";
-import { getSessionInfo, getUserSessionInfo } from "../actions/SessionActions";
-import MypageNav from "../components/mypage/MypageNav";
-
 
 import MuiAlert from '@material-ui/lab/Alert';
 function NumAlert(props) {
@@ -155,7 +163,7 @@ const SessionCreateContainer = (props) => {
     setOpen2(false);
   };
 
-  const onClick = async () => {
+  const onClick = () => {
     if (earlyDateValid)
         return;
     setDisable(true)
@@ -174,19 +182,12 @@ const SessionCreateContainer = (props) => {
     };
     // console.log(data);
     if (holeId) {
-      await axios
-        .patch(
-          "https://www.ask2live.me/api/hole/update/" + holeId,
-          data,
-          config
-        )
+      updateSession(holeId, data)
         .then((res) => {
-          // console.log("hole created: ", res);
+          // console.log("hole updated: ", res);
           handleClick();
-          setTimeout(() => {
-            dispatch(getUserSessionInfo(localStorage.token));
-            dispatch(getSessionInfo());
-          }, 200);
+          dispatch(getUserSessionInfo(localStorage.token));
+          dispatch(getSessionInfo());
         })
         .catch((err) => {
           if (title.length === 0) setTitleValid(true);
@@ -195,15 +196,12 @@ const SessionCreateContainer = (props) => {
           setDisable(false)
         });
     } else if(skipValid){
-      // sessionCreate
-      await axios
-      .post("https://www.ask2live.me/api/hole/create", data, config)
+
+      createSession(data)
         .then((res) => {
           // console.log("hole created: ", res);
           session = res.data.detail
-          // sessionToReserve
-          postSessionToReserve(session);
-          // console.log("postSessionToReserve success")
+          confirmSession(session);
           // 라이브 하기
           history.push({
             pathname: "/session/reserve",
@@ -216,21 +214,16 @@ const SessionCreateContainer = (props) => {
           setDisable(false)
         })
       
-      
-      
-      
-    }else {
-      await axios
-        .post("https://www.ask2live.me/api/hole/create", data, config)
+    } else {
+        createSession(data)
         .then((res) => {
           // console.log("hole created: ", res);
           handleClick();
-          setTimeout(() => {
-            dispatch(getUserSessionInfo(localStorage.token));
-            dispatch(getSessionInfo());
-          }, 200);
+          dispatch(getUserSessionInfo(localStorage.token));
+          dispatch(getSessionInfo());
         })
         .catch((err) => {
+          // console.log(err);
           if (title.length === 0) setTitleValid(true);
           if (reserveDate.length === 0) setReserveDateValid(true);
           if (description.length === 0) setDescriptionValid(true);

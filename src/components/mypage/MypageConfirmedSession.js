@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import { useHistory } from "react-router";
+
+import {
+  getUserSessionInfo,
+  deleteSession,
+} from "../../actions/SessionActions";
+
+// CSS
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -17,12 +23,7 @@ import Moment from "react-moment";
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 
-
 import "../../styles/style.css";
-import {
-  getUserSessionInfo,
-  deleteSession,
-} from "../../actions/SessionActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -117,29 +118,10 @@ const MypageConfirmedSession = ({ session }) => {
     if (reason === 'clickaway'){
       return;
     }
-    await deleteSession(localStorage.token, session);
+    await deleteSession(session);
     dispatch(getUserSessionInfo(localStorage.token));
     // setOpen2(false);
   }
-
-  // const onChangeDoing = async(session, user) => {
-
-  //   const config = {
-  //     headers: { Authorization: "Token " + localStorage.token },
-  //   };
-  //   const data = {
-      
-  //     channel_num : String(session.id) + '123',
-  //     host_uid : user.id,
-      
-  //   }
-  //   const res = await axios.post(
-  //     "https://www.ask2live.me/api/hole/" + session.id + "/live/create",
-  //     data,
-  //     config,
-  //   );
-
-  // }
 
   if (!session) return null;
   return (

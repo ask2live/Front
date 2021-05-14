@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import { useHistory } from "react-router";
 import Moment from "react-moment";
+
+// Hooks
+import { SessionConfirm } from "./SessionConfirm";
+import {
+  getUserSessionInfo,
+  deleteSession,
+} from "../../actions/SessionActions";
+
+// CSS
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -20,12 +28,6 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Box from '@material-ui/core/Box';
 
 import "../../styles/style.css";
-import { SessionConfirm } from "./SessionConfirm";
-import {
-  getSessionInfo,
-  getUserSessionInfo,
-  deleteSession,
-} from "../../actions/SessionActions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -173,7 +175,7 @@ const MypageLiveSession = (props) => {
     if (reason === 'clickaway'){
       return;
     }
-    await deleteSession(localStorage.token, session);
+    await deleteSession(session);
     dispatch(getUserSessionInfo(localStorage.token));
   }
 
