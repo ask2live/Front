@@ -61,7 +61,15 @@ export const getUserSessionInfo = token => dispatch => {
 
 export const deleteSession = (token, session) => {
     // console.log("-----deleteSession start-----");
-    
-    return deleteSessionApi(token, session)
+    const config = {
+        headers: { Authorization: "Token " + token }
+    };
+
+    return axios.delete(
+        "https://www.ask2live.me/api/hole/delete/" + session.id,
+        config,
+    );
+
+    // return deleteSessionApi(token, session)
     // console.log("hole deleted: ", res);
   };

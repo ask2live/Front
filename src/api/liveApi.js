@@ -43,7 +43,7 @@ export const leavePatchApi = async(holeId, channelNum) =>  {
         data,
         {headers:headers}
       );
-    //   console.log("--------leavePatch-----",res.data);
+      console.log("--------leavePatch-----",res.data);
     //   if (res.data.response === "SUCCESS"){
     //   }
 }
