@@ -22,6 +22,16 @@ function userSessionGetApi(token){
     )
 }
 
+function deleteSessionApi(token, session){
+    const config = {
+        headers: { Authorization: "Token " + token }
+    };
+    return axios.delete(
+        "https://www.ask2live.me/api/hole/delete/" + session.id,
+        config,
+    );
+}
+
 export const getSessionInfo = () => dispatch => {
     // console.log('-----getSessionInfo start-----')
     dispatch({type: SESSION_GET_PENDING}); // 요청이 시작되었다는 것을 알림
@@ -48,3 +58,10 @@ export const getUserSessionInfo = token => dispatch => {
         dispatch({ type: MY_SESSION_GET_FAILURE, payload: error });
     })
 }
+
+export const deleteSession = (token, session) => {
+    // console.log("-----deleteSession start-----");
+    
+    return deleteSessionApi(token, session)
+    // console.log("hole deleted: ", res);
+  };

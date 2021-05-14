@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef, useCallback, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory} from "react-router-dom"
-import axios from "axios"
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import getEnteredSession from "../../actions/EnteredSessionActions"
 import getQuestionList from "../../actions/QuestionListActions";
@@ -10,7 +9,11 @@ import {
     ENTEREDSESSION_DELETE,
     CLEAR_VOLUME,
 } from "../../actions/types.js";
-
+import {
+    hostPostApi,
+    audiencePutApi,
+    leavePatchApi,
+} from "../../api";
 
 
 import ParticipantList from "./ParticipantList";
@@ -24,6 +27,7 @@ import "../../index.css"
 import PlayerWrapper from "./agora/PlayerWrapper";
 import { onRoomMessagesRead } from '../../actions/MessagesActions';
 
+// CSS
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -31,7 +35,6 @@ import CloseListButton from '@material-ui/icons/ExpandMore';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import MicIcon from '@material-ui/icons/Mic';
-
 import "../../styles/style.css"
 
 
@@ -200,61 +203,13 @@ const rtmClient = AgoraRTM.createInstance(appid);
 //^ =============================================================
 
 const LiveSession = (props) => {
+    const { holeId, channelNum } = props;
     const history = useHistory();
     // console.log("!!!!!!!!!!!!!!!!!", props);
     // console.log("history state: ", history.state)
     // history.pushState(null, null, '');
     // console.log("history state: ", history.state)
     const dispatch = useDispatch()
-
-
-    const hostPostApi = async(hostUid) =>  {
-        const headers = {
-            'Authorization': 'Token ' + localStorage.token
-          }
-          const data = {
-              channel_num : props.channelNum,
-              host_uid : hostUid,
-          };
-        //   console.log("LiveSession Host Post :", data);
-          const res = await axios.post(
-            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/create",
-            data,
-            {headers:headers}
-          );
-        //   console.log(res.data);
-    }
-    
-    const audiencePutApi = async(audienceUid) =>  {
-        const headers = {
-            'Authorization': 'Token ' + localStorage.token
-          }
-          const data = {
-              uid : audienceUid,
-          };
-        //   console.log("LiveSession Audience Post :", data);
-          const res = await axios.put(
-            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/join/"+props.channelNum,
-            data,
-            {headers:headers}
-          );
-        //   console.log(res.data);
-    }
-
-    const leavePatchApi = async() =>  {
-        const headers = {
-            'Authorization': 'Token ' + localStorage.token
-          }
-          const data = {};
-          const res = await axios.patch(
-            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/leave/"+props.channelNum,
-            data,
-            {headers:headers}
-          );
-        //   console.log("--------leavePatch-----",res.data);
-        //   if (res.data.response === "SUCCESS"){
-        //   }
-    }
 
 
     const [listup, setListUp] = useState({transform : "translate(0, 100%)"})
@@ -347,7 +302,7 @@ const LiveSession = (props) => {
             // history.replace('/main')
             rtmClient.logout();
             leave();
-            leavePatchApi();
+            leavePatchApi(holeId, channelNum);
             // roomSocket && roomSocket.close();
             setTimeout(()=>window.location.replace('/main'), 500)
         };
@@ -387,17 +342,17 @@ const LiveSession = (props) => {
             
             rtmClient.logout();
             leave();
-            leavePatchApi();
+            leavePatchApi(holeId, channelNum);
             // roomSocket && roomSocket.close();
             //! 소켓으로 바꾸는중
             handleClick();
         });
 
         if (props.isHost){
-            setTimeout(()=>{hostPostApi(client.uid)}, 4000);
+            setTimeout(()=>{hostPostApi(client.uid, holeId, channelNum)}, 4000);
         }
         else{
-            setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
+            setTimeout(()=>{audiencePutApi(client.uid, holeId, channelNum)}, 4000);
         }
              
         return () => {

@@ -24,6 +24,7 @@ import { SessionConfirm } from "./SessionConfirm";
 import {
   getSessionInfo,
   getUserSessionInfo,
+  deleteSession,
 } from "../../actions/SessionActions";
 
 
@@ -182,16 +183,8 @@ const MypageLiveSession = (props) => {
 
   const onDelete = async () => {
     // console.log("DELETE SESSION!");
-    const config = {
-      headers: { Authorization: "Token " + localStorage.token },
-    };
-
-    await axios.delete(
-      "https://www.ask2live.me/api/hole/delete/" + session.id,
-      config
-    );
-
-    history.push("/mypage");
+    await deleteSession(localStorage.token, session);
+    await history.push("/mypage");
   };
 
   if (!session) return null;

@@ -21,6 +21,7 @@ import Alert from '@material-ui/lab/Alert';
 import "../../styles/style.css";
 import {
   getUserSessionInfo,
+  deleteSession,
 } from "../../actions/SessionActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -145,17 +146,8 @@ const MypageConfirmedSession = ({ session }) => {
 
   const onDelete = async () => {
     // console.log("DELETE SESSION!");
-    // await postSessionDelete(session);
-    const config = {
-      headers: { Authorization: "Token " + localStorage.token },
-    };
-
-    await axios.delete(
-      "https://www.ask2live.me/api/hole/delete/" + session.id,
-      config
-    );
-
-    history.push("/mypage");
+    await deleteSession(localStorage.token, session);
+    await history.push("/mypage");
   };
 
   if (!session) return null;
