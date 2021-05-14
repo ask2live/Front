@@ -169,23 +169,13 @@ const MypageLiveSession = (props) => {
     setOpen2(true)
   }
 
-  const handleDeleteClose = (event, reason) => {
-    onDelete()
-    setTimeout(
-      () => dispatch(getUserSessionInfo(localStorage.token)),
-      200
-    )
+  const handleDeleteClose = async(event, reason) => {
     if (reason === 'clickaway'){
       return;
     }
-    setOpen2(false);
-  }
-
-  const onDelete = async () => {
-    // console.log("DELETE SESSION!");
     await deleteSession(localStorage.token, session);
-    await history.push("/mypage");
-  };
+    dispatch(getUserSessionInfo(localStorage.token));
+  }
 
   if (!session) return null;
   return (

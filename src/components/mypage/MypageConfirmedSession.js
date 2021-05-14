@@ -113,16 +113,13 @@ const MypageConfirmedSession = ({ session }) => {
     setOpen2(true)
   }
 
-  const handleDeleteClose = (event, reason) => {
-    onDelete()
-    setTimeout(
-      () => dispatch(getUserSessionInfo(localStorage.token)),
-      200
-    )
+  const handleDeleteClose = async(event, reason) => {
     if (reason === 'clickaway'){
       return;
     }
-    setOpen2(false);
+    await deleteSession(localStorage.token, session);
+    dispatch(getUserSessionInfo(localStorage.token));
+    // setOpen2(false);
   }
 
   // const onChangeDoing = async(session, user) => {
@@ -143,12 +140,6 @@ const MypageConfirmedSession = ({ session }) => {
   //   );
 
   // }
-
-  const onDelete = async () => {
-    // console.log("DELETE SESSION!");
-    await deleteSession(localStorage.token, session);
-    await history.push("/mypage");
-  };
 
   if (!session) return null;
   return (

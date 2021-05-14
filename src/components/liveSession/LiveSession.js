@@ -374,7 +374,7 @@ const LiveSession = (props) => {
             
             rtmClient.logout();
             leave();
-            leavePatchApi();
+            leavePatchApi(holeId, channelNum);
             // roomSocket && roomSocket.close();
             
             // history.replace('/main');
