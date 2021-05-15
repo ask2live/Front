@@ -111,19 +111,17 @@ const SessionCreateContainer = (props) => {
     return date;
   };
 
-  useEffect(() => {
+  useEffect(async() => {
     if (holeId) {
-      axios
-        .get("https://www.ask2live.me/api/hole/read/" + holeId)
-        .then((res) => {
-          const session = res.data.detail;
-          // console.log(session)
-          setTitle(session.title);
-          setDescription(session.description);
-          let date = session.reserve_date.split(":");
-          setReserveDate(date[0] + ":" + date[1]);
-          setCount(session.hole_reservations.target_demand);
-        });
+
+      const res = await axios.get("https://www.ask2live.me/api/hole/read/" + holeId);
+      const session = res.data.detail;
+      setTitle(session.title);
+      setDescription(session.description);
+      let date = session.reserve_date.split(":");
+      setReserveDate(date[0] + ":" + date[1]);
+      setCount(session.hole_reservations.target_demand);
+
     }
   }, [holeId]);
 
@@ -186,7 +184,7 @@ const SessionCreateContainer = (props) => {
         .then((res) => {
           // console.log("hole updated: ", res);
           handleClick();
-          dispatch(getUserSessionInfo(localStorage.token));
+          dispatch(getUserSessionInfo());
           dispatch(getSessionInfo());
         })
         .catch((err) => {
@@ -219,7 +217,7 @@ const SessionCreateContainer = (props) => {
         .then((res) => {
           // console.log("hole created: ", res);
           handleClick();
-          dispatch(getUserSessionInfo(localStorage.token));
+          dispatch(getUserSessionInfo());
           dispatch(getSessionInfo());
         })
         .catch((err) => {

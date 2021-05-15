@@ -119,7 +119,7 @@ const MypageConfirmedSession = ({ session }) => {
       return;
     }
     await deleteSession(session);
-    dispatch(getUserSessionInfo(localStorage.token));
+    dispatch(getUserSessionInfo());
     // setOpen2(false);
   }
 

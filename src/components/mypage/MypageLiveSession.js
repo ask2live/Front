@@ -176,7 +176,7 @@ const MypageLiveSession = (props) => {
       return;
     }
     await deleteSession(session);
-    dispatch(getUserSessionInfo(localStorage.token));
+    dispatch(getUserSessionInfo());
   }
 
   if (!session) return null;

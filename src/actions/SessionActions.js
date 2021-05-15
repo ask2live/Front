@@ -18,9 +18,6 @@ function sessionGetApi() {
 }
 
 function userSessionGetApi(token) {
-  const config = {
-    headers: { Authorization: "Token " + token },
-  };
   return axios.get("https://www.ask2live.me/api/user/read/hole", config);
 }
 
@@ -38,11 +35,11 @@ export const getSessionInfo = () => (dispatch) => {
     });
 };
 
-export const getUserSessionInfo = (token) => (dispatch) => {
+export const getUserSessionInfo = () => (dispatch) => {
   dispatch({ type: MY_SESSION_GET_PENDING }); // 요청이 시작되었다는 것을 알림
 
   // 요청 시작
-  return userSessionGetApi(token)
+  return userSessionGetApi()
     .then((response) => {
       dispatch({ type: MY_SESSION_GET_SUCCESS, payload: response });
     })
