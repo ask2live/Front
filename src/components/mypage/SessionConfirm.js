@@ -1,4 +1,4 @@
-import { postSessionToReserve } from '../../actions/SessionToReserveActions';
+import { confirmSession } from '../../actions/SessionActions';
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
@@ -100,7 +100,7 @@ const SessionConfirm = (props) => {
             size="large"
             onClick={() => 
               {
-                postSessionToReserve(session);
+                confirmSession(session);
                 handleClick();
               }}
               >

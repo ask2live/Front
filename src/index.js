@@ -18,7 +18,7 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 // axios.defaults.headers.common['X-CSRFToken'] = getCookie("csrftoken");
 
 
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk)));
 
 ReactDOM.render(
     <React.StrictMode>

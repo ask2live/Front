@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import { useHistory } from "react-router";
+
+import {
+  getUserSessionInfo,
+  deleteSession,
+} from "../../actions/SessionActions";
+
+// CSS
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -17,11 +23,7 @@ import Moment from "react-moment";
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 
-
 import "../../styles/style.css";
-import {
-  getUserSessionInfo,
-} from "../../actions/SessionActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -112,51 +114,14 @@ const MypageConfirmedSession = ({ session }) => {
     setOpen2(true)
   }
 
-  const handleDeleteClose = (event, reason) => {
-    onDelete()
-    setTimeout(
-      () => dispatch(getUserSessionInfo(localStorage.token)),
-      200
-    )
+  const handleDeleteClose = async(event, reason) => {
     if (reason === 'clickaway'){
       return;
     }
-    setOpen2(false);
+    await deleteSession(session);
+    dispatch(getUserSessionInfo());
+    // setOpen2(false);
   }
-
-  // const onChangeDoing = async(session, user) => {
-
-  //   const config = {
-  //     headers: { Authorization: "Token " + localStorage.token },
-  //   };
-  //   const data = {
-      
-  //     channel_num : String(session.id) + '123',
-  //     host_uid : user.id,
-      
-  //   }
-  //   const res = await axios.post(
-  //     "https://www.ask2live.me/api/hole/" + session.id + "/live/create",
-  //     data,
-  //     config,
-  //   );
-
-  // }
-
-  const onDelete = async () => {
-    // console.log("DELETE SESSION!");
-    // await postSessionDelete(session);
-    const config = {
-      headers: { Authorization: "Token " + localStorage.token },
-    };
-
-    await axios.delete(
-      "https://www.ask2live.me/api/hole/delete/" + session.id,
-      config
-    );
-
-    history.push("/mypage");
-  };
 
   if (!session) return null;
   return (

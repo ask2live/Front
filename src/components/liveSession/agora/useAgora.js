@@ -10,7 +10,7 @@ import { AirlineSeatReclineExtraOutlined } from "@material-ui/icons";
 
 export default function useAgora(client) {
   // console.log("useAgora");
-  const appid = "2e5346b36d1f40b1bbc62472116d96de";
+  const appid = "387f33a0b6544314867242f62f4a2ded";
 
   const [localAudioTrack, setLocalAudioTrack] = useState("");
   const [joinState, setJoinState] = useState(false);

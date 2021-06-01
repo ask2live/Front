@@ -347,7 +347,11 @@ const MypageEdit = (props) => {
               // color="#EF5941"
               size="normal"
               onClick={() => {
-                history.goBack();
+                // history.goBack();
+                history.replace({
+                  pathname: "/mypage/" + username,
+                  state: user,
+                });
               }}
             >
               <span style={{transform: "translate(0, 1px)", color: "#EF5941"}}>

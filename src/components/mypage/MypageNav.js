@@ -1,4 +1,6 @@
 import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { getSessionInfo } from "../../actions/SessionActions";
 
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import IconButton from "@material-ui/core/IconButton";
@@ -33,6 +35,7 @@ const style = {
 
 const MypageNav = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -46,7 +49,8 @@ const MypageNav = (props) => {
         </IconButton>
         <IconButton style={{ position: "absolute", right: 0, height: "100%", marginRight:"10px"}} color="inherit" aria-label="menu">
             <Home onClick={() => {
-            history.push('/');}} />
+              dispatch(getSessionInfo())
+              history.push('/');}} />
         </IconButton>
 
         <div style={style.borderbox}>
