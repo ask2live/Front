@@ -9,8 +9,8 @@ import AgoraRTM from "agora-rtm-sdk";
 import { AirlineSeatReclineExtraOutlined } from "@material-ui/icons";
 
 export default function useAgora(client) {
-  console.log("useAgora");
-  const appid = "2e5346b36d1f40b1bbc62472116d96de";
+  // console.log("useAgora");
+  const appid = "387f33a0b6544314867242f62f4a2ded";
 
   const [localAudioTrack, setLocalAudioTrack] = useState("");
   const [joinState, setJoinState] = useState(false);
@@ -29,7 +29,7 @@ export default function useAgora(client) {
   }
   
   async function join(channel, token, rtmClient, rtmChannel, isHost) {
-    console.log("join");
+    // console.log("join");
 
     if (!client) return;
     
@@ -40,17 +40,17 @@ export default function useAgora(client) {
     await rtmClient
     .login({ token: null, uid: String(client.uid) })
         .then(() => {
-          console.log("AgoraRTM client login success !!");
+          // console.log("AgoraRTM client login success !!");
         })
         .catch((err) => {
-          console.log("AgoraRTM client login failure !!", err);
+          // console.log("AgoraRTM client login failure !!", err);
         });
         
     // rtm 클라이언트 메시지 받기 모드
     await rtmClient.on("ConnectionStateChanged", (newState, reason) => {
-      console.log(
-        "on connection state changed to " + newState + " reason: " + reason
-        );
+      // console.log(
+        // "on connection state changed to " + newState + " reason: " + reason
+        // );
       });
     
     //rtm 메시지채널 join
@@ -59,20 +59,20 @@ export default function useAgora(client) {
       // event listener for receiving a peer-to-peer message.
     await rtmClient.on("MessageFromPeer", (msg, peerId) => {
         // text: text of the received message; peerId: User ID of the sender.
-        console.log(
-          "AgoraRTM Peer Msg: from user " + peerId + " recieved: \n" + msg.text
-        );
+        // console.log(
+          // "AgoraRTM Peer Msg: from user " + peerId + " recieved: \n" + msg.text
+        // );
 
         // check if mute or leave command
         if (msg.text === "host") {
-          console.log("make host");
+          // console.log("make host");
 
           client.publish(microphoneTrack);
           // localAudioTrack.stop();
           // localAudioTrack.setEnabled(true);
 
         } else if (msg.text === "audience") {
-          console.log("make audience");
+          // console.log("make audience");
           
           client.unpublish();
           // localAudioTrack.play();
@@ -85,16 +85,16 @@ export default function useAgora(client) {
       });
 
     if (isHost) {
-      console.log("client Role in JOIN ");
+      // console.log("client Role in JOIN ");
       await dispatch({type: "superHost", payload: "host"});
       await client.publish(microphoneTrack);
 
     } else {
-      console.log("audience Role in JOIN");
+      // console.log("audience Role in JOIN");
       await dispatch({type: "audience"});
     }
 
-    console.log("end useAgora");
+    // console.log("end useAgora");
     setJoinState(true);
   }
 

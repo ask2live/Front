@@ -148,7 +148,7 @@ const SessionDetail = ({session}) => {
 }
 
 const ListPreQuestions = ({questions, session}) => {
-    console.log('qestions', questions)
+    // console.log('qestions', questions)
     return(
         <>
         <PreQuestionNav session={session}/>
@@ -160,7 +160,9 @@ const ListPreQuestions = ({questions, session}) => {
 const PreQuestions = () => {
     const dispatch = useDispatch()
     const questions = useSelector(state => state.questionlist)
+    // console.log(questions)
     const sessions = useSelector(state => state.session.data)
+    const [flag, setFlag] = useState(false);
     let targetSession = {};
 
     const href = window.location.href
@@ -168,17 +170,23 @@ const PreQuestions = () => {
 
     if(Object.keys(sessions).length != 0){
         sessions.map((session) => {
-          console.log('DEBUG22',session)
+          // console.log('DEBUG22',session)
             if(sessionId === session.id){
                 targetSession = {...targetSession, session}
             }
         })
       }
-    useEffect(() => {
-      if(Object.keys(questions.data).length === 0){
-        dispatch(getQuestionlist(sessionId))
-      }
-    })
+      useEffect(() => {
+        // console.log(questions.data)
+        // if(Object.keys(questions.data).length === 0){
+          // console.log("dispatch!!!")
+          dispatch(getQuestionlist(sessionId))
+          setFlag(true)
+        // }
+        return () => {
+          dispatch({type : QUESTIONLIST_DELETE})
+        }
+      }, [flag])
     
     return (
             <>
@@ -187,7 +195,7 @@ const PreQuestions = () => {
         <div style={{display:"flex", justifyContent:"center", position:"absolute", top:"9%" , width:"100%"}}>
           <div style={{width:"100%", maxWidth:"50em"}}>
           <SessionDetail session={targetSession.session}/>
-          {Object.keys(questions.data).length > 0 ? <ListPreQuestions questions={questions} session={targetSession.session}/> : null}
+          <ListPreQuestions questions={questions} session={targetSession.session}/>
           </div>
         </div>
         </>

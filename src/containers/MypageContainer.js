@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 import Mypage from "../components/mypage/Mypage";
 import MypageLiveSession from "../components/mypage/MypageLiveSession";
 import MypageConfirmedSession from "../components/mypage/MypageConfirmedSession";
 import { getUserSessionInfo } from "../actions/SessionActions";
-// import { getUserInfo } from "../actions/UserActions";
 import { Emoji } from "../components/Emoji";
 
 // material-ui
@@ -50,9 +48,7 @@ const style = {
 
 
 const MyPageContainer = (props) => {
-  console.log("MyPageContainer");
 
-  // const [render, setRender] = useState(false);
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -60,13 +56,8 @@ const MyPageContainer = (props) => {
   const sessions = useSelector((state) => state.mySession.data);
   const wishSessions = useSelector((state) => state.mySession.data);
 
-  // console.log("세션 :", sessions);
-
   useEffect(() => {
-    const token = localStorage.token
-    // dispatch(getUserInfo(token));
-    dispatch(getUserSessionInfo(token));
-    // setRender(true);
+    dispatch(getUserSessionInfo());
   }, []);
 
   let myLiveSessions = [];
@@ -149,11 +140,12 @@ const MyPageContainer = (props) => {
             <List component="div" disablePadding>
               {myConfirmSessions.length != 0 ?
                 myConfirmSessions.map((session) => (
-                  <>
+
                     <MypageConfirmedSession
+                      key={session.id}
                       session={session}
                     />
-                  </>
+
                 )) :
                   <>
                     <div style={{display: "flex", justifyContent: "center"}}>
@@ -178,9 +170,9 @@ const MyPageContainer = (props) => {
             <List component="div" disablePadding>
               {myLiveSessions.length != 0 ?
                 myLiveSessions.map((session) => (
-                  <>
-                    <MypageLiveSession session={session} />
-                  </>
+
+                    <MypageLiveSession key={session.id} session={session} />
+
                 ))
                 :
                   <>
@@ -207,9 +199,9 @@ const MyPageContainer = (props) => {
             <List component="div" disablePadding>
               {myWishSessions.length != 0 ?
                 myWishSessions.map((session) => (
-                  <>
-                    <MypageLiveSession session={session} />
-                  </>
+
+                    <MypageLiveSession key={session.id} session={session} />
+
                 ))
                 :
                 <>
@@ -237,9 +229,9 @@ const MyPageContainer = (props) => {
             <List component="div" disablePadding>
               {myDoneSessions.length != 0 ?
                 myDoneSessions.map((session) => (
-                  <>
-                    <MypageLiveSession session={session} />
-                  </>
+
+                    <MypageLiveSession key={session.id} session={session} />
+
                 ))
                 :
                 <>

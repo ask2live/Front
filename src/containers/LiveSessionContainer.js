@@ -11,20 +11,20 @@ import { sessionDummy } from "../dummydatas/sessionDummy"
 
 const LiveSessionContainer = (props) => {
 
-    console.log("LiveSessionContainer Props", props.joinPass);
+    // console.log("LiveSessionContainer Props", props.joinPass);
 
     const [join, setJoin] = useState(props.joinPass); // ?���? ?��?��코딩
 
-    console.log(join);
+    // console.log(join);
 
     // if (1) //props.isHost
     //     return <LiveSession hostName={hostName} imageLink={imageLink} channelNum={channelNum} isHost={1}/>
     if (!join){
-        console.log("!join", join)
+        // console.log("!join", join)
         return <JoinCard holeId={props.holeId} channelNum={props.channelNum} hostName={props.hostName} hostImage={props.hostImage} setJoin={setJoin} isHost={props.isHost}/>
     }else
     {
-        console.log("join",join)
+        // console.log("join",join)
         return <LiveSession holeTitle={props.holeTitle} holeId={props.holeId} hostName={props.hostName} imageLink={props.hostImage} channelNum={props.channelNum} isHost={props.isHost}/>
     }
 }

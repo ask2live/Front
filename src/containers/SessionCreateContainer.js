@@ -1,8 +1,21 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { postSessionToReserve } from '../actions/SessionToReserveActions';
-
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+
+// components
+import MypageNav from "../components/mypage/MypageNav";
+
+// hooks
+import {
+  getSessionInfo,
+  getUserSessionInfo,
+  confirmSession, 
+  createSession,
+  updateSession
+} from '../actions/SessionActions';
+
+// CSS
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
@@ -14,16 +27,10 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import Avatar from "@material-ui/core/Avatar";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import HelpIcon from '@material-ui/icons/HelpOutline';
 import { Checkbox } from 'antd';
-
-import axios from "axios";
-import { getSessionInfo, getUserSessionInfo } from "../actions/SessionActions";
-import MypageNav from "../components/mypage/MypageNav";
-
 
 import MuiAlert from '@material-ui/lab/Alert';
 function NumAlert(props) {
@@ -39,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(7),
+    // marginTop: theme.spacing(7),
+    // backgroundColor: "skyblue",
     // fontFamily: "BMJUA"
     display: "flex",
     flexDirection: "column",
@@ -82,7 +90,7 @@ const SessionCreateContainer = (props) => {
   let afterOneMinutes = new Date(nowDate.setDate(nowDate.getMinutes() + 1))
 
   let defaultDate = afterOneMinutes.toISOString()
-  console.log("defaultDate", defaultDate)
+  // console.log("defaultDate", defaultDate)
 
   const holeId = urlSearchParams.get("holeId");
 
@@ -103,19 +111,17 @@ const SessionCreateContainer = (props) => {
     return date;
   };
 
-  useEffect(() => {
+  useEffect(async() => {
     if (holeId) {
-      axios
-        .get("https://www.ask2live.me/api/hole/read/" + holeId)
-        .then((res) => {
-          const session = res.data.detail;
-          console.log(session)
-          setTitle(session.title);
-          setDescription(session.description);
-          let date = session.reserve_date.split(":");
-          setReserveDate(date[0] + ":" + date[1]);
-          setCount(session.hole_reservations.target_demand);
-        });
+
+      const res = await axios.get("https://www.ask2live.me/api/hole/read/" + holeId);
+      const session = res.data.detail;
+      setTitle(session.title);
+      setDescription(session.description);
+      let date = session.reserve_date.split(":");
+      setReserveDate(date[0] + ":" + date[1]);
+      setCount(session.hole_reservations.target_demand);
+
     }
   }, [holeId]);
 
@@ -155,14 +161,14 @@ const SessionCreateContainer = (props) => {
     setOpen2(false);
   };
 
-  const onClick = async () => {
+  const onClick = () => {
     if (earlyDateValid)
         return;
     setDisable(true)
     const config = {
       headers: { Authorization: "Token " + localStorage.token },
     };
-    console.log(localStorage.token);
+    // console.log(localStorage.token);
     
     let session = {}
     
@@ -172,21 +178,14 @@ const SessionCreateContainer = (props) => {
       reserve_date: reserveDate,
       target_demand: count,
     };
-    console.log(data);
+    // console.log(data);
     if (holeId) {
-      await axios
-        .patch(
-          "https://www.ask2live.me/api/hole/update/" + holeId,
-          data,
-          config
-        )
+      updateSession(holeId, data)
         .then((res) => {
-          console.log("hole created: ", res);
+          // console.log("hole updated: ", res);
           handleClick();
-          setTimeout(() => {
-            dispatch(getUserSessionInfo(localStorage.token));
-            dispatch(getSessionInfo());
-          }, 200);
+          dispatch(getUserSessionInfo());
+          dispatch(getSessionInfo());
         })
         .catch((err) => {
           if (title.length === 0) setTitleValid(true);
@@ -195,15 +194,12 @@ const SessionCreateContainer = (props) => {
           setDisable(false)
         });
     } else if(skipValid){
-      // sessionCreate
-      await axios
-      .post("https://www.ask2live.me/api/hole/create", data, config)
+
+      createSession(data)
         .then((res) => {
-          console.log("hole created: ", res);
+          // console.log("hole created: ", res);
           session = res.data.detail
-          // sessionToReserve
-          postSessionToReserve(session);
-          console.log("postSessionToReserve success")
+          confirmSession(session);
           // 라이브 하기
           history.push({
             pathname: "/session/reserve",
@@ -216,21 +212,16 @@ const SessionCreateContainer = (props) => {
           setDisable(false)
         })
       
-      
-      
-      
-    }else {
-      await axios
-        .post("https://www.ask2live.me/api/hole/create", data, config)
+    } else {
+        createSession(data)
         .then((res) => {
-          console.log("hole created: ", res);
+          // console.log("hole created: ", res);
           handleClick();
-          setTimeout(() => {
-            dispatch(getUserSessionInfo(localStorage.token));
-            dispatch(getSessionInfo());
-          }, 200);
+          dispatch(getUserSessionInfo());
+          dispatch(getSessionInfo());
         })
         .catch((err) => {
+          // console.log(err);
           if (title.length === 0) setTitleValid(true);
           if (reserveDate.length === 0) setReserveDateValid(true);
           if (description.length === 0) setDescriptionValid(true);
@@ -246,7 +237,8 @@ const SessionCreateContainer = (props) => {
       ) : (
         <MypageNav text={"Live Q&A 만들기"} />
       )}
-      <Container component="main" maxWidth="xs">
+      <div style={{position: "relative", height: "7vh", width:"100%", backgroundColor: "#EF5941",}}/>
+      <Container component="main" style={{maxWidth: "40em"}}>
         {/* <CssBaseline /> */}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -256,7 +248,6 @@ const SessionCreateContainer = (props) => {
           <Typography
             component="h1"
             variant="body1"
-            butterBottom
             style={{ fontFamily: "BMJUA" }}
           >
             세션 정보를 입력하세요
@@ -291,7 +282,7 @@ const SessionCreateContainer = (props) => {
             />
             
             <Checkbox onChange={(e) => {
-              console.log("e.target.checked", e.target.checked)
+              // console.log("e.target.checked", e.target.checked)
               if(e.target.checked){
                 setSkipValid(true)
                 setCount(0)
@@ -394,12 +385,12 @@ const SessionCreateContainer = (props) => {
                 onChange={(e) => {
                   setReserveDate(e.target.value);
                   let cur_date = new Date();
-                  console.log(reserveDate);
-                  console.log("설정한시간", toDate(e.target.value).getTime());
-                  console.log("현재시간", cur_date.getTime());
-                  console.log(
-                    (toDate(e.target.value).getTime() - cur_date.getTime()) / 1000
-                  );
+                  // console.log(reserveDate);
+                  // console.log("설정한시간", toDate(e.target.value).getTime());
+                  // console.log("현재시간", cur_date.getTime());
+                  // console.log(
+                    // (toDate(e.target.value).getTime() - cur_date.getTime()) / 1000
+                  // );
                   if (toDate(e.target.value).getTime() - cur_date.getTime() < 0)
                       setEarlyDateValid(true)
                   else

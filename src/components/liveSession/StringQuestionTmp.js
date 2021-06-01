@@ -88,7 +88,7 @@ const StringQuestion = (props) => {
             <></>
             }
         </div>
-        {console.log(questionStrAry)}
+        {/* {console.log(questionStrAry)} */}
         {
             questionStrAry.map((questionUnit) => 
             <>

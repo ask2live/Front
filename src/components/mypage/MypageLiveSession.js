@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import { useHistory } from "react-router";
 import Moment from "react-moment";
+
+// Hooks
+import { SessionConfirm } from "./SessionConfirm";
+import {
+  getUserSessionInfo,
+  deleteSession,
+} from "../../actions/SessionActions";
+
+// CSS
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -20,11 +28,6 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Box from '@material-ui/core/Box';
 
 import "../../styles/style.css";
-import { SessionConfirm } from "./SessionConfirm";
-import {
-  getSessionInfo,
-  getUserSessionInfo,
-} from "../../actions/SessionActions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -168,31 +171,13 @@ const MypageLiveSession = (props) => {
     setOpen2(true)
   }
 
-  const handleDeleteClose = (event, reason) => {
-    onDelete()
-    setTimeout(
-      () => dispatch(getUserSessionInfo(localStorage.token)),
-      200
-    )
+  const handleDeleteClose = async(event, reason) => {
     if (reason === 'clickaway'){
       return;
     }
-    setOpen2(false);
+    await deleteSession(session);
+    dispatch(getUserSessionInfo());
   }
-
-  const onDelete = async () => {
-    console.log("DELETE SESSION!");
-    const config = {
-      headers: { Authorization: "Token " + localStorage.token },
-    };
-
-    await axios.delete(
-      "https://www.ask2live.me/api/hole/delete/" + session.id,
-      config
-    );
-
-    history.push("/mypage");
-  };
 
   if (!session) return null;
   return (

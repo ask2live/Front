@@ -24,7 +24,7 @@ const user = (state = initialState, action) => {
                 error: false
             };
         case USER_GET_SUCCESS:
-            const userInfo = action.payload.data; // 경로 수정 필요할수도
+            const userInfo = action.payload.data;
             return {
                 ...state,
                 pending: false,
@@ -37,9 +37,7 @@ const user = (state = initialState, action) => {
                 pending: false,
                 error: true
             }
-        // case GIVEUSER:
-        //     // state = action.user; //state 이렇게 바꿔도 되나?
-        //     return state;
+
         default:
             return state;
     }

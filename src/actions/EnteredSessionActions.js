@@ -11,13 +11,13 @@ function getApi(channelNum){
 }
 
 const getEnteredSession = channelNum => dispatch => {
-    console.log('-----getEnteredSession-----')
+    // console.log('-----getEnteredSession-----')
     dispatch({type: ENTEREDSESSION_GET_PENDING}); 
 
 
     return getApi(channelNum).then(
         (response) => {
-            console.log(response);
+            // console.log(response);
             dispatch({ type: ENTEREDSESSION_GET_SUCCESS, payload: response });
         }
     ).catch(error => {

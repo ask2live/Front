@@ -113,6 +113,8 @@ const Questioning = (props) => {
     const pressEnter = (e) => {
         if (e.key == 'Enter'){
             postApi(false, ask);
+            // props.roomSocket.send(
+            //     JSON.stringify({ command: "create_question", data: { pk: props.holeId, is_voice : false, question: ask, token: localStorage.token}})); 
             setAsk("")
             props.openQuestionAlert();
             props.goQueUp({transform : "translate(0, 100%)"});
@@ -142,12 +144,20 @@ const Questioning = (props) => {
               is_voice: isVoice,
               question: askValue,
           };
-          console.log(data);
+        //   console.log(data);
           const res = await axios.post(
             "https://www.ask2live.me/api/hole/"+props.holeId + "/question/create",
             data,
             {headers:headers}
           );
+        //   console.log("QUESTIONING RES ::", res)
+          if (res.data.response === "SUCCESS")
+          {
+            // console.log("QUESTIONING RES SUCCESS");
+            props.roomSocket.send(
+                JSON.stringify({ command: "fetch_questions", data: {pk: props.holeId} }));
+          }
+            
     }
     const [click1, setClick1] = useState({borderBottom:"2px solid #EF5941"})
     const [click2, setClick2] = useState();
@@ -234,15 +244,20 @@ const Questioning = (props) => {
                                 if (voice)
                                 {
                                     postApi(true, "(음성 질문입니다)"); 
+                                    // props.roomSocket.send(
+                                    //     JSON.stringify({ command: "create_question", data: { pk: props.holeId, is_voice : true, question: "(음성 질문입니다.)", token: localStorage.token}})); 
                                     setAsk("");
                                     props.openQuestionAlert();
                                     props.goQueUp({transform : "translate(0, 100%)"}); 
-                                    props.goDark({opacity: "0", animation: "golight 0.7s"}); 
+                                    props.goDark({opacity: "0", animation: "golight 0.7s"});
                                     setTimeout(()=>{props.goDark({display: "none"})}, 700)
                                 }
                                 else if (!voice && ask.length >= 1)
                                 {
-                                    postApi(false, ask); setAsk("")
+                                    postApi(false, ask);
+                                    // props.roomSocket.send(
+                                    //     JSON.stringify({ command: "create_question", data: { pk: props.holeId, is_voice : false, question: ask, token: localStorage.token}})); 
+                                    setAsk("")
                                     props.openQuestionAlert();
                                     props.goQueUp({transform : "translate(0, 100%)"}); 
                                     props.goDark({opacity: "0", animation: "golight 0.7s"}); 

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback} from 'react';
+import React, { useRef, useState, useEffect, useCallback, memo} from 'react';
 import PropTypes from 'prop-types';
 import { List, PageHeader, Spin } from 'antd';
 import { connect } from 'react-redux';
@@ -72,7 +72,7 @@ const Chat = props => {
     const classes = useStyles();
 
     let currentUrl = window.location.href;
-    console.log("Chat Url : ", currentUrl);
+    // console.log("Chat Url : ", currentUrl);
     const params1 = currentUrl.split('?')
     const params2 = params1[1].split('&')
     const params3 = params2[1].split('=')
@@ -85,13 +85,13 @@ const Chat = props => {
 
           element.scrollTop = element.scrollHeight ? element.scrollHeight : 0;
         }
-        console.log("Here");
+        // console.log("Here");
     }
 
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(false);
   const [message, setMessage] = useState('');
-  const [roomSocket, setRoomSocket] = useState(null);
+  const { roomSocket } = props;
 
   // const roomId = "c9c9dd9bb";
 
@@ -103,15 +103,15 @@ const Chat = props => {
   const user = useSelector(state => state.user.data.detail);
 
   useEffect(() => {
-      roomSocket && roomSocket.close();
-      setRoomSocket(onRoomMessagesRead(roomId)); //세션에 관한 정보 중에서 session.id를 넣으면 채팅방이 구분됨
+    //   roomSocket && roomSocket.close();
+    //   setRoomSocket(onRoomMessagesRead(roomId)); //세션에 관한 정보 중에서 session.id를 여기 바로 넣으면 채팅방이 구분됨
       // 채팅 올라오는 속도 조절은 타임아웃으로.. 
       setTimeout(scrollToBottom,500);  
     }, [room]);
     
     const onMessageSend = () => {
       if (roomSocket) {
-        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: user.username } }));
+        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: user.username, type:'ON_MESSAGES_READ' } }));
         setMessage('');
         setTimeout(scrollToBottom,300);
       }
@@ -139,14 +139,13 @@ const Chat = props => {
     return (
         <>
       <div className="chatting">
+        {/* {console.log("----------message-----------",message)} */}
         <List
           className="comment-list NanumGothic3"
           itemLayout="horizontal"
           dataSource={messages}
           renderItem={message => <Message key={message.id.toString()} message={message} />}
         >
-        {/* <List>
-            {messages.map((message => <Message key={message.id.toString()} message={message} />))} */}
         </List>
           {loading && hasMore && <div className="loading-container"><Spin /></div>}
       </div>
@@ -157,7 +156,7 @@ const Chat = props => {
 return (
     <React.Fragment>
       
-      <div style={{ height: windowHeight - windowPadding }}>
+      <div style={{ height: windowHeight}}>
         {renderList()}
 
       </div >
